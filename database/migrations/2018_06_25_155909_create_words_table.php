@@ -16,8 +16,15 @@ class CreateWordsTable extends Migration
         Schema::create('words', function (Blueprint $table) {
             $table->increments('id');
             $table->string("word", 512)->unique()->index();
+            $table->integer("language_id")->unsigned();
             $table->integer("created_by_id")->unsigned()->nullable();
             $table->timestamps();
+
+            $table->foreign("language_id")
+                ->on("languages")
+                ->references("id")
+                ->onDelete("RESTRICT")
+                ->onUpdate("CASCADE");
 
             $table->foreign("created_by_id")
                 ->on("users")

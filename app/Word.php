@@ -8,6 +8,7 @@ class Word extends Model
 {
     protected $fillable = [
         "word",
-        "created_by_id"
+        "created_by_id",
+        "language_id"
     ];
 }
