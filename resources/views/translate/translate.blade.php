@@ -21,13 +21,16 @@
                 </div>
             </div>
         </div>
+        <div class="clearfix">&nbsp;</div>
         <div class="col-sm-12 col-xs-12">
             @if ($dbWord )
                 @foreach ($dbWord->myTranslations as $tr)
                     <div class="card">
+                        <div class="card-header">{{$tr->partOfSpeech? $tr->partOfSpeech->name : "" }}</div>
                         <div class="card-body">
                             <h4 style="text-align:right; direction:rtl;">{{$tr->translation}}</h4>
                             @if ($tr->definition)
+                            <i>Definition:</i>
                             <p>{{$tr->definition}}</p>
                             @endif
                             @if ($tr->example)
