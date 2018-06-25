@@ -11,4 +11,14 @@ class Word extends Model
         "created_by_id",
         "language_id"
     ];
+
+    /**
+     * Get all translations of word
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function translations () {
+        return $this->hasMany(Word::class, "word_id");
+    }
+
 }
