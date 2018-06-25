@@ -21,6 +21,7 @@ class CreateTranslationsTable extends Migration
             $table->integer("language_id")->unsigned()->index();
             $table->string("translation", 512);
             $table->text("definition")->nullable();
+            $table->text("example")->nullable();
             $table->timestamps();
 
             $table->foreign("word_id")
