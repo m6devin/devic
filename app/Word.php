@@ -31,6 +31,9 @@ class Word extends Model
         return $this->hasMany(Translation::class, "word_id")->where("created_by_id", Auth::user()->id);
     }
 
+    public function language() {
+        return $this->belongsTo(Language::class);
+    }
 
 
 }

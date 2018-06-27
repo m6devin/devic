@@ -20,6 +20,14 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
+    <div class="freez" id="loading">
+        <div class="loading-body">
+            <span>
+                    Please wait...
+            </span>
+        </div>
+    </div>
+             
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
