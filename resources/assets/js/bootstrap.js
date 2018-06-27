@@ -1,5 +1,6 @@
 
 window._ = require('lodash');
+window.toastr = require('toastr');
 window.Popper = require('popper.js').default;
 
 /**
