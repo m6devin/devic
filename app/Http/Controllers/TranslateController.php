@@ -94,6 +94,12 @@ class TranslateController extends Controller {
         return response($dbWord);
     }
 
+    /**
+     * Add or update translation of a word
+     *
+     * @param \Illuminate\Http\Request $r
+     * @return \Illuminate\Http\Response
+     */
     public function saveTranslation(Request $r) {
         $this->validate($r, [
             'word_id' => 'required',
