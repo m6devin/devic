@@ -13741,7 +13741,7 @@ function handleXHRErrors(err, idPrefix) {
     }
 }
 
-function saveWord() {
+window.saveWord = function () {
     loading(true);
     $('#word_form .text-danger').html("");
     var data = $('#word_form').serialize();
@@ -13764,9 +13764,9 @@ function saveWord() {
             handleXHRErrors(err, 'word_form');
         }
     });
-}
+};
 
-function saveTranslation() {
+window.saveTranslation = function () {
     loading(true);
     $('#trans_form .text-danger').html("");
     $.ajax({
@@ -13785,7 +13785,7 @@ function saveTranslation() {
             handleXHRErrors(err, 'trans_form');
         }
     });
-}
+};
 
 function setSearchElemetsDirection() {
     dir = $('#from').find(':selected').data('dir');
@@ -13801,6 +13801,7 @@ function setTranslationElementsDirection() {
 
 $(document).ready(function () {
     loading(false);
+
     $('#btn_add_translation').click(function () {
         $('#transModal').modal('show');
         setTranslationElementsDirection();

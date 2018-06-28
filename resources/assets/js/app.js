@@ -55,7 +55,7 @@ function handleXHRErrors(err, idPrefix) {
     }
 }
 
-function saveWord() {
+window.saveWord = function () {
     loading(true);
     $('#word_form .text-danger').html("");
     let data = $('#word_form').serialize();
@@ -80,7 +80,7 @@ function saveWord() {
     });
 }
 
-function saveTranslation() {
+window.saveTranslation = function() {
     loading(true);
     $('#trans_form .text-danger').html("");
     $.ajax({
@@ -115,6 +115,7 @@ function setTranslationElementsDirection() {
 
 $(document).ready(function () {
     loading(false);
+
     $('#btn_add_translation').click( () => {
         $('#transModal').modal('show');
         setTranslationElementsDirection();
