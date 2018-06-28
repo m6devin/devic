@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="word_form">
+                <form id="word_form" onsubmit="saveWord(); return false;">
                     {{csrf_field()}}
                     <input type="hidden" name="id" id="word_form_id" value="{{$dbWord ? $dbWord->id : ''}}">
                     <div class="form-group">

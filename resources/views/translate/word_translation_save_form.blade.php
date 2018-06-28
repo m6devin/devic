@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="trans_form">
+                <form id="trans_form" onsubmit="saveTranslation(); return false;">
                     {{csrf_field()}}
                     <input type="hidden" name="id" id="trans_form_id" value="">
                     <input type="hidden" name="word_id" id="trans_form_word_id" value="{{$dbWord->id}}">
