@@ -20,8 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(["prefix" => "translation", "middleware" => "auth"], function() {
-    Route::get('/create', 'TranslateController@create')->name('translate.create');
-    Route::get('/save', 'TranslateController@save')->name('translate.save');
     Route::get('/translate', 'TranslateController@translate')->name('translate.translate');
-    Route::post('/translate/save', 'TranslateController@save')->name('translate.save');
+    Route::post('/word/save', 'TranslateController@saveWord')->name('translate.saveWord');
+    Route::post('/translate/save', 'TranslateController@saveTranslation')->name('translate.save');
 });
