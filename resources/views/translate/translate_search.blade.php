@@ -55,7 +55,7 @@
                     Add new translation
             </button>
             <div class="clearfix">&nbsp;</div>
-            @foreach ($dbWord->myTranslations as $tr)
+            @foreach ($translations as $tr)
             <div class="card">
                 <div class="card-header">
                     <a href="javascript:void(0)" class="btn_edit_translation" data-serialize="{{$tr}}">Edit</a> {{$tr->word->language->alpha2code}}&nbsp;->&nbsp;{{$tr->language->alpha2code}}

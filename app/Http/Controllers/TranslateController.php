@@ -23,6 +23,7 @@ class TranslateController extends Controller {
         $from = $r->input('from', null);
         $to = $r->input('to', null);
         $dbWord = null;
+        $translations = [];
 
         $fromLang = Language::where('alpha2code', $from)->first();
         $toLang = Language::where('alpha2code', $to)->first();
@@ -36,6 +37,13 @@ class TranslateController extends Controller {
         $langs = Language::get();
         $partsOfSpeech = PartOfSpeech::get();
 
+        if ($dbWord && $toLang){
+            $translations = Translation::where('word_id', $dbWord->id)
+            ->where('language_id', $toLang->id)
+            ->where('created_by_id', Auth::user()->id)
+            ->get();
+        }
+
         return view('translate.translate', [
             'dbWord' => $dbWord,
             'word' => $word,
@@ -43,6 +51,7 @@ class TranslateController extends Controller {
             'partsOfSpeech' => $partsOfSpeech,
             'fromLang' => $fromLang,
             'toLang' => $toLang,
+            'translations' => $translations,
         ]);
     }
 
@@ -95,9 +104,10 @@ class TranslateController extends Controller {
     }
 
     /**
-     * Add or update translation of a word
+     * Add or update translation of a word.
      *
      * @param \Illuminate\Http\Request $r
+     *
      * @return \Illuminate\Http\Response
      */
     public function saveTranslation(Request $r) {
