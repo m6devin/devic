@@ -6,7 +6,6 @@
 
                 <div class="card-body">
                     <form method="GET" id="translate_form">
-                        <input type="hidden" name="id" id="word_id" value="{{$dbWord? $dbWord->id : " "}}">
                         <div class="form-group">
                             <label for="from">Source language</label>
                             <select name="from" id="from" class="form-control">
