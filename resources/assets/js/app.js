@@ -80,7 +80,7 @@ window.saveWord = function () {
     });
 }
 
-window.saveTranslation = function() {
+window.saveTranslation = function () {
     loading(true);
     $('#trans_form .text-danger').html("");
     $.ajax({
@@ -116,7 +116,7 @@ function setTranslationElementsDirection() {
 $(document).ready(function () {
     loading(false);
 
-    $('#btn_add_translation').click( () => {
+    $('#btn_add_translation').click(() => {
         $('#transModal').modal('show');
         setTranslationElementsDirection();
     });
@@ -129,7 +129,7 @@ $(document).ready(function () {
         $('#trans_form_definition').val(s.definition);
         $('#trans_form_example').val(s.example);
         $('#transModal').modal('show');
-        setTranslationElementsDirection();     
+        setTranslationElementsDirection();
     });
     $('#save_translation').click(saveTranslation);
     $('#save_word_btn').click(saveWord);
@@ -137,14 +137,14 @@ $(document).ready(function () {
         $('#word_form_modal').modal('show');
     });
     $('#word_form_save').click(saveWord);
-    
+
     /**
      * Set direction by source language
      * START
      */
     let dir = '';
     $('#from').change((e) => {
-       setSearchElemetsDirection();
+        setSearchElemetsDirection();
     });
     setSearchElemetsDirection();
 
@@ -158,5 +158,58 @@ $(document).ready(function () {
      * Set direction by source language
      * END
      */
+
+    $('.phrasebook-row').click(e => {
+        loading(true);
+        let id = $(e.currentTarget).data('id');
+        $.ajax({
+            url: '/translation/word/' + id + '/details',
+            type: 'GET',
+            success: res => {
+                $('#wordDetailsModal .modal-body').html('');
+                let translationsMarkup = '';
+
+                if (res.translations == null || res.translations.length == 0) {
+                    translationsMarkup += '<h4 class="text-warning">No translation found!</h4>';
+                    $('#wordDetailsModal .modal-body').html(translationsMarkup);
+                    loading(false);
+                    $('#wordDetailsModal').modal('show');    
+                    return;
+                }
+                for(let tr of res.translations) {
+                    translationsMarkup += '<div class="card">';
+                    translationsMarkup += '<div class="card-header">';
+                    translationsMarkup += res.language.alpha2code;
+                    translationsMarkup += '&nbsp;->&nbsp;';
+                    if (tr.part_of_speech_id) {
+                        translationsMarkup += '(' + tr.part_of_speech.name + ')';
+                    }
+                    translationsMarkup += '</div>';
+                    translationsMarkup += '<div class="card-body">';
+                    translationsMarkup += '<h4 style="direction:'+ tr.language.dir +';">' + tr.translation+ '</h4>';
+                    if (tr.definition) {
+                        translationsMarkup += '<i>Definition:</i>';
+                        translationsMarkup += '<p>' + tr.definition + '</p>';
+                    }
+                    if (tr.example) {
+                        translationsMarkup += '<i>Example:</i>';
+                        translationsMarkup += '<p>' + tr.example + '</p>';
+                    }
+
+                    translationsMarkup += '</div>';
+                    translationsMarkup += '</div>';
+                    translationsMarkup += '<br/>';
+                }
+
+                $('#wordDetailsModal .modal-body').html(translationsMarkup);
+                loading(false);
+                $('#wordDetailsModal').modal('show');                
+            },
+            error: err => {
+                loading(false);
+                toastr.error("An error accoured :(");
+            }
+        });
+    });
 
 });

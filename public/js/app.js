@@ -13844,6 +13844,80 @@ $(document).ready(function () {
      * Set direction by source language
      * END
      */
+
+    $('.phrasebook-row').click(function (e) {
+        loading(true);
+        var id = $(e.currentTarget).data('id');
+        $.ajax({
+            url: '/translation/word/' + id + '/details',
+            type: 'GET',
+            success: function success(res) {
+                $('#wordDetailsModal .modal-body').html('');
+                var translationsMarkup = '';
+
+                if (res.translations == null || res.translations.length == 0) {
+                    translationsMarkup += '<h4 class="text-warning">No translation found!</h4>';
+                    $('#wordDetailsModal .modal-body').html(translationsMarkup);
+                    loading(false);
+                    $('#wordDetailsModal').modal('show');
+                    return;
+                }
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = res.translations[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var tr = _step.value;
+
+                        translationsMarkup += '<div class="card">';
+                        translationsMarkup += '<div class="card-header">';
+                        translationsMarkup += res.language.alpha2code;
+                        translationsMarkup += '&nbsp;->&nbsp;';
+                        if (tr.part_of_speech_id) {
+                            translationsMarkup += '(' + tr.part_of_speech.name + ')';
+                        }
+                        translationsMarkup += '</div>';
+                        translationsMarkup += '<div class="card-body">';
+                        translationsMarkup += '<h4 style="direction:' + tr.language.dir + ';">' + tr.translation + '</h4>';
+                        if (tr.definition) {
+                            translationsMarkup += '<i>Definition:</i>';
+                            translationsMarkup += '<p>' + tr.definition + '</p>';
+                        }
+                        if (tr.example) {
+                            translationsMarkup += '<i>Example:</i>';
+                            translationsMarkup += '<p>' + tr.example + '</p>';
+                        }
+
+                        translationsMarkup += '</div>';
+                        translationsMarkup += '</div>';
+                        translationsMarkup += '<br/>';
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+
+                $('#wordDetailsModal .modal-body').html(translationsMarkup);
+                loading(false);
+                $('#wordDetailsModal').modal('show');
+            },
+            error: function error(err) {
+                loading(false);
+                toastr.error("An error accoured :(");
+            }
+        });
+    });
 });
 
 /***/ }),
