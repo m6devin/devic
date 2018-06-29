@@ -37,7 +37,7 @@ class TranslateController extends Controller {
         $langs = Language::get();
         $partsOfSpeech = PartOfSpeech::get();
 
-        if ($dbWord && $toLang){
+        if ($dbWord && $toLang) {
             $translations = Translation::where('word_id', $dbWord->id)
             ->where('language_id', $toLang->id)
             ->where('created_by_id', Auth::user()->id)
@@ -170,5 +170,57 @@ class TranslateController extends Controller {
         DB::commit();
 
         return response('OK', 200);
+    }
+
+    /**
+     * List all user's words and search them
+     *
+     * @param \Illuminate\Http\Request $r
+     * @return \Illuminate\Http\Response
+     */
+    public function phrasebook(Request $r) {
+        $user = Auth::user();
+        $langs = Language::get();
+        $fromLang = null;
+        $from = $r->input('from', null);
+        $word = $r->input('word', null);
+
+        if ($from) {
+            $fromLang = Language::where('alpha2code', $from)->first();
+        }
+
+        $qry = Word::where('created_by_id', $user->id);
+        if ($fromLang) {
+            $qry = $qry->where('language_id', $fromLang->id);
+        }
+        if($word) {
+            $qry = $qry->where('word', 'LIKE', "%{$word}%");
+        }
+        $words = $qry->paginate(15);
+
+        return view('translate.phrasebook', [
+            'words' => $words,
+            'langs' => $langs,
+        ]);
+    }
+
+    /**
+     * Show all details of word
+     *
+     * @param \Illuminate\Http\Request $r
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function wordDetails(Request $r, $id) {
+        $word = Word::with([
+            'language',
+            'translations',
+            'translations.language',
+            'translations.partOfSpeech',
+        ])
+        ->where('id', $id)
+        ->where('created_by_id', Auth::user()->id)
+        ->first();
+        return response($word);
     }
 }
