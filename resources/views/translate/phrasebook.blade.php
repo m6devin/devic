@@ -39,15 +39,27 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>word</th>
-                                <th>Language</th>
+                                <th>Word (Language)</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($words as $w)
+                            @php
+                            $trc = count($w->translations)
+                            @endphp
                             <tr class="phrasebook-row" data-id='{{$w->id}}'>
-                                <td>{{$w->word}}</td>
-                                <td>{{$w->language->alpha2code}}</td>
+                                <td>
+                                    <i class="{{$trc == 0 ? 'text-warning' : 'text-info'}}">
+                                        <small>{{$trc == 0 ? 'NA' : $trc}}</small>
+                                    </i>
+                                    {{$w->word}}
+                                    &#9;
+                                    <i>
+                                        <small>
+                                            ({{$w->language->alpha2code}})
+                                        </small>
+                                    </i>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
