@@ -36,10 +36,14 @@
         <div class="col-xs-12 col-sm-12">
             <div class="card">
                 <div class="card-body">
+                    <audio src=""></audio>
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Word (Language)</th>
+                                <td style="width: 30px;"></td>
+                                <td style="width: 20px;"></td>
+                                <th>Word</th>
+                                <th style="width:20px;">Lng</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,13 +51,21 @@
                             @php
                             $trc = count($w->translations)
                             @endphp
-                            <tr class="phrasebook-row" data-id='{{$w->id}}'>
+                            <tr data-id='{{$w->id}}'>
                                 <td>
+                                    <a href="javascript:void(0)" 
+                                    onclick="copyText('{{$w->id}}')"
+                                    >Copy</a>
+                                </td>
+                                <td class="trc-col">
                                     <i class="{{$trc == 0 ? 'text-warning' : 'text-info'}}">
                                         <small>{{$trc == 0 ? 'NA' : $trc}}</small>
                                     </i>
-                                    {{$w->word}}
-                                    &#9;
+                                </td>
+                                <td class="phrasebook-row">
+                                    <input type="text" value="{{$w->word}}" id="word-{{$w->id}}" >
+                                </td>
+                                <td>
                                     <i>
                                         <small>
                                             ({{$w->language->alpha2code}})

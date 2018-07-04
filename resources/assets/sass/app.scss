@@ -50,4 +50,26 @@
 }
 
 
+.trc-col{
+  font-size: 70% !important;
+}
+.phrasebook-row{
+  input{
+    display: inline-block;
+    width: 100%;
+    border: none;
+    background: transparent;
+    &:focus, &:active{
+      outline: none !important;
+      border: none !important;
+      background: transparent;
+    }
+  }
+}
 
+#clipboard{
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 2px !important;
+}

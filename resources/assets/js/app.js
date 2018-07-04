@@ -113,6 +113,14 @@ function setTranslationElementsDirection() {
     $('#trans_form_example').css('direction', dir);
 }
 
+window.copyText = function(id){
+    input = document.getElementById("word-" + id);
+    input.select();
+    document.execCommand("copy");
+    input.selectionStart = input.selectionEnd;
+    toastr.info('text copied!');
+};
+
 $(document).ready(function () {
     loading(false);
 

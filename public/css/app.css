@@ -10682,3 +10682,28 @@ button.toast-close-button {
   border-radius: 6px;
 }
 
+.trc-col {
+  font-size: 70% !important;
+}
+
+.phrasebook-row input {
+  display: inline-block;
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+
+.phrasebook-row input:focus,
+.phrasebook-row input:active {
+  outline: none !important;
+  border: none !important;
+  background: transparent;
+}
+
+#clipboard {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 2px !important;
+}
+
