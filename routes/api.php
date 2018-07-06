@@ -12,6 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/is_authenticated', function () {
-    return "ok";
-});
+Route::post('/login', 'APIAuthController@login');
+
+Route::get('/get_user', 'APIAuthController@getAuthUser');
