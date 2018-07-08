@@ -16,3 +16,9 @@ Route::post('/login', 'APIAuthController@login');
 
 Route::get('/get_user', 'APIAuthController@getAuthUser');
 Route::get('/translation/basic_info', 'TranslateController@basicInfo');
+Route::group([
+    'prefix' => 'translation',
+    'middleware' => 'jwt_auth', 
+], function () {
+    Route::get('/translate', 'TranslateController@translateAPI');
+});
