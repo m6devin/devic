@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use JWTAuth;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+
 
 class APIAuthController extends Controller {
     /**
@@ -35,7 +36,7 @@ class APIAuthController extends Controller {
     public function login(Request $request) {
         $credentials = $request->only('email', 'password');
 
-        if ($token = $this->guard()->attempt($credentials)) {
+        if ($token = JWTAuth::attempt($credentials)) {
             return $this->respondWithToken($token);
         }
 
@@ -73,7 +74,7 @@ class APIAuthController extends Controller {
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            // 'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
 
