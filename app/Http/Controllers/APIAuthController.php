@@ -40,7 +40,7 @@ class APIAuthController extends Controller {
             return $this->respondWithToken($token);
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['message' => 'Incorrect email or password!'], 401);
     }
 
     /**
