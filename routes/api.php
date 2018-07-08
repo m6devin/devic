@@ -15,3 +15,4 @@ use Illuminate\Http\Request;
 Route::post('/login', 'APIAuthController@login');
 
 Route::get('/get_user', 'APIAuthController@getAuthUser');
+Route::get('/translation/basic_info', 'TranslateController@basicInfo');

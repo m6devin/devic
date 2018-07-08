@@ -223,4 +223,16 @@ class TranslateController extends Controller {
         ->first();
         return response($word);
     }
+
+    /**
+     * Load basic informations required to render translaiton main form
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function basicInfo() {
+        return response()->json([
+            'langs' => Language::get(),
+            'partsOfSpeech' => PartOfSpeech::get(),
+        ]);
+    }
 }
