@@ -16,16 +16,12 @@ class JWT {
      * @return mixed
      */
     public function handle($request, Closure $next) {
-        try {
-            $user = JWTAuth::toUser($request->input('token'));
-        } catch (Exception $e) {
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
-                return response()->json(['error' => 'Token is Invalid']);
-            } elseif ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
-                return response()->json(['error' => 'Token is Expired']);
-            } else {
-                return response()->json(['error' => 'Something is wrong']);
-            }
+        $user = JWTAuth::parseToken()->authenticate();
+        
+        if(!$user) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
         }
 
         return $next($request);
