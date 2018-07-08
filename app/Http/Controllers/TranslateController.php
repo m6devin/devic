@@ -56,6 +56,50 @@ class TranslateController extends Controller {
     }
 
     /**
+     * Show all translations of word in API.
+     *
+     * @param Request $r
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function translateAPI(Request $r) {
+        $this->validate($r, [
+            'word' => 'required',
+            'from_language' => 'required',
+            'to_language' => 'required',
+        ]);
+
+        $word = $r->input('word', null);
+        $from = $r->input('from_language', null);
+        $to = $r->input('to_language', null);
+        $dbWord = null;
+        $translations = [];
+
+        $dbWord = Word::where('word', $word)
+        ->where('language_id', $from)
+        ->where('created_by_id', Auth::user()->id)
+        ->first();
+
+        if (! $dbWord) {
+            return response()->json([
+                'message' => 'no match found.'
+            ], 204);
+        }
+        $translations = Translation::with([
+            'partOfSpeech',
+            'language'
+        ])
+        ->where('word_id', $dbWord->id)
+        ->where('language_id', $to)
+        ->where('created_by_id', Auth::user()->id)
+        ->get();
+
+        $dbWord->translations = $translations;
+
+        return response()->json($dbWord);
+    }
+
+    /**
      * Insert or update word.
      *
      * @param Request $r
@@ -173,9 +217,10 @@ class TranslateController extends Controller {
     }
 
     /**
-     * List all user's words and search them
+     * List all user's words and search them.
      *
      * @param \Illuminate\Http\Request $r
+     *
      * @return \Illuminate\Http\Response
      */
     public function phrasebook(Request $r) {
@@ -193,7 +238,7 @@ class TranslateController extends Controller {
         if ($fromLang) {
             $qry = $qry->where('language_id', $fromLang->id);
         }
-        if($word) {
+        if ($word) {
             $qry = $qry->where('word', 'LIKE', "%{$word}%");
         }
         $words = $qry->paginate(15);
@@ -205,10 +250,11 @@ class TranslateController extends Controller {
     }
 
     /**
-     * Show all details of word
+     * Show all details of word.
      *
      * @param \Illuminate\Http\Request $r
-     * @param int $id
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function wordDetails(Request $r, $id) {
@@ -221,11 +267,12 @@ class TranslateController extends Controller {
         ->where('id', $id)
         ->where('created_by_id', Auth::user()->id)
         ->first();
+
         return response($word);
     }
 
     /**
-     * Load basic informations required to render translaiton main form
+     * Load basic informations required to render translaiton main form.
      *
      * @return \Illuminate\Http\JsonResponse
      */
