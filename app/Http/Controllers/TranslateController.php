@@ -75,7 +75,8 @@ class TranslateController extends Controller {
         $dbWord = null;
         $translations = [];
 
-        $dbWord = Word::where('word', $word)
+        $dbWord = Word::with(['language'])
+        ->where('word', $word)
         ->where('language_id', $from)
         ->where('created_by_id', Auth::user()->id)
         ->first();
