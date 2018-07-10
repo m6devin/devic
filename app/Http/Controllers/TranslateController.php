@@ -115,7 +115,7 @@ class TranslateController extends Controller {
 
         $id = $r->input('id', null);
         $word = $r->input('word', null);
-        $from = $r->input('language', null);
+        $from = $r->input('language_alph2code', null);
         $fromLang = Language::where('alpha2code', $from)->first();
 
         if ($id) {
@@ -124,7 +124,7 @@ class TranslateController extends Controller {
                     ->where('language_id', $fromLang->id)
                     ->first();
             if (! $dbWord) {
-                return response('No word found :(', 404);
+                return response([ "message" => 'No word found :('], 404);
             }
         } else {
             $dbWord = Word::where('word', $word)

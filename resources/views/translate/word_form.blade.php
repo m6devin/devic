@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label for="">Source language: </label>
                         <i>{{$fromLang? $fromLang->alpha2code : "No language selected!"}}</i>
-                        <input type="hidden" name="language" id="word_form_language" value="{{$fromLang? $fromLang->alpha2code : ""}}">
+                        <input type="hidden" name="language_alph2code" id="word_form_language" value="{{$fromLang? $fromLang->alpha2code : ""}}">
                     </div>
                     <div class="form-group">
                         <label for="word">Word</label>
