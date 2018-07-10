@@ -6,7 +6,10 @@ import * as cnf from '../config';
 
 @Injectable()
 export class TranslationService {
-  constructor(public http: HttpClient) { }
+  token: string = "";
+  constructor(public http: HttpClient) {
+    this.token = localStorage.getItem('api_token');
+  }
 
   /**
    * Load basic information from server
@@ -17,11 +20,18 @@ export class TranslationService {
   }
 
   translate(translation: any) {
-    let token = localStorage.getItem('api_token');
-    return this.http.get<any>(cnf.HOST + '/api/translation/translate?token=' + token
+    return this.http.get<any>(cnf.HOST + '/api/translation/translate?token=' + this.token
       + '&from_language=' + (translation.from_language ? translation.from_language : '')
         + '&to_language=' + (translation.to_language ? translation.to_language : '')
         + '&word=' + (translation.word ? translation.word : '')
     );
+  }
+
+  /**
+   * Invoke API service to create or update word.
+   * @param word any
+   */
+  saveWord(word: any): Observable<any> {
+    return this.http.post<any>(cnf.HOST + "/api/translation/save_word?token=" + this.token, word);
   }
 }
