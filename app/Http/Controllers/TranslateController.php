@@ -84,7 +84,7 @@ class TranslateController extends Controller {
         if (! $dbWord) {
             return response()->json([
                 'message' => 'no match found.'
-            ], 204);
+            ], 404);
         }
         $translations = Translation::with([
             'partOfSpeech',
