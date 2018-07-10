@@ -21,4 +21,5 @@ Route::group([
     'middleware' => 'jwt_auth', 
 ], function () {
     Route::get('/translate', 'TranslateController@translateAPI');
+    Route::post('/save_word', 'TranslateController@saveWord');
 });
