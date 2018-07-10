@@ -9,6 +9,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { TranslationDashboardPage } from '../pages/translation-dashboard/translation-dashboard';
+import { WordSavePage } from '../pages/word-save/word-save';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { TranslationDashboardPage } from '../pages/translation-dashboard/transla
     HomePage,
     LoginPage,
     TranslationDashboardPage,
+    WordSavePage,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,7 @@ import { TranslationDashboardPage } from '../pages/translation-dashboard/transla
     HomePage,
     LoginPage,
     TranslationDashboardPage,
+    WordSavePage,
   ],
   providers: [
     StatusBar,
