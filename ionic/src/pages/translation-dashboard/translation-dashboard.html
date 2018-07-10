@@ -24,7 +24,7 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="word" [(ngModel)]="translation.word" placeholder="Word to tranlslate" (keyup)="wordChanged()"></ion-input>
+        <ion-input type="text" name="word" [(ngModel)]="translation.word" placeholder="Word to tranlslate" (keyup)="wordChanged()" (change)="translateWord()"></ion-input>
       </ion-item>
       <ion-item>
         <button ion-button full type="submit">Search</button>
