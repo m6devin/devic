@@ -26,6 +26,12 @@ export class TranslationDashboardPage implements OnInit {
     word: null,
   };
   translatedWord: any = null;
+  /**
+   * -1: means the word not searched in the phrasebook
+   * 1 : means the word has atleast one translation
+   * 2 : means the word searched but no translation found
+   */
+  hasAnyTranslation: number = -1;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -60,13 +66,22 @@ export class TranslationDashboardPage implements OnInit {
 
   translateWord() {
     this.translatedWord = null;
+    this.hasAnyTranslation = -1;
     this.loading.show();
     this.translationService.translate(this.translation).subscribe(res => {
       this.loading.hide();
+      this.hasAnyTranslation = 1;
       this.translatedWord = res;
     }, err => {
+      if (err.status === 404) {
+        this.hasAnyTranslation = 2;
+      }
       this.loading.hide();
     });
+  }
+
+  wordChanged() {
+    this.hasAnyTranslation = -1;
   }
 
 }

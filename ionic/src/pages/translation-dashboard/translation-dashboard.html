@@ -8,7 +8,7 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content>
+<ion-content padding>
   <form #translationForm="ngForm" (ngSubmit)="translateWord()">
     <ion-list>
       <ion-item>
@@ -24,13 +24,20 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-input type="text" name="word" [(ngModel)]="translation.word" placeholder="Word to tranlslate"></ion-input>
+        <ion-input type="text" name="word" [(ngModel)]="translation.word" placeholder="Word to tranlslate" (keyup)="wordChanged()"></ion-input>
       </ion-item>
       <ion-item>
         <button ion-button full type="submit">Search</button>
       </ion-item>
     </ion-list>
   </form>
+  <ion-card padding *ngIf="hasAnyTranslation == 2">
+        <div>
+            <i>{{translation.word}}</i>
+        </div>
+        <br>
+        <button ion-button >Add to pharasebook</button>
+  </ion-card>
   <ion-list *ngIf="translatedWord">
     <ion-card *ngFor="let tr of translatedWord.translations">
       <ion-card-header>
