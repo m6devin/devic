@@ -1,9 +1,10 @@
-import { Component , OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { App, MenuController } from 'ionic-angular';
 
 import { TranslationService } from '../../app/services/translation.service';
 import { LoadingService } from '../../app/services/loading.service';
+import { ErrorHandlerService } from '../../app/services/error-handler.service';
 
 import { WordSavePage } from '../word-save/word-save';
 import * as _ from 'lodash';
@@ -19,11 +20,13 @@ import * as _ from 'lodash';
 @Component({
   selector: 'page-translation-dashboard',
   templateUrl: 'translation-dashboard.html',
-  providers: [ TranslationService, LoadingService ]
+  providers: [TranslationService, LoadingService, ErrorHandlerService]
 })
 export class TranslationDashboardPage implements OnInit {
 
   basicInfo: any = {};
+  errors: any = {};
+  translatedWord: any = null;
   translation: any = {
     from_language: null,
     from_language_id: null,
@@ -31,11 +34,10 @@ export class TranslationDashboardPage implements OnInit {
     to_language_id: null,
     word: null,
   };
-  translatedWord: any = null;
   /**
    * -1: means the word not searched in the phrasebook
    * 1 : means the word has atleast one translation
-   * 2 : means the word searched but no translation found
+   * 2 : means the word searched but not found in the DB
    */
   hasAnyTranslation: number = -1;
 
@@ -45,12 +47,13 @@ export class TranslationDashboardPage implements OnInit {
     public menu: MenuController,
     public translationService: TranslationService,
     public loading: LoadingService,
-    public toastCtrl: ToastController) {
-      this.menu.enable(true);
+    public toastCtrl: ToastController,
+    public errorHandler: ErrorHandlerService) {
+    this.menu.enable(true);
   }
 
   ngOnInit() {
-    this.translationService.getBasicInfo().subscribe(res => {this.basicInfo = res} , err => {});
+    this.translationService.getBasicInfo().subscribe(res => { this.basicInfo = res }, err => { });
   }
 
   ionViewDidLoad() {
@@ -97,17 +100,17 @@ export class TranslationDashboardPage implements OnInit {
   /**
    * Check required fields of translation
    */
-  validateTranslationRequest(): boolean{
+  validateTranslationRequest(): boolean {
     if (this.translation.from_language == null) {
-      this.toastCtrl.create({ message: "Please select your source language!", duration: 2000}).present();
+      this.toastCtrl.create({ message: "Please select your source language!", duration: 2000 }).present();
       return false;
     }
     if (this.translation.to_language == null) {
-      this.toastCtrl.create({ message: "Please select your destination language!", duration: 2000}).present();
+      this.toastCtrl.create({ message: "Please select your destination language!", duration: 2000 }).present();
       return false;
     }
     if (this.translation.word == null) {
-      this.toastCtrl.create({ message: "Word to translate is required!", duration: 2000}).present();
+      this.toastCtrl.create({ message: "Word to translate is required!", duration: 2000 }).present();
       return false;
     }
 
@@ -122,37 +125,75 @@ export class TranslationDashboardPage implements OnInit {
    * Show word's save form to insert or update given word
    */
   saveWord() {
-    if(this.validateSaveWordPage() == false) {
+    if (this.validateSaveWordFields() == false) {
       return;
     }
+
+    this.loading.show();
+    this.errors = {};
+
+    let word: any = {
+      word: this.translation.word,
+      language_id: this.translation.from_language,
+      language: _.find(this.basicInfo.langs, item => {
+        return item.id == this.translation.from_language;
+      }),
+      to_language_id: this.translation.to_language,
+      to_language: _.find(this.basicInfo.langs, item => {
+        return item.id == this.translation.to_language;
+      }),
+
+      id: this.translatedWord != null ? this.translatedWord.id : null,
+    };
+
+    word.language_alph2code = word.language.alpha2code;
+
+    // Directly add to phrasebook
+    if (this.translatedWord == null) {
+      this.createWord(word);
+      return;
+    }
+
     this.navCtrl.push(WordSavePage, {
-      word: {
-        word: this.translation.word,
-        language_id: this.translation.from_language,
-        language: _.find(this.basicInfo.langs, item => {
-          return item.id == this.translation.from_language;
-        }),
-        id: this.translatedWord != null? this.translatedWord.id : null,
-      },
+      word: word,
     })
   }
 
-  validateSaveWordPage():boolean {
+  /**
+   * Invoke create service for word and handle response errors
+   * @param word any
+   */
+  createWord(word) {
+    this.translationService.saveWord(word).subscribe(res => {
+      this.hasAnyTranslation = 1;
+      this.translatedWord = res;
+      this.loading.hide();
+    }, err => {
+      this.errors = this.errorHandler.HandleResponseErrors(err);
+      this.toastCtrl.create({
+        message: this.errors.message,
+        duration: 3000,
+      }).present();
+      this.loading.hide();
+    });
+  }
+
+  validateSaveWordFields(): boolean {
     if (this.translation.from_language == null) {
-      this.toastCtrl.create({ message: "Please select your source language!", duration: 2000}).present();
+      this.toastCtrl.create({ message: "Please select your source language!", duration: 2000 }).present();
       return false;
     }
     if (this.translation.to_language == null) {
-      this.toastCtrl.create({ message: "Please select your destination language!", duration: 2000}).present();
+      this.toastCtrl.create({ message: "Please select your destination language!", duration: 2000 }).present();
       return false;
     }
     if (this.translation.word == null) {
-      this.toastCtrl.create({ message: "Word to translate is required!", duration: 2000}).present();
+      this.toastCtrl.create({ message: "Word to translate is required!", duration: 2000 }).present();
       return false;
     }
 
-    if (this.hasAnyTranslation == -1){
-      this.toastCtrl.create({ message: "First, search for the word translation!", duration: 2000}).present();
+    if (this.hasAnyTranslation == -1) {
+      this.toastCtrl.create({ message: "First, search for the word translation!", duration: 2000 }).present();
       return false;
     }
 
