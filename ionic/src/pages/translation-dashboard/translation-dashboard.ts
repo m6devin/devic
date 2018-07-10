@@ -64,7 +64,14 @@ export class TranslationDashboardPage implements OnInit {
     this.menu.close();
   }
 
+  /**
+   * Invoke translation service to find translations of a word
+   */
   translateWord() {
+    if (this.validateTranslationRequest() == false) {
+      return;
+    }
+
     this.translatedWord = null;
     this.hasAnyTranslation = -1;
     this.loading.show();
@@ -78,6 +85,26 @@ export class TranslationDashboardPage implements OnInit {
       }
       this.loading.hide();
     });
+  }
+
+  /**
+   * Check required fields of translation
+   */
+  validateTranslationRequest(): boolean{
+    if (this.translation.from_language == null) {
+      this.toastCtrl.create({ message: "Please select your source language!", duration: 2000}).present();
+      return false;
+    }
+    if (this.translation.to_language == null) {
+      this.toastCtrl.create({ message: "Please select your destination language!", duration: 2000}).present();
+      return false;
+    }
+    if (this.translation.word == null) {
+      this.toastCtrl.create({ message: "Word to translate is required!", duration: 2000}).present();
+      return false;
+    }
+
+    return true;
   }
 
   wordChanged() {
