@@ -145,7 +145,22 @@ class TranslateController extends Controller {
         $dbWord->created_by_id = Auth::user()->id;
         $dbWord->save();
 
-        return response($dbWord);
+        $dbWord = Word::with(['language'])
+        ->where('id', $dbWord->id)
+        ->first();
+        
+        $translations = Translation::with([
+            'partOfSpeech',
+            'language'
+        ])
+        ->where('word_id', $dbWord->id)
+        ->where('language_id', $r->input('to_language_id'))
+        ->where('created_by_id', Auth::user()->id)
+        ->get();
+
+        $dbWord->translations = $translations;
+
+        return response()->json($dbWord);
     }
 
     /**
