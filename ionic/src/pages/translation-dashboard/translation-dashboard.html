@@ -41,14 +41,17 @@
         </a>
       </ion-card-header>
       <ion-item>
+        <label for="">Meaning:</label>
         <p dir="{{tr.language.dir}}">{{tr.translation}}</p>
         <hr>
       </ion-item>
       <ion-item *ngIf="tr.definition">
+        <label for="">Definition: </label>
         <p dir="{{translatedWord.language.dir}}">{{tr.definition}}</p>
         <hr>
       </ion-item>
       <ion-item *ngIf="tr.example">
+        <label for="">Example:</label>
         <p dir="{{translatedWord.language.dir}}">{{tr.example}}</p>
       </ion-item>
     </ion-card>
