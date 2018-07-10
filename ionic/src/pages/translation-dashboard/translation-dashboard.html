@@ -13,13 +13,21 @@
     <ion-list>
       <ion-item>
         <ion-label>Source Language</ion-label>
-        <ion-select name="from_language" [(ngModel)]="translation.from_language" interface="popover">
+        <ion-select
+        name="from_language"
+        [(ngModel)]="translation.from_language"
+        interface="popover"
+        (ionChange)="setLastLang('from')">
           <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
         <ion-label>Destination Language</ion-label>
-        <ion-select name="to_language" [(ngModel)]="translation.to_language" interface="popover">
+        <ion-select
+        name="to_language"
+        [(ngModel)]="translation.to_language"
+        interface="popover"
+        (ionChange)="setLastLang('to')">
           <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
         </ion-select>
       </ion-item>

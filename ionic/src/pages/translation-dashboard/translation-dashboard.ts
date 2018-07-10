@@ -54,6 +54,14 @@ export class TranslationDashboardPage implements OnInit {
 
   ngOnInit() {
     this.translationService.getBasicInfo().subscribe(res => { this.basicInfo = res }, err => { });
+    let lastFrom = this.getLastLang('from');
+    let lastTo = this.getLastLang('to');
+    if (lastFrom) {
+      this.translation.from_language = lastFrom;
+    }
+    if (lastTo) {
+      this.translation.to_language = lastTo;
+    }
   }
 
   ionViewDidLoad() {
@@ -201,5 +209,24 @@ export class TranslationDashboardPage implements OnInit {
     }
 
     return true;
+  }
+
+  /**
+   * Set last selected language on translation form
+   * @param target string
+   *
+   */
+  setLastLang(target: string) {
+    console.log(target);
+
+    localStorage.setItem("last_" + target + "_language", this.translation[target + "_language"]);
+  }
+
+  /**
+   * Get last value saved for a language
+   * @param target string
+   */
+  getLastLang(target: string): string {
+    return localStorage.getItem("last_" + target + "_language");
   }
 }

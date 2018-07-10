@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the WordSavePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -15,13 +9,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class WordSavePage {
 
+  word: any = null;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad WordSavePage');
-    console.log(this.navParams.get('word'));
-
+    this.word = this.navParams.get('word');
+    if (this.word == null || this.word == undefined ){
+      this.navCtrl.pop();
+    }
   }
 
 }
