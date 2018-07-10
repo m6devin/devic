@@ -41,7 +41,7 @@
   <ion-list *ngIf="translatedWord">
     <ion-title>Translations of word</ion-title>
     <ion-item *ngIf="translatedWord.translations.length == 0 ">
-      No translation saved for the word!
+      No translation added for '{{translation.word}}'!
     </ion-item>
     <ion-card *ngFor="let tr of translatedWord.translations">
       <ion-card-header>
