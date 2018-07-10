@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle icon-only>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>
+      Devic Phrase Book
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <form #translationForm="ngForm" (ngSubmit)="translateWord()">
+    <ion-list>
+      <ion-item>
+        <ion-label>Source Language</ion-label>
+        <ion-select name="from_language" [(ngModel)]="translation.from_language" interface="popover">
+          <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Destination Language</ion-label>
+        <ion-select name="to_language" [(ngModel)]="translation.to_language" interface="popover">
+          <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" name="word" [(ngModel)]="translation.word" placeholder="Word to tranlslate"></ion-input>
+      </ion-item>
+      <ion-item>
+        <button ion-button full type="submit">Search</button>
+      </ion-item>
+    </ion-list>
+  </form>
+  <ion-list *ngIf="translatedWord">
+    <ion-card *ngFor="let tr of translatedWord.translations">
+      <ion-card-header>
+        <small>{{translatedWord.language.alpha2code}} -> {{tr.language.alpha2code}}</small>
+        <small *ngIf="tr.part_of_speech_id">({{tr.part_of_speech.name}})</small>
+        <a>
+            Edit
+        </a>
+      </ion-card-header>
+      <ion-item>
+        <p dir="{{tr.language.dir}}">{{tr.translation}}</p>
+        <hr>
+      </ion-item>
+      <ion-item *ngIf="tr.definition">
+        <p dir="{{translatedWord.language.dir}}">{{tr.definition}}</p>
+        <hr>
+      </ion-item>
+      <ion-item *ngIf="tr.example">
+        <p dir="{{translatedWord.language.dir}}">{{tr.example}}</p>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+</ion-content>
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item (click)="openPage(Phrasebook)">
+        Phrasebook
+      </button>
+      <button ion-item (click)="openPage(About)">
+        About
+      </button>
+      <button ion-item (click)="closeMenu()">
+        Close Menu
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav id="nav" #content [root]="rootPage"></ion-nav>
