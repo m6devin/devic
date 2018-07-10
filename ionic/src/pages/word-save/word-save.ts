@@ -20,6 +20,8 @@ export class WordSavePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad WordSavePage');
+    console.log(this.navParams.get('word'));
+
   }
 
 }

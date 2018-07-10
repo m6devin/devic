@@ -36,7 +36,7 @@
             <i>{{translation.word}}</i>
         </div>
         <br>
-        <button ion-button >Add to pharasebook</button>
+        <button ion-button (click)="saveWord()">Add to pharasebook</button>
   </ion-card>
   <ion-list *ngIf="translatedWord">
     <ion-card *ngFor="let tr of translatedWord.translations">
