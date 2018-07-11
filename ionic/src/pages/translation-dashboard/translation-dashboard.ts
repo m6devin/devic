@@ -217,8 +217,6 @@ export class TranslationDashboardPage implements OnInit {
    *
    */
   setLastLang(target: string) {
-    console.log(target);
-
     localStorage.setItem("last_" + target + "_language", this.translation[target + "_language"]);
   }
 
