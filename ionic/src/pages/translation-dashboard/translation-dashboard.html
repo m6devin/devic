@@ -48,6 +48,9 @@
   </ion-card>
   <ion-list *ngIf="translatedWord">
     <ion-title>Translations of word</ion-title>
+    <ion-item>
+      <button ion-button>Add translation</button>
+    </ion-item>
     <ion-item *ngIf="translatedWord.translations.length == 0 ">
       No translation added for '{{translation.word}}'!
     </ion-item>
