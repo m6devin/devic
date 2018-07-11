@@ -162,6 +162,8 @@ export class TranslationDashboardPage implements OnInit {
       return;
     }
 
+    this.loading.hide();
+
     this.navCtrl.push(WordSavePage, {
       word: word,
     })
