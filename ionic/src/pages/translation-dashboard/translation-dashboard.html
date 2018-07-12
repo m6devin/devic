@@ -13,7 +13,7 @@
     <ion-list>
       <ion-grid>
         <ion-row>
-          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3 >
+          <ion-col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12>
             <ion-item>
               <ion-label stacked>Source Language</ion-label>
               <ion-select name="from_language" [(ngModel)]="translation.from_language" interface="popover" (ionChange)="setLastLang('from')">
@@ -21,9 +21,7 @@
               </ion-select>
             </ion-item>
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3>
+          <ion-col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12>
             <ion-item>
               <ion-label stacked>Destination Language</ion-label>
               <ion-select name="to_language" [(ngModel)]="translation.to_language" interface="popover" (ionChange)="setLastLang('to')">
@@ -31,21 +29,18 @@
               </ion-select>
             </ion-item>
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3>
+          <ion-col col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12>
             <ion-item>
               <ion-label stacked>Word to tranlslate</ion-label>
-              <ion-textarea
+              <ion-input
                 name="word"
                 [(ngModel)]="translation.word"
                 (keyup)="wordChanged()"
-                (change)="translateWord()" ></ion-textarea>
+                (change)="translateWord()" ></ion-input>
             </ion-item>
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3>
+          <ion-col col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12>
+            <ion-label stacked>&nbsp;</ion-label>
             <button ion-button full type="submit">Search</button>
           </ion-col>
         </ion-row>
