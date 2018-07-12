@@ -11,7 +11,7 @@
     <ion-list>
       <ion-grid>
         <ion-row>
-          <ion-col>
+          <ion-col col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-2>
             <ion-item>
               <ion-label stacked>Source language</ion-label>
               <ion-select name="from_language" [(ngModel)]="word.language_id" interface="popover">
@@ -20,20 +20,18 @@
             </ion-item>
             <p ion-text color="danger" padding *ngIf="errors.language_alph2code && errors.language_alph2code.length > 0">{{errors.language_alph2code}}</p>
           </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
+          <ion-col col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-2>
             <ion-item>
               <ion-label stacked>Word</ion-label>
               <ion-input name="word" [(ngModel)]="word.word"></ion-input>
             </ion-item>
             <p ion-text color="danger" padding *ngIf="errors.word && errors.word.length > 0">{{errors.word[0]}}</p>
           </ion-col>
+          <ion-col col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-2>
+              <button type="submit" ion-button full>Save</button>
+          </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-item>
-        <button type="submit" ion-button full>Save</button>
-      </ion-item>
     </ion-list>
   </form>
 </ion-content>
