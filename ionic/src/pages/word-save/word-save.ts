@@ -5,6 +5,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { TranslationService } from '../../app/services/translation.service';
 import { LoadingService } from '../../app/services/loading.service';
 import { ErrorHandlerService } from '../../app/services/error-handler.service';
+import * as  _ from 'lodash';
 
 @IonicPage()
 @Component({
@@ -36,12 +37,19 @@ export class WordSavePage {
     }
   }
 
-  saveWord(word) {
-    this.translationService.saveWord(word).subscribe(res => {
+  /**
+   * Save updates of word
+   */
+  saveWord() {
+    this.loading.show();
+    let payload: any = this.createSavePayload();
+    this.errors = {};
+
+    this.translationService.saveWord(payload).subscribe(res => {
       this.word = res;
       this.loading.hide();
       this.toastCtrl
-        .create({ message: 'Word added to phrasebook successfully!', duration: 2000 })
+        .create({ message: 'Word updated successfully!', duration: 2000 })
         .present();
     }, err => {
       this.errors = this.errorHandler.HandleResponseErrors(err);
@@ -51,6 +59,27 @@ export class WordSavePage {
       }).present();
       this.loading.hide();
     });
+  }
+
+  /**
+   * Create an object to send to server
+   */
+  createSavePayload() {
+    let payload: any = {
+      word: this.word.word,
+      id: this.word.id,
+    };
+
+    let lang: any =  _.find(this.basicInfo.langs, item => {
+      return item.id == this.word.language_id;
+    })
+
+    if (lang == undefined) {
+      return payload;
+    }
+
+    payload.language_alph2code = lang.alpha2code;
+    return payload;
   }
 
 }

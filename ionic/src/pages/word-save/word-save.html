@@ -9,16 +9,28 @@
 <ion-content padding *ngIf="word">
   <form #form="ngForm" (ngSubmit)="saveWord()">
     <ion-list>
-      <ion-item>
-        <ion-label stacked>Source language</ion-label>
-        <ion-select name="from_language" [(ngModel)]="word.language_id" interface="popover">
-          <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>Word</ion-label>
-        <ion-input name="word" [(ngModel)]="word.word"></ion-input>
-      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label stacked>Source language</ion-label>
+              <ion-select name="from_language" [(ngModel)]="word.language_id" interface="popover">
+                <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
+              </ion-select>
+            </ion-item>
+            <p ion-text color="danger" padding *ngIf="errors.language_alph2code && errors.language_alph2code.length > 0">{{errors.language_alph2code}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label stacked>Word</ion-label>
+              <ion-input name="word" [(ngModel)]="word.word"></ion-input>
+            </ion-item>
+            <p ion-text color="danger" padding *ngIf="errors.word && errors.word.length > 0">{{errors.word[0]}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
       <ion-item>
         <button type="submit" ion-button full>Save</button>
       </ion-item>
