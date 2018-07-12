@@ -39,12 +39,13 @@
       </ion-item>
     </ion-list>
   </form>
-  <ion-card padding *ngIf="hasAnyTranslation == 2">
+  <ion-card padding *ngIf="hasAnyTranslation == 2 || hasAnyTranslation == 1 ">
         <div>
             <i>{{translation.word}}</i>
         </div>
         <br>
-        <button ion-button (click)="saveWord()">Add to pharasebook</button>
+        <button *ngIf="hasAnyTranslation == 2" ion-button (click)="saveWord()">Add to pharasebook</button>
+        <button *ngIf="hasAnyTranslation == 1" ion-button clear (click)="saveWord()">Edit</button>
   </ion-card>
   <ion-list *ngIf="translatedWord">
     <ion-title>Translations of word</ion-title>
@@ -58,7 +59,7 @@
       <ion-card-header>
         <small>{{translatedWord.language.alpha2code}} -> {{tr.language.alpha2code}}</small>
         <small *ngIf="tr.part_of_speech_id">({{tr.part_of_speech.name}})</small>
-        <a (click)="saveWord()">
+        <a >
             Edit
         </a>
       </ion-card-header>
