@@ -1,21 +1,27 @@
 <ion-header>
 
-  <ion-navbar *ngIf="word">
+  <ion-navbar>
     <ion-title>Edit</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding *ngIf="word">
-  <ion-list>
-    <ion-item>
-      <label>Source language: </label>
-      <i>{{word.language.alpha2code }}({{word.language.name}})</i>
-    </ion-item>
-    <ion-item>
-      <label for="word">Word: </label>
-      <ion-input name="word" [(ngModel)]="word"></ion-input>
-    </ion-item>
-  </ion-list>
+  <form #form="ngForm" (ngSubmit)="saveWord()">
+    <ion-list>
+      <ion-item>
+        <ion-label stacked>Source language</ion-label>
+        <ion-select name="from_language" [(ngModel)]="word.language_id" interface="popover">
+          <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Word</ion-label>
+        <ion-input name="word" [(ngModel)]="word.word"></ion-input>
+      </ion-item>
+      <ion-item>
+        <button type="submit" ion-button full>Save</button>
+      </ion-item>
+    </ion-list>
+  </form>
 </ion-content>
