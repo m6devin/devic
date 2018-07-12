@@ -11,41 +11,54 @@
 <ion-content padding>
   <form #translationForm="ngForm" (ngSubmit)="translateWord()">
     <ion-list>
-      <ion-item>
-        <ion-label stacked>Source Language</ion-label>
-        <ion-select
-        name="from_language"
-        [(ngModel)]="translation.from_language"
-        interface="popover"
-        (ionChange)="setLastLang('from')">
-          <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label stacked>Destination Language</ion-label>
-        <ion-select
-        name="to_language"
-        [(ngModel)]="translation.to_language"
-        interface="popover"
-        (ionChange)="setLastLang('to')">
-          <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-input type="text" name="word" [(ngModel)]="translation.word" placeholder="Word to tranlslate" (keyup)="wordChanged()" (change)="translateWord()"></ion-input>
-      </ion-item>
-      <ion-item>
-        <button ion-button full type="submit">Search</button>
-      </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3 >
+            <ion-item>
+              <ion-label stacked>Source Language</ion-label>
+              <ion-select name="from_language" [(ngModel)]="translation.from_language" interface="popover" (ionChange)="setLastLang('from')">
+                <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3>
+            <ion-item>
+              <ion-label stacked>Destination Language</ion-label>
+              <ion-select name="to_language" [(ngModel)]="translation.to_language" interface="popover" (ionChange)="setLastLang('to')">
+                <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3>
+            <ion-item>
+              <ion-label stacked>Word to tranlslate</ion-label>
+              <ion-textarea
+                name="word"
+                [(ngModel)]="translation.word"
+                (keyup)="wordChanged()"
+                (change)="translateWord()" ></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-xl-6 col-lg-8 col-md-8 col-sm-10 offset-sm-1 offset-md-2 offset-xl-3>
+            <button ion-button full type="submit">Search</button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-list>
   </form>
   <ion-card padding *ngIf="hasAnyTranslation == 2 || hasAnyTranslation == 1 ">
-        <div>
-            <i>{{translation.word}}</i>
-        </div>
-        <br>
-        <button *ngIf="hasAnyTranslation == 2" ion-button (click)="saveWord()">Add to pharasebook</button>
-        <button *ngIf="hasAnyTranslation == 1" ion-button clear (click)="saveWord()">Edit</button>
+    <div>
+      <i>{{translation.word}}</i>
+    </div>
+    <br>
+    <button *ngIf="hasAnyTranslation == 2" ion-button (click)="saveWord()">Add to pharasebook</button>
+    <button *ngIf="hasAnyTranslation == 1" ion-button clear (click)="saveWord()">Edit</button>
   </ion-card>
   <ion-list *ngIf="translatedWord">
     <ion-title>Translations of word</ion-title>
@@ -59,8 +72,8 @@
       <ion-card-header>
         <small>{{translatedWord.language.alpha2code}} -> {{tr.language.alpha2code}}</small>
         <small *ngIf="tr.part_of_speech_id">({{tr.part_of_speech.name}})</small>
-        <a >
-            Edit
+        <a>
+          Edit
         </a>
       </ion-card-header>
       <ion-item>
