@@ -110,13 +110,19 @@ class TranslateController extends Controller {
     public function saveWord(Request $r) {
         $this->validate($r, [
             'word' => 'required',
-            'language' => 'required',
+            'language_alph2code' => 'required',
         ], []);
 
         $id = $r->input('id', null);
         $word = $r->input('word', null);
         $from = $r->input('language_alph2code', null);
         $fromLang = Language::where('alpha2code', $from)->first();
+
+        if(! $fromLang){
+            return response([ "message" => 'The given data was invalid.', 'errors' => [
+                'language_alph2code' => ['Invalid source language'],
+            ]], 404);
+        }
 
         if ($id) {
             $dbWord = Word::where('id', $id)
