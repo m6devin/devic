@@ -10,6 +10,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { TranslationDashboardPage } from '../pages/translation-dashboard/translation-dashboard';
 import { WordSavePage } from '../pages/word-save/word-save';
+import { TranslationSavePage } from '../pages/translation-save/translation-save';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { WordSavePage } from '../pages/word-save/word-save';
     LoginPage,
     TranslationDashboardPage,
     WordSavePage,
+    TranslationSavePage,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,7 @@ import { WordSavePage } from '../pages/word-save/word-save';
     LoginPage,
     TranslationDashboardPage,
     WordSavePage,
+    TranslationSavePage,
   ],
   providers: [
     StatusBar,
