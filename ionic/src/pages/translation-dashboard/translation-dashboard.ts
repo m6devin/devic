@@ -175,7 +175,11 @@ export class TranslationDashboardPage implements OnInit {
    * @param word any
    */
   createWord(word) {
-    this.translationService.saveWord(word).subscribe(res => {
+    let payload: any = {
+      word: word.word,
+      language_alph2code: word.language_alph2code,
+    };
+    this.translationService.saveWord(payload).subscribe(res => {
       this.hasAnyTranslation = 1;
       this.translatedWord = res;
       this.loading.hide();
@@ -230,4 +234,5 @@ export class TranslationDashboardPage implements OnInit {
   getLastLang(target: string): string {
     return localStorage.getItem("last_" + target + "_language");
   }
+
 }
