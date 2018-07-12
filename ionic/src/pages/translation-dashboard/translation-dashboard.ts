@@ -36,7 +36,7 @@ export class TranslationDashboardPage implements OnInit {
   };
   /**
    * -1: means the word not searched in the phrasebook
-   * 1 : means the word has atleast one translation
+   * 1 : means the word searched and exists in the DB
    * 2 : means the word searched but not found in the DB
    */
   hasAnyTranslation: number = -1;
@@ -166,6 +166,7 @@ export class TranslationDashboardPage implements OnInit {
 
     this.navCtrl.push(WordSavePage, {
       word: word,
+      basicInfo: this.basicInfo,
     })
   }
 
