@@ -83,12 +83,12 @@ class TranslateController extends Controller {
 
         if (! $dbWord) {
             return response()->json([
-                'message' => 'no match found.'
+                'message' => 'no match found.',
             ], 404);
         }
         $translations = Translation::with([
             'partOfSpeech',
-            'language'
+            'language',
         ])
         ->where('word_id', $dbWord->id)
         ->where('language_id', $to)
@@ -118,8 +118,8 @@ class TranslateController extends Controller {
         $from = $r->input('language_alph2code', null);
         $fromLang = Language::where('alpha2code', $from)->first();
 
-        if(! $fromLang){
-            return response([ "message" => 'The given data was invalid.', 'errors' => [
+        if (! $fromLang) {
+            return response(['message' => 'The given data was invalid.', 'errors' => [
                 'language_alph2code' => ['Invalid source language'],
             ]], 404);
         }
@@ -127,19 +127,32 @@ class TranslateController extends Controller {
         if ($id) {
             $dbWord = Word::where('id', $id)
                     ->where('created_by_id', Auth::user()->id)
-                    ->where('language_id', $fromLang->id)
                     ->first();
             if (! $dbWord) {
-                return response([ "message" => 'No word found :('], 404);
+                return response(['message' => 'No word found :('], 404);
             }
-        } else {
-            $dbWord = Word::where('word', $word)
+
+            //check uniqueness
+            $cnt = Word::where('word', $word)
                     ->where('created_by_id', Auth::user()->id)
                     ->where('language_id', $fromLang->id)
-                    ->first();
-            if ($dbWord) {
+                    ->where('id', '<>', $id)
+                    ->count();
+            if ($cnt >= 1) {
                 return response(['message' => 'The given data was invalid.', 'errors' => [
-                    'word' => ['This word already tranlated!'],
+                    'word' => ['This word already exists in your phrasebook!'],
+                ]], 422);
+            }
+            
+        } else {
+            //check uniqueness
+            $cnt = Word::where('word', $word)
+                    ->where('created_by_id', Auth::user()->id)
+                    ->where('language_id', $fromLang->id)
+                    ->count();
+            if ($cnt >= 1) {
+                return response(['message' => 'The given data was invalid.', 'errors' => [
+                    'word' => ['This word already exists in your phrasebook!'],
                 ]], 422);
             }
 
@@ -154,10 +167,10 @@ class TranslateController extends Controller {
         $dbWord = Word::with(['language'])
         ->where('id', $dbWord->id)
         ->first();
-        
+
         $translations = Translation::with([
             'partOfSpeech',
-            'language'
+            'language',
         ])
         ->where('word_id', $dbWord->id)
         ->where('language_id', $r->input('to_language_id'))
