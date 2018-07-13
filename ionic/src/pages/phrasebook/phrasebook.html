@@ -15,7 +15,7 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
   <ion-list>
-    <ion-item *ngFor="let w of words">{{w.word}}</ion-item>
+    <ion-item *ngFor="let w of words" (click)="wordDetails(w)">{{w.word}}</ion-item>
   </ion-list>
   <p padding ion-text class="danger" *ngIf="theEnd">No more data to show :)</p>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
