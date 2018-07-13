@@ -59,6 +59,7 @@ export class TranslationSavePage {
 
     this.translationService.saveTranslation(this.translation)
     .subscribe(res => {
+      this.translation = res;
       this.events.publish('translation:save', this.translation);
       this.loading.hide();
       this.toastCtrl.create({
