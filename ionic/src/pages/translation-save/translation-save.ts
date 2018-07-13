@@ -39,6 +39,7 @@ export class TranslationSavePage {
 
     if (trs != null) {
       this.translation = trs;
+      this.translation.to_language_id = trs.language_id;
     }
 
     this.translation.word_id = this.word.id;
