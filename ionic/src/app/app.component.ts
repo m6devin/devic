@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { TranslationDashboardPage } from '../pages/translation-dashboard/translation-dashboard';
 import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
+import { ConfigPage } from '../pages/config/config';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,6 +16,7 @@ export class MyApp {
   pages = [
     { label: 'Translation', component: TranslationDashboardPage },
     { label: 'Phrasebook', component: PhrasebookPage },
+    { label: 'Config', component: ConfigPage },
   ];
 
   rootPage: any = HomePage;

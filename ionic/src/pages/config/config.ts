@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ConfigPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -18,7 +12,9 @@ export class ConfigPage implements OnInit {
     api_host: null,
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+    public navParams: NavParams,
+    public toastCtrl: ToastController) {
   }
 
   ngOnInit() {
@@ -35,6 +31,15 @@ export class ConfigPage implements OnInit {
     for (let c in this.config) {
       localStorage.setItem(c, this.config[c]);
     }
+
+    this.toastCtrl.create({
+      message: "Configuration updated.",
+      duration: 1500,
+    }).present();
+  }
+
+  goBack(){
+    this.navCtrl.setRoot(HomePage);
   }
 
 }
