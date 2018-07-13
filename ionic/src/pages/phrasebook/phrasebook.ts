@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, InfiniteScroll, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, InfiniteScroll, ToastController, Refresher } from 'ionic-angular';
 import { PhrasebookService } from '../../app/services/phrasebook.service';
 import { ErrorHandlerService } from '../../app/services/error-handler.service';
 import { LoadingService } from '../../app/services/loading.service';
@@ -23,6 +23,7 @@ export class PhrasebookPage implements OnInit {
   nextPage = 1;
   lastPage = null;
   infiniteScroll: InfiniteScroll = null;
+  refresher: Refresher = null;
   theEnd = false;
 
   constructor(app: App, public navCtrl: NavController,
@@ -59,10 +60,19 @@ export class PhrasebookPage implements OnInit {
       if (this.infiniteScroll) {
         this.infiniteScroll.complete();
       }
+
+      if (this.refresher) {
+        this.refresher.complete()
+      }
     }, err => {
       if (this.infiniteScroll) {
         this.infiniteScroll.complete();
       }
+
+      if (this.refresher) {
+        this.refresher.complete()
+      }
+
       this.toastCtrl.create({
         message: 'An error accoured! Try again later.',
         duration: 2000,
@@ -71,8 +81,24 @@ export class PhrasebookPage implements OnInit {
     });
   }
 
+  /**
+   * Load phrasebook data using infinite scrolling
+   * @param infiniteScroll
+   */
   doInfinite(infiniteScroll) {
     this.infiniteScroll = infiniteScroll;
+    this.loadNextPage();
+  }
+
+  /**
+   * Start refreshing the page
+   * @param refresher Refresher
+   */
+  doRefresh(refresher: Refresher) {
+    this.refresher = refresher;
+    this.currentPage = 1;
+    this.nextPage = 1;
+    this.words = [];
     this.loadNextPage();
   }
 
