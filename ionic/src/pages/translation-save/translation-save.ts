@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the TranslationSavePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import * as _ from 'lodash';
 
 @IonicPage()
 @Component({
@@ -14,12 +8,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'translation-save.html',
 })
 export class TranslationSavePage {
+  word: any;
+  basicInfo: any = {};
+  translation: any = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TranslationSavePage');
+    let wd = this.navParams.get('word');
+    let trs = this.navParams.get('translation');
+    this.basicInfo = this.navParams.get('basicInfo');
+
+    if (wd == null) {
+      this.navCtrl.pop();
+    }
+    this.word = wd;
+
+    if (trs != null) {
+      this.translation = trs;
+    }
   }
 
 }
