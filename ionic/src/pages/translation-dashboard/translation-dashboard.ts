@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
-import { App, MenuController, Refresher } from 'ionic-angular';
+import { MenuController, Refresher } from 'ionic-angular';
 
 import { TranslationService } from '../../app/services/translation.service';
 import { LoadingService } from '../../app/services/loading.service';
