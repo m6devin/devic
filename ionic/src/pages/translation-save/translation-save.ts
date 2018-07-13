@@ -54,11 +54,18 @@ export class TranslationSavePage {
     this.errors = {};
     this.loading.show();
 
+
     this.translation.language_id = this.translation.to_language_id;
 
-    this.translationService.saveTranslation(this.translation).subscribe(res => {
+    this.translationService.saveTranslation(this.translation)
+    .subscribe(res => {
       this.events.publish('translation:save', this.translation);
       this.loading.hide();
+      this.toastCtrl.create({
+        message: "Translations saved!",
+        duration: 2000,
+      }).present();
+      this.navCtrl.pop();
     }, err => {
       this.errors = this.errorHandler.HandleResponseErrors(err);
       this.loading.hide();
