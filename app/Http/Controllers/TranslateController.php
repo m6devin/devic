@@ -248,7 +248,7 @@ class TranslateController extends Controller {
 
         DB::commit();
 
-        return response('OK', 200);
+        return response($trans, 200);
     }
 
     /**
