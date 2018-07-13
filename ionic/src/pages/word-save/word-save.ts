@@ -55,7 +55,7 @@ export class WordSavePage {
       this.events.publish('word:save', this.word);
       this.navCtrl.pop();
     }, err => {
-      this.errors = this.errorHandler.HandleResponseErrors(err);
+      this.errors = this.errorHandler.HandleResponseErrors(err, this.navCtrl);
       this.toastCtrl.create({
         message: this.errors.message,
         duration: 3000,

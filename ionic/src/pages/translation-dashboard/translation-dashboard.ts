@@ -218,7 +218,7 @@ export class TranslationDashboardPage implements OnInit {
         .create({ message: 'Word added to phrasebook successfully!', duration: 2000 })
         .present();
     }, err => {
-      this.errors = this.errorHandler.HandleResponseErrors(err);
+      this.errors = this.errorHandler.HandleResponseErrors(err, this.navCtrl);
       this.toastCtrl.create({
         message: this.errors.message,
         duration: 3000,

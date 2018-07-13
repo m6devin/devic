@@ -67,7 +67,7 @@ export class TranslationSavePage {
       }).present();
       this.navCtrl.pop();
     }, err => {
-      this.errors = this.errorHandler.HandleResponseErrors(err);
+      this.errors = this.errorHandler.HandleResponseErrors(err, this.navCtrl);
       this.loading.hide();
     });
   }
