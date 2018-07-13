@@ -4,12 +4,18 @@
     <button ion-button menuToggle icon-only>
       <ion-icon name='menu'></ion-icon>
     </button>
-    <ion-title>phrasebook</ion-title>
+    <ion-title>Phrasebook</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item *ngFor="let w of words">{{w.word}}</ion-item>
+  </ion-list>
+  <p padding ion-text class="danger" *ngIf="theEnd">No more data to show :)</p>
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
