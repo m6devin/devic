@@ -18,7 +18,7 @@
                 <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
               </ion-select>
             </ion-item>
-            <p ion-text color="danger" padding *ngIf="errors.language_alph2code && errors.language_alph2code.length > 0">{{errors.language_alph2code}}</p>
+            <p ion-text color="danger" padding *ngIf="errors.language_alph2code && errors.language_alph2code.length > 0">{{errors.language_alph2code[0]}}</p>
           </ion-col>
           <ion-col col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-2>
             <ion-item>
