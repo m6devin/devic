@@ -4,7 +4,7 @@ import { WordSavePage } from './word-save';
 
 @NgModule({
   declarations: [
-    WordSavePage,
+    // WordSavePage,
   ],
   imports: [
     IonicPageModule.forChild(WordSavePage),

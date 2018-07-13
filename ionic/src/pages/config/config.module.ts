@@ -4,7 +4,7 @@ import { ConfigPage } from './config';
 
 @NgModule({
   declarations: [
-    ConfigPage,
+    // ConfigPage,
   ],
   imports: [
     IonicPageModule.forChild(ConfigPage),

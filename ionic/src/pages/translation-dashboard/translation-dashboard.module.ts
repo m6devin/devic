@@ -4,7 +4,7 @@ import { TranslationDashboardPage } from './translation-dashboard';
 
 @NgModule({
   declarations: [
-    TranslationDashboardPage,
+    // TranslationDashboardPage,
   ],
   imports: [
     IonicPageModule.forChild(TranslationDashboardPage),

@@ -4,7 +4,7 @@ import { PhrasebookPage } from './phrasebook';
 
 @NgModule({
   declarations: [
-    PhrasebookPage,
+    // PhrasebookPage,
   ],
   imports: [
     IonicPageModule.forChild(PhrasebookPage),

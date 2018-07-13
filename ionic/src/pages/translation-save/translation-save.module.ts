@@ -4,7 +4,7 @@ import { TranslationSavePage } from './translation-save';
 
 @NgModule({
   declarations: [
-    TranslationSavePage,
+    // TranslationSavePage,
   ],
   imports: [
     IonicPageModule.forChild(TranslationSavePage),

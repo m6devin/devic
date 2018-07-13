@@ -4,7 +4,7 @@ import { WordDetailsPage } from './word-details';
 
 @NgModule({
   declarations: [
-    WordDetailsPage,
+    // WordDetailsPage,
   ],
   imports: [
     IonicPageModule.forChild(WordDetailsPage),
