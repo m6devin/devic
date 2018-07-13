@@ -12,6 +12,7 @@ import { TranslationDashboardPage } from '../pages/translation-dashboard/transla
 import { WordSavePage } from '../pages/word-save/word-save';
 import { TranslationSavePage } from '../pages/translation-save/translation-save';
 import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
+import { WordDetailsPage } from '../pages/word-details/word-details';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
     WordSavePage,
     TranslationSavePage,
     PhrasebookPage,
+    WordDetailsPage,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +39,7 @@ import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
     WordSavePage,
     TranslationSavePage,
     PhrasebookPage,
+    WordDetailsPage,
   ],
   providers: [
     StatusBar,
