@@ -248,7 +248,7 @@ class TranslateController extends Controller {
 
         DB::commit();
 
-        return response($trans, 200);
+        return response($trans::with(['language', 'partOfSpeech'])->first(), 200);
     }
 
     /**
