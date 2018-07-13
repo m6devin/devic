@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 
 
 // import * as _ from 'lodash';
@@ -24,7 +24,8 @@ export class TranslationSavePage {
     public translationService: TranslationService,
     public loading: LoadingService,
     public toastCtrl: ToastController,
-    public errorHandler: ErrorHandlerService) {
+    public errorHandler: ErrorHandlerService,
+    public events: Events) {
   }
 
   ionViewDidLoad() {
@@ -52,7 +53,11 @@ export class TranslationSavePage {
   saveTranslation() {
     this.errors = {};
     this.loading.show();
+
+    this.translation.language_id = this.translation.to_language_id;
+
     this.translationService.saveTranslation(this.translation).subscribe(res => {
+      this.events.publish('translation:save', this.translation);
       this.loading.hide();
     }, err => {
       this.errors = this.errorHandler.HandleResponseErrors(err);

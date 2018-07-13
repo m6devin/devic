@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { App, MenuController, Refresher } from 'ionic-angular';
 
 import { TranslationService } from '../../app/services/translation.service';
@@ -9,14 +10,7 @@ import { WordSavePage } from '../word-save/word-save';
 import * as _ from 'lodash';
 import { TranslationSavePage } from '../translation-save/translation-save';
 
-/**
- * Generated class for the TranslationDashboardPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
+@IonicPage({segment: 'translation'})
 @Component({
   selector: 'page-translation-dashboard',
   templateUrl: 'translation-dashboard.html',
@@ -49,8 +43,19 @@ export class TranslationDashboardPage implements OnInit {
     public translationService: TranslationService,
     public loading: LoadingService,
     public toastCtrl: ToastController,
-    public errorHandler: ErrorHandlerService) {
-    this.menu.enable(true);
+    public errorHandler: ErrorHandlerService,
+    public events: Events) {
+
+      this.menu.enable(true);
+      this.events.subscribe('word:save', word => {
+        console.log('word', word);
+
+      });
+      this.events.subscribe('translation:save', translation => {
+        console.log('tr', translation);
+
+      });
+
   }
 
   ngOnInit() {
@@ -111,10 +116,10 @@ export class TranslationDashboardPage implements OnInit {
         this.hasAnyTranslation = 2;
       }
       this.loading.hide();
-
       if (this.refresher != null) {
         this.refresher.complete();
       }
+
     });
   }
 
