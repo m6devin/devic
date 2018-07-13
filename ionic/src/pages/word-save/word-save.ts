@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 
 
 import { TranslationService } from '../../app/services/translation.service';
@@ -24,7 +24,8 @@ export class WordSavePage {
     public translationService: TranslationService,
     public loading: LoadingService,
     public toastCtrl: ToastController,
-    public errorHandler: ErrorHandlerService) {
+    public errorHandler: ErrorHandlerService,
+    public events: Events) {
 
   }
 
@@ -51,6 +52,8 @@ export class WordSavePage {
       this.toastCtrl
         .create({ message: 'Word updated successfully!', duration: 2000 })
         .present();
+      this.events.publish('word:save', this.word);
+      this.navCtrl.pop();
     }, err => {
       this.errors = this.errorHandler.HandleResponseErrors(err);
       this.toastCtrl.create({

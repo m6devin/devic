@@ -48,12 +48,12 @@ export class TranslationDashboardPage implements OnInit {
 
       this.menu.enable(true);
       this.events.subscribe('word:save', word => {
-        console.log('word', word);
+        this.translation.word = word.word;
+        this.translation.from_language = word.language_id;
 
       });
       this.events.subscribe('translation:save', translation => {
-        console.log('tr', translation);
-
+        this.translateWord();
       });
 
   }
