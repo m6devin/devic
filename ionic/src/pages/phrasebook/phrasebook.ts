@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, App, InfiniteScroll, ToastControll
 import { PhrasebookService } from '../../app/services/phrasebook.service';
 import { ErrorHandlerService } from '../../app/services/error-handler.service';
 import { LoadingService } from '../../app/services/loading.service';
+import { WordDetailsPage } from '../word-details/word-details';
 
 
 
@@ -48,6 +49,11 @@ export class PhrasebookPage implements OnInit {
       if (this.infiniteScroll) {
         this.infiniteScroll.complete();
       }
+
+      if (this.refresher) {
+        this.refresher.complete()
+      }
+
       this.theEnd = true;
 
       return;
@@ -98,8 +104,18 @@ export class PhrasebookPage implements OnInit {
     this.refresher = refresher;
     this.currentPage = 1;
     this.nextPage = 1;
+    this.lastPage = null;
     this.words = [];
     this.loadNextPage();
+  }
+
+  /**
+   * Show all details of a word in new page
+   */
+  wordDetails(word: any) {
+    this.navCtrl.push(WordDetailsPage, {
+      word: word,
+    });
   }
 
 }
