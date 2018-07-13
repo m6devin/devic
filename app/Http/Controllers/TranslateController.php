@@ -296,7 +296,12 @@ class TranslateController extends Controller {
         $word = $r->input('filters.word', null);
         $from = $r->input('filters.from_language_id', null);
         
-        $qry = Word::where('created_by_id', $user->id);
+        $qry = Word::with([
+            'language',
+            'translations',
+            'translations.language',
+            'translations.partOfSpeech',
+        ])->where('created_by_id', $user->id);
         
         if($from) {
             $qry = $qry->where('language_id', $from);
@@ -305,7 +310,7 @@ class TranslateController extends Controller {
             $qry = $qry->where('word', 'LIKE', "%{$word}%");
         }
 
-        $words = $qry->paginate(5);
+        $words = $qry->paginate(30);
 
         return response()->json($words);
     }
