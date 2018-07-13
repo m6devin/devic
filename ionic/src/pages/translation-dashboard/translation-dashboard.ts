@@ -88,6 +88,9 @@ export class TranslationDashboardPage implements OnInit {
    */
   translateWord() {
     if (this.validateTranslationRequest() == false) {
+      if (this.refresher != null) {
+        this.refresher.complete();
+      }
       return;
     }
 
