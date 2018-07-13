@@ -24,10 +24,11 @@
         <ion-col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12>
           <ion-item>
             <ion-label stacked>Destination Language</ion-label>
-            <ion-select name="language_id" [(ngModel)]="translation.language_id" interface="popover" (ionChange)="setTranslationDirection()">
+            <ion-select name="language_id" [(ngModel)]="translation.to_language_id" interface="popover">
               <ion-option *ngFor="let item of basicInfo.langs" value="{{item.id}}">{{item.name}}</ion-option>
             </ion-select>
           </ion-item>
+          <p ion-text color="danger" padding *ngIf="errors.to_language_id && errors.to_language_id.length > 0">{{errors.to_language_id[0]}}</p>
         </ion-col>
         <ion-col col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12>
           <ion-item>
@@ -36,6 +37,7 @@
               <ion-option *ngFor="let item of basicInfo.partsOfSpeech" value="{{item.id}}">{{item.name}}</ion-option>
             </ion-select>
           </ion-item>
+          <p ion-text color="danger" padding *ngIf="errors.part_of_speech_id && errors.part_of_speech_id.length > 0">{{errors.part_of_speech_id[0]}}</p>
         </ion-col>
         <ion-col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12>
           <ion-item>
@@ -43,6 +45,7 @@
             <ion-input name="translation" [(ngModel)]="translation.translation">
             </ion-input>
           </ion-item>
+          <p ion-text color="danger" padding *ngIf="errors.translation && errors.translation.length > 0">{{errors.translation[0]}}</p>
         </ion-col>
         <ion-col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12>
           <ion-item>

@@ -34,4 +34,12 @@ export class TranslationService {
   saveWord(word: any): Observable<any> {
     return this.http.post<any>(cnf.HOST + "/api/translation/save_word?token=" + this.token, word);
   }
+
+  /**
+   * Call translation API to create or update a translation
+   * @param translation object
+   */
+  saveTranslation(translation: any): Observable<any> {
+    return this.http.post(cnf.HOST + '/api/translation/save_translation?token=' + this.token, translation);
+  }
 }
