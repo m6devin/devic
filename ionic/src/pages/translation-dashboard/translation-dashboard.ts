@@ -8,6 +8,7 @@ import { ErrorHandlerService } from '../../app/services/error-handler.service';
 
 import { WordSavePage } from '../word-save/word-save';
 import * as _ from 'lodash';
+import { TranslationSavePage } from '../translation-save/translation-save';
 
 /**
  * Generated class for the TranslationDashboardPage page.
@@ -233,6 +234,19 @@ export class TranslationDashboardPage implements OnInit {
    */
   getLastLang(target: string): string {
     return localStorage.getItem("last_" + target + "_language");
+  }
+
+  /**
+   * Call translation from page to create on update a translation
+   * @param translation any If you want to add a new translation, pass null otherwise
+   * If you want edit an existing translation, pass translation object with ID
+   */
+  translationSave(translation: any = null){
+    this.navCtrl.push(TranslationSavePage, {
+      translation: translation,
+      word: this.translatedWord,
+      basicInfo: this.basicInfo,
+    });
   }
 
 }
