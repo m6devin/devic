@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { TranslationDashboardPage } from '../pages/translation-dashboard/translation-dashboard';
 import { WordSavePage } from '../pages/word-save/word-save';
 import { TranslationSavePage } from '../pages/translation-save/translation-save';
+import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { TranslationSavePage } from '../pages/translation-save/translation-save'
     TranslationDashboardPage,
     WordSavePage,
     TranslationSavePage,
+    PhrasebookPage,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { TranslationSavePage } from '../pages/translation-save/translation-save'
     TranslationDashboardPage,
     WordSavePage,
     TranslationSavePage,
+    PhrasebookPage,
   ],
   providers: [
     StatusBar,

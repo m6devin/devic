@@ -38,7 +38,6 @@ export class TranslationDashboardPage implements OnInit {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    app: App,
     public menu: MenuController,
     public translationService: TranslationService,
     public loading: LoadingService,
@@ -55,7 +54,6 @@ export class TranslationDashboardPage implements OnInit {
       this.events.subscribe('translation:save', translation => {
         this.translateWord();
       });
-
   }
 
   ngOnInit() {
@@ -78,7 +76,7 @@ export class TranslationDashboardPage implements OnInit {
    * Navigate to given page
    */
   openPage(page: any) {
-    this.navCtrl.push(page);
+    this.navCtrl.setRoot(page);
   }
 
   /**
