@@ -91,7 +91,7 @@ export class TranslationDashboardPage implements OnInit {
   /**
    * Invoke translation service to find translations of a word
    */
-  translateWord() {
+  translateWord(showLoading = true) {
     if (this.validateTranslationRequest() == false) {
       if (this.refresher != null) {
         this.refresher.complete();
@@ -101,9 +101,13 @@ export class TranslationDashboardPage implements OnInit {
 
     this.translatedWord = null;
     this.hasAnyTranslation = -1;
-    this.loading.show();
+    if (showLoading) {
+      this.loading.show();
+    }
     this.translationService.translate(this.translation).subscribe(res => {
-      this.loading.hide();
+      if (showLoading) {
+        this.loading.hide();
+      }
       this.hasAnyTranslation = 1;
       this.translatedWord = res;
 
@@ -115,7 +119,9 @@ export class TranslationDashboardPage implements OnInit {
       if (err.status === 404) {
         this.hasAnyTranslation = 2;
       }
-      this.loading.hide();
+      if (showLoading) {
+        this.loading.hide();
+      }
       if (this.refresher != null) {
         this.refresher.complete();
       }
