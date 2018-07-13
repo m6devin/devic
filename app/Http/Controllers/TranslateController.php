@@ -285,6 +285,32 @@ class TranslateController extends Controller {
     }
 
     /**
+     * Load phrasebook words for API calls
+     *
+     * @param \Illuminate\Http\Request $r
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function phrasebookAPI(Request $r) {
+        $user = Auth::user();
+
+        $word = $r->input('filters.word', null);
+        $from = $r->input('filters.from_language_id', null);
+        
+        $qry = Word::where('created_by_id', $user->id);
+        
+        if($from) {
+            $qry = $qry->where('language_id', $from);
+        } 
+        if ($word) {
+            $qry = $qry->where('word', 'LIKE', "%{$word}%");
+        }
+
+        $words = $qry->paginate(5);
+
+        return response()->json($words);
+    }
+
+    /**
      * Show all details of word.
      *
      * @param \Illuminate\Http\Request $r
