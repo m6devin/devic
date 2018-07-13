@@ -135,7 +135,7 @@ export class TranslationDashboardPage implements OnInit {
    */
   doRefresh(refresher: any) {
     this.refresher = refresher;
-    this.translateWord();
+    this.translateWord(false);
   }
 
   /**
