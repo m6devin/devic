@@ -22,4 +22,5 @@ Route::group([
 ], function () {
     Route::get('/translate', 'TranslateController@translateAPI');
     Route::post('/save_word', 'TranslateController@saveWord');
+    Route::post('/save_translation', 'TranslateController@saveTranslation');
 });
