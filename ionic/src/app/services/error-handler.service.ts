@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
+import { App, NavController } from 'ionic-angular';
+import { LoginPage } from '../../pages/login/login';
 
 @Injectable()
 export class ErrorHandlerService {
 
-  constructor() { }
+  constructor(public app: App) { }
 
-  HandleResponseErrors(err: HttpErrorResponse): any {
-    // console.log(err)
+  HandleResponseErrors(err: HttpErrorResponse, navCtrl: NavController = null): any {
+    console.log(err)
     switch (err.status) {
       case 404:
       case 406:
@@ -25,11 +27,13 @@ export class ErrorHandlerService {
           r = {};
         }
         r.message = err.error.message;
-        window.location.href = '/#/signin';
-        return r;
+        if (navCtrl) {
+          navCtrl.setRoot(LoginPage);
+        }
+
+        break;
       }
       case 504: {
-        alert(err.error);
         return err;
       }
       default:
