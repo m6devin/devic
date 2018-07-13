@@ -14,5 +14,19 @@
 
 
 <ion-content padding>
-
+  <form (ngSubmit)="saveConfig()">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12 col-sm-12 col-md-8 col-lg-4>
+          <ion-item>
+            <ion-label stacked>API host</ion-label>
+            <ion-input placeholder="http://m6d.ir:8080" name="host" [(ngModel)]="config.api_host"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-12 padding>
+          <button ion-button type="submit">Save</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
 </ion-content>

@@ -7,6 +7,7 @@ import { TranslationDashboardPage } from '../translation-dashboard/translation-d
 import { UserService } from '../../app/services/user.service';
 import { LoadingService } from '../../app/services/loading.service';
 import { PhrasebookPage } from '../phrasebook/phrasebook';
+import { ConfigPage } from '../config/config';
 
 @Component({
   selector: 'page-home',
@@ -22,6 +23,11 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('api_host') == null) {
+      this.navCtrl.setRoot(ConfigPage);
+      return;
+    }
+
     this.loading.show();
     this.userService.getAuthenticatedUser().subscribe(res => {
       this.loading.hide();

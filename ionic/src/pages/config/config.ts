@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
@@ -13,13 +13,28 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-config',
   templateUrl: 'config.html',
 })
-export class ConfigPage {
+export class ConfigPage implements OnInit {
+  config: any = {
+    api_host: null,
+  };
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
+  ngOnInit() {
+    for (let c in this.config) {
+      this.config[c] = localStorage.getItem(c);
+    }
+  }
+
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConfigPage');
+
+  }
+
+  saveConfig() {
+    for (let c in this.config) {
+      localStorage.setItem(c, this.config[c]);
+    }
   }
 
 }
