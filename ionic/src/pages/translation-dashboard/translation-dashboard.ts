@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { App, MenuController } from 'ionic-angular';
+import { App, MenuController, Refresher } from 'ionic-angular';
 
 import { TranslationService } from '../../app/services/translation.service';
 import { LoadingService } from '../../app/services/loading.service';
@@ -25,6 +24,7 @@ import { TranslationSavePage } from '../translation-save/translation-save';
 })
 export class TranslationDashboardPage implements OnInit {
 
+  refresher: Refresher = null;
   basicInfo: any = {};
   errors: any = {};
   translatedWord: any = null;
@@ -98,12 +98,30 @@ export class TranslationDashboardPage implements OnInit {
       this.loading.hide();
       this.hasAnyTranslation = 1;
       this.translatedWord = res;
+
+      if (this.refresher != null) {
+        this.refresher.complete();
+      }
+
     }, err => {
       if (err.status === 404) {
         this.hasAnyTranslation = 2;
       }
       this.loading.hide();
+
+      if (this.refresher != null) {
+        this.refresher.complete();
+      }
     });
+  }
+
+  /**
+   * Start refreshing the page
+   * @param refresher Refresher
+   */
+  doRefresh(refresher: any) {
+    this.refresher = refresher;
+    this.translateWord();
   }
 
   /**

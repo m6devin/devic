@@ -9,6 +9,9 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <form #translationForm="ngForm" (ngSubmit)="translateWord()">
     <ion-list>
       <ion-grid>
