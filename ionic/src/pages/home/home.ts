@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { LoginPage } from '../login/login';
-import { TranslationDashboardPage } from '../translation-dashboard/translation-dashboard';
+// import { TranslationDashboardPage } from '../translation-dashboard/translation-dashboard';
 
 import { UserService } from '../../app/services/user.service';
 import { LoadingService } from '../../app/services/loading.service';
