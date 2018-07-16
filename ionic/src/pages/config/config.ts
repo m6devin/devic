@@ -21,6 +21,10 @@ export class ConfigPage implements OnInit {
     for (let c in this.config) {
       this.config[c] = localStorage.getItem(c);
     }
+
+    if (this.config.api_host == null) {
+      this.config.api_host = 'http://127.0.0.1:8000';
+    }
   }
 
   ionViewDidLoad() {
