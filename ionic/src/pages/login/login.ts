@@ -6,6 +6,7 @@ import { UserService } from '../../app/services/user.service';
 import { HomePage } from '../../pages/home/home';
 import { LoadingService } from '../../app/services/loading.service';
 import { ErrorHandlerService } from '../../app/services/error-handler.service';
+import { ConfigPage } from '../config/config';
 /**
  * Generated class for the LoginPage page.
  *
@@ -38,6 +39,7 @@ export class LoginPage {
     this.loading.show();
     this.errors = {};
 
+
     this.userService.login(this.user.email, this.user.password).subscribe((res:any) => {
       localStorage.setItem('api_token', res.token);
       this.navCtrl.setRoot(HomePage);
@@ -50,6 +52,10 @@ export class LoginPage {
       }).present();
       this.loading.hide();
     });
+  }
+
+  goToConfig() {
+    this.navCtrl.setRoot(ConfigPage);
   }
 
 }
