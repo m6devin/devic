@@ -160,6 +160,11 @@ export class TranslationDashboardPage implements OnInit {
     this.hasAnyTranslation = -1;
   }
 
+  clear() {
+    this.translation.word = null
+    this.wordChanged();
+  }
+
   /**
    * Show word's save form to insert or update given word
    */

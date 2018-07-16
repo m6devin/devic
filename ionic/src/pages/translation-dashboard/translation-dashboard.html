@@ -40,6 +40,9 @@
                 [(ngModel)]="translation.word"
                 (keyup)="wordChanged()"
                 (change)="translateWord()" ></ion-input>
+                <button ion-button clear color="dark" type="button" item-right (click)="clear()">
+                  <ion-icon name="md-close-circle"> </ion-icon>
+                </button>
             </ion-item>
           </ion-col>
           <ion-col col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12>
@@ -58,7 +61,7 @@
     <button *ngIf="hasAnyTranslation == 2" ion-button (click)="saveWord()">Add to pharasebook</button>
     <button *ngIf="hasAnyTranslation == 1" ion-button clear (click)="saveWord()">Edit</button>
   </ion-card>
-  <ion-list *ngIf="translatedWord">
+  <ion-list *ngIf="(hasAnyTranslation == 2 || hasAnyTranslation == 1) && translatedWord">
     <ion-title>Translations of word</ion-title>
     <ion-item>
       <button ion-button (click)="translationSave()">Add translation</button>
