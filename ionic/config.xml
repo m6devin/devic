@@ -86,4 +86,5 @@
     <plugin name="cordova-plugin-advanced-http" spec="^1.11.1" />
     <engine name="browser" spec="5.0.3" />
     <plugin name="cordova-clipboard" spec="^1.2.1" />
+    <plugin name="com-darryncampbell-cordova-plugin-intent" spec="^1.1.0" />
 </widget>

@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { Clipboard } from '@ionic-native/clipboard';
+import { WebIntent } from '@ionic-native/web-intent';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpClientModule } from '@angular/common/http';
@@ -47,6 +49,8 @@ import { ConfigPage } from '../pages/config/config';
   providers: [
     StatusBar,
     SplashScreen,
+    Clipboard,
+    WebIntent,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
