@@ -4,6 +4,7 @@ import { PhrasebookService } from '../../app/services/phrasebook.service';
 import { ErrorHandlerService } from '../../app/services/error-handler.service';
 import { LoadingService } from '../../app/services/loading.service';
 import { WordDetailsPage } from '../word-details/word-details';
+import { TranslationService } from '../../app/services/translation.service';
 
 
 
@@ -11,7 +12,7 @@ import { WordDetailsPage } from '../word-details/word-details';
 @Component({
   selector: 'page-phrasebook',
   templateUrl: 'phrasebook.html',
-  providers: [ PhrasebookService, ErrorHandlerService, LoadingService]
+  providers: [ PhrasebookService, ErrorHandlerService, LoadingService, TranslationService]
 })
 export class PhrasebookPage implements OnInit {
   filters: any = {
@@ -20,6 +21,7 @@ export class PhrasebookPage implements OnInit {
   };
 
   words:Array<any> = [];
+  basicInfo:any;
   currentPage = 1;
   nextPage = 1;
   lastPage = null;
@@ -30,13 +32,17 @@ export class PhrasebookPage implements OnInit {
   constructor(app: App, public navCtrl: NavController,
     public navParams: NavParams,
     public phrasebookService: PhrasebookService,
+    public translationService: TranslationService,
     public errorhandler: ErrorHandlerService,
     public loading: LoadingService,
     public toastCtrl: ToastController) {
   }
 
   ngOnInit() {
-    this.loadNextPage();
+    this.translationService.getBasicInfo().subscribe(res => {
+      this.basicInfo = res ;
+      this.loadNextPage();
+    }, err => { });
   }
 
 
@@ -115,6 +121,7 @@ export class PhrasebookPage implements OnInit {
   wordDetails(word: any) {
     this.navCtrl.push(WordDetailsPage, {
       word: word,
+      basicInfo: this.basicInfo
     });
   }
 

@@ -20,6 +20,7 @@ export class WordDetailsPage implements OnInit {
     if (this.word == null) {
       this.navCtrl.pop();
     }
+    this.basicInfo = this.navParams.get('basicInfo');
 
     this.events.subscribe('translation:save', translation => {
       let i = _.findIndex(this.word.translations, item => {
@@ -35,7 +36,6 @@ export class WordDetailsPage implements OnInit {
   }
 
   ngOnInit() {
-    this.translationService.getBasicInfo().subscribe(res => { this.basicInfo = res }, err => { });
   }
 
   ionViewDidLoad() {
