@@ -57,6 +57,10 @@ export class WordDetailsPage implements OnInit {
     });
   }
 
+  /**
+   * Handle swip left and swip right
+   * @param e event
+   */
   handleSwipe(e: any){
     if (e.direction == 2) {
       this.nextItem();
@@ -69,6 +73,9 @@ export class WordDetailsPage implements OnInit {
 
   }
 
+  /**
+   * Load next word in phrasebook
+   */
   nextItem() {
     this.loading.show();
     this.navCtrl.pop();
