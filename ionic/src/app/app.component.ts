@@ -29,7 +29,10 @@ export class MyApp {
     private _ionicApp: IonicApp,
     private _menu: MenuController) {
     platform.ready().then(() => {
+
       history.pushState(null, null, '');
+      localStorage.setItem('lastPage', null);
+
       statusBar.styleDefault();
       splashScreen.hide();
       this.setupBackButtonBehavior();
