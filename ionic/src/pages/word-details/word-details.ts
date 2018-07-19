@@ -68,6 +68,7 @@ export class WordDetailsPage implements OnInit {
     }
 
     if (e.direction == 4) {
+      this.previousItem();
       return;
     }
 
@@ -80,6 +81,16 @@ export class WordDetailsPage implements OnInit {
     this.loading.show();
     this.navCtrl.pop();
     this.events.publish('word:next', this.word.index);
+    this.loading.hide();
+  }
+
+  /**
+   * Load next word in phrasebook
+   */
+  previousItem() {
+    this.loading.show();
+    this.navCtrl.pop();
+    this.events.publish('word:previous', this.word.index);
     this.loading.hide();
   }
 
