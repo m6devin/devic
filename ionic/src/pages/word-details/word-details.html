@@ -1,14 +1,22 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>({{word.language.alpha2code}}) {{word.word}}</ion-title>
+    <ion-title>
+      Details
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="navCtrl.pop({animation: true, direction: 'back'})">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 <ion-content padding>
+  <!-- <h4 padding>({{word.language.alpha2code}}) {{word.word}}</h4> -->
   <ion-item *ngIf="word.translations.length == 0 ">
-    No translation added for '{{translation.word}}'!
+    No translation added for '{{word.word}}'!
   </ion-item>
   <ion-card *ngFor="let tr of word.translations">
     <ion-card-header>
