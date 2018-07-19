@@ -13,8 +13,8 @@
 
 </ion-header>
 
-<ion-content padding>
-  <!-- <h4 padding>({{word.language.alpha2code}}) {{word.word}}</h4> -->
+<ion-content padding (swipe)="handleSwipe($event)">
+  <h4 padding>({{word.language.alpha2code}}) {{word.word}}</h4>
   <ion-item *ngIf="word.translations.length == 0 ">
     No translation added for '{{word.word}}'!
   </ion-item>

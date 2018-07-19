@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, App, InfiniteScroll, ToastController, Refresher } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App, InfiniteScroll, ToastController, Refresher, Events } from 'ionic-angular';
 import { PhrasebookService } from '../../app/services/phrasebook.service';
 import { ErrorHandlerService } from '../../app/services/error-handler.service';
 import { LoadingService } from '../../app/services/loading.service';
@@ -35,7 +35,14 @@ export class PhrasebookPage implements OnInit {
     public translationService: TranslationService,
     public errorhandler: ErrorHandlerService,
     public loading: LoadingService,
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,
+    public events: Events) {
+
+      this.events.subscribe('word:next', index => {
+        let w = this.words[index+1];
+        this.wordDetails(w)
+
+      });
   }
 
   ngOnInit() {
@@ -67,7 +74,11 @@ export class PhrasebookPage implements OnInit {
     this.phrasebookService.search(this.nextPage, this.filters).subscribe(res => {
       this.currentPage = res.current_page;
       this.lastPage = res.last_page;
-      this.words = this.words.concat(res.data);
+      // this.words = this.words.concat(res.data);
+      for(let i = 0; i < res.data.length; i ++) {
+        res.data[i]['index'] = i;
+        this.words.push(res.data[i]);
+      }
       this.nextPage++;
       if (this.infiniteScroll) {
         this.infiniteScroll.complete();

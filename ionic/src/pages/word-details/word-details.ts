@@ -3,23 +3,26 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { TranslationSavePage } from '../translation-save/translation-save';
 import { TranslationService } from '../../app/services/translation.service';
 import * as _ from 'lodash';
+import { LoadingService } from '../../app/services/loading.service';
 
 @IonicPage()
 @Component({
   selector: 'page-word-details',
   templateUrl: 'word-details.html',
-  providers: [TranslationService]
+  providers: [TranslationService, LoadingService]
 })
 export class WordDetailsPage implements OnInit {
   word: any = null;
   basicInfo: any = {};
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public translationService: TranslationService,
-    public events: Events) {
+    public events: Events,
+    public loading: LoadingService) {
     this.word = this.navParams.get('word');
     if (this.word == null) {
       this.navCtrl.pop();
     }
+
     this.basicInfo = this.navParams.get('basicInfo');
 
     this.events.subscribe('translation:save', translation => {
@@ -52,6 +55,25 @@ export class WordDetailsPage implements OnInit {
       word: this.word,
       basicInfo: this.basicInfo,
     });
+  }
+
+  handleSwipe(e: any){
+    if (e.direction == 2) {
+      this.nextItem();
+      return;
+    }
+
+    if (e.direction == 4) {
+      return;
+    }
+
+  }
+
+  nextItem() {
+    this.loading.show();
+    this.navCtrl.pop();
+    this.events.publish('word:next', this.word.index);
+    this.loading.hide();
   }
 
 }
