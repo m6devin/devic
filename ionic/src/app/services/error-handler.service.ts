@@ -31,7 +31,7 @@ export class ErrorHandlerService {
           navCtrl.setRoot(LoginPage);
         }
 
-        break;
+        return r;
       }
       case 504: {
         return err;
