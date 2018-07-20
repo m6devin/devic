@@ -24,8 +24,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('api_host') == null) {
-      this.navCtrl.setRoot(ConfigPage);
-      return;
+      localStorage.setItem('api_host', 'http://devict.m6d.ir');
     }
 
     this.loading.show();
