@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { ToastController } from 'ionic-angular';
 
 import * as cnf from '../config';
 
 @Injectable()
 export class TranslationService {
   token: string = "";
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private toasCtrl: ToastController) {
     this.token = localStorage.getItem('api_token');
   }
 
@@ -41,5 +42,33 @@ export class TranslationService {
    */
   saveTranslation(translation: any): Observable<any> {
     return this.http.post(cnf.HOST + '/api/translation/save_translation?token=' + this.token, translation);
+  }
+
+  /**
+   * Copy element content to clipboard
+   * @param elementID HTML element ID value
+   */
+  copyToClipboard(elementID: string) {
+    let node = document.getElementById(elementID);
+    if (window.getSelection) {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+        selection.removeAllRanges();
+    } else {
+        this.toasCtrl.create({
+          message: 'Unable to copy text! Please do it manualy.',
+          duration: 2000,
+        }).present();
+        return
+    }
+
+    this.toasCtrl.create({
+      message: "Copied!",
+      duration: 1000,
+    }).present();
   }
 }
