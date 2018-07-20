@@ -134,7 +134,11 @@ export class WordDetailsPage implements OnInit {
   }
 
   speak(text: string) {
-    this.tts.speak(text).then();
+    // try {
+    //   this.tts.speak(text);
+    // } catch (error) {
+
+    // }
   }
 
 }
