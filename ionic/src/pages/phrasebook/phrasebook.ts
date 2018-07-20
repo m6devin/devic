@@ -39,13 +39,43 @@ export class PhrasebookPage implements OnInit {
     public events: Events) {
 
       this.events.subscribe('word:next', index => {
-        let w = this.words[index+1];
-        this.wordDetails(w)
+        if (index == this.words.length && this.theEnd == false) {
+          this.loadNextPage(() => {
+            let w = this.words[index+1];
+            if (w === undefined) {
+              this.toastCtrl.create({
+                message: "The end.",
+                duration: 2000,
+              }).present();
+              return;
+            }
+            this.wordDetails(w);
+          });
+        }else{
+          let w = this.words[index+1];
+          if (w === undefined) {
+            this.toastCtrl.create({
+              message: "The end.",
+              duration: 2000,
+            }).present();
+            return;
+          }
+          this.wordDetails(w);
+        }
 
       });
 
       this.events.subscribe('word:previous', index => {
         let w = this.words[index-1];
+        if (index == 0) {
+          w = this.words[index];
+          this.toastCtrl.create({
+            message: "It was the first word!",
+            duration: 2000,
+          }).present();
+
+          return;
+        }
         this.wordDetails(w)
       });
   }
@@ -61,7 +91,7 @@ export class PhrasebookPage implements OnInit {
   ionViewDidLoad() {
   }
 
-  loadNextPage(){
+  loadNextPage(onSuccess:()=>void= null ){
     this.theEnd = false;
     if (this.currentPage == this.lastPage) {
       if (this.infiniteScroll) {
@@ -73,7 +103,9 @@ export class PhrasebookPage implements OnInit {
       }
 
       this.theEnd = true;
-
+      if (onSuccess) {
+        onSuccess();
+      }
       return;
     }
     this.phrasebookService.search(this.nextPage, this.filters).subscribe(res => {

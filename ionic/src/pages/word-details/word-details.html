@@ -13,32 +13,39 @@
 
 </ion-header>
 
-<ion-content padding (swipe)="handleSwipe($event)">
-  <h4 padding>({{word.language.alpha2code}}) {{word.word}}</h4>
-  <ion-item *ngIf="word.translations.length == 0 ">
-    No translation added for '{{word.word}}'!
-  </ion-item>
-  <ion-card *ngFor="let tr of word.translations">
-    <ion-card-header>
-      <small>{{word.language.alpha2code}} -> {{tr.language.alpha2code}}</small>
-      <small *ngIf="tr.part_of_speech_id">({{tr.part_of_speech.name}})</small>
-      <a (click)="translationSave(tr)">
-        Edit
-      </a>
-    </ion-card-header>
-    <ion-item>
-      <label for="">Meaning:</label>
-      <p dir="{{tr.language.dir}}">{{tr.translation}}</p>
-      <hr>
-    </ion-item>
-    <ion-item *ngIf="tr.definition">
-      <label for="">Definition: </label>
-      <p dir="{{word.language.dir}}">{{tr.definition}}</p>
-      <hr>
-    </ion-item>
-    <ion-item *ngIf="tr.example">
-      <label for="">Example:</label>
-      <p dir="{{word.language.dir}}">{{tr.example}}</p>
-    </ion-item>
-  </ion-card>
+<ion-content>
+  <ion-slides page (swipe)="handleSwipe($event)">
+    <ion-slide>
+        <h4 padding start class="slide-title">({{word.language.alpha2code}}) {{word.word}}</h4>
+        <ion-card *ngIf="word.translations.length == 0 " style="height: 120px;">
+            <ion-card-header>
+                No translation!
+            </ion-card-header>
+        </ion-card>
+        <ion-card *ngFor="let tr of word.translations">
+          <ion-card-header>
+            <small>{{word.language.alpha2code}} -> {{tr.language.alpha2code}}</small>
+            <small *ngIf="tr.part_of_speech_id">({{tr.part_of_speech.name}})</small>
+            <a (click)="translationSave(tr)">
+              Edit
+            </a>
+          </ion-card-header>
+          <ion-item>
+            <label for="">Meaning:</label>
+            <p dir="{{tr.language.dir}}">{{tr.translation}}</p>
+            <hr>
+          </ion-item>
+          <ion-item *ngIf="tr.definition">
+            <label for="">Definition: </label>
+            <p dir="{{word.language.dir}}">{{tr.definition}}</p>
+            <hr>
+          </ion-item>
+          <ion-item *ngIf="tr.example">
+            <label for="">Example:</label>
+            <p dir="{{word.language.dir}}">{{tr.example}}</p>
+          </ion-item>
+        </ion-card>
+    </ion-slide>
+  </ion-slides>
+
 </ion-content>
