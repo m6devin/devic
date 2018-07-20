@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use Hash;
 
 
 class APIAuthController extends Controller {
@@ -13,7 +14,7 @@ class APIAuthController extends Controller {
      * Create a new AuthController instance.
      */
     public function __construct() {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login', 'signup']]);
     }
 
     /**
@@ -52,6 +53,34 @@ class APIAuthController extends Controller {
         $this->guard()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    /**
+     * Signup new Users
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function signup(Request $request) {
+        $this->validate($request, [
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $data = $request->only('email', 'password', 'password_confirmation');
+        
+        $user = new User();
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
+        $credentials = $request->only('email', 'password');
+        if ($token = JWTAuth::attempt($credentials)) {
+            return $this->respondWithToken($token);
+        }
+
+        return response()->json([
+            'message' => 'Failed to create your account!'
+        ]);
     }
 
     /**
