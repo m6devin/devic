@@ -18,6 +18,7 @@ import { TranslationSavePage } from '../pages/translation-save/translation-save'
 import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
 import { WordDetailsPage } from '../pages/word-details/word-details';
 import { ConfigPage } from '../pages/config/config';
+import { SignupPage } from '../pages/signup/signup';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ConfigPage } from '../pages/config/config';
     PhrasebookPage,
     WordDetailsPage,
     ConfigPage,
+    SignupPage
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { ConfigPage } from '../pages/config/config';
     PhrasebookPage,
     WordDetailsPage,
     ConfigPage,
+    SignupPage,
   ],
   providers: [
     StatusBar,
