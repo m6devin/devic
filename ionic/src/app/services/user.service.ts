@@ -20,6 +20,18 @@ export class UserService {
       password: password,
     });
   }
+  /**
+   * Try to login user usering email and password
+   * @param email string
+   * @param password string
+   */
+  signup(email: string, password: string, password_confirmation: string) {
+    return this.http.post(cnf.HOST + '/api/signup', {
+      email: email,
+      password: password,
+      password_confirmation: password_confirmation,
+    });
+  }
 
   /**
    * Load authenticated user data from server using api token
