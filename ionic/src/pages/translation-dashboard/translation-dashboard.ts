@@ -10,7 +10,7 @@ import { WordSavePage } from '../word-save/word-save';
 import * as _ from 'lodash';
 import { TranslationSavePage } from '../translation-save/translation-save';
 
-@IonicPage({segment: 'translation'})
+@IonicPage({ segment: 'translation' })
 @Component({
   selector: 'page-translation-dashboard',
   templateUrl: 'translation-dashboard.html',
@@ -45,15 +45,15 @@ export class TranslationDashboardPage implements OnInit {
     public errorHandler: ErrorHandlerService,
     public events: Events) {
 
-      this.menu.enable(true);
-      this.events.subscribe('word:save', word => {
-        this.translation.word = word.word;
-        this.translation.from_language = word.language_id;
+    this.menu.enable(true);
+    this.events.subscribe('word:save', word => {
+      this.translation.word = word.word;
+      this.translation.from_language = word.language_id;
 
-      });
-      this.events.subscribe('translation:save', translation => {
-        this.translateWord();
-      });
+    });
+    this.events.subscribe('translation:save', translation => {
+      this.translateWord();
+    });
   }
 
   ngOnInit() {
@@ -276,7 +276,7 @@ export class TranslationDashboardPage implements OnInit {
    * @param translation any If you want to add a new translation, pass null otherwise
    * If you want edit an existing translation, pass translation object with ID
    */
-  translationSave(translation: any = null){
+  translationSave(translation: any = null) {
     this.navCtrl.push(TranslationSavePage, {
       translation: translation,
       word: this.translatedWord,
@@ -284,4 +284,10 @@ export class TranslationDashboardPage implements OnInit {
     });
   }
 
+  /**
+   * Copy word to clipboard
+   */
+  copyToClipboard() {
+    this.translationService.copyToClipboard('the_word');
+  }
 }

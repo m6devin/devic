@@ -103,34 +103,7 @@ export class WordDetailsPage implements OnInit {
    * Copy word to clipboard
    */
   copyToClipboard() {
-    let node = document.getElementById('the_word');
-
-    if (document.body['createTextRange']) {
-        const range = document.body['createTextRange']();
-        range.moveToElementText(node);
-        range.select();
-        document.execCommand('copy');
-    } else if (window.getSelection) {
-        const selection = window.getSelection();
-        const range = document.createRange();
-        range.selectNodeContents(node);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        document.execCommand('copy');
-        selection.removeAllRanges();
-    } else {
-        this.toasCtrl.create({
-          message: 'Unable to copy text! Please do it manualy.',
-          duration: 2000,
-        }).present();
-        return
-    }
-
-    this.toasCtrl.create({
-      message: "Copied!",
-      duration: 1000,
-    }).present();
-
+    this.translationService.copyToClipboard('the_word');
   }
 
   speak(text: string) {

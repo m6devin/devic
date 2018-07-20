@@ -34,15 +34,13 @@
           </ion-col>
           <ion-col col-xl-10 col-lg-10 col-md-12 col-sm-12 col-12>
             <ion-item>
-              <ion-label stacked>Word to tranlslate</ion-label>
-              <ion-input
-                name="word"
-                [(ngModel)]="translation.word"
-                (keyup)="wordChanged()"
-                (change)="translateWord()" ></ion-input>
-                <button ion-button clear color="dark" type="button" item-right (click)="clear()">
-                  <ion-icon name="md-close-circle"> </ion-icon>
-                </button>
+              <ion-label stacked>
+                Word to tranlslate
+              </ion-label>
+              <ion-input name="word" [(ngModel)]="translation.word" (keyup)="wordChanged()" (change)="translateWord()"></ion-input>
+              <button ion-button clear color="dark" type="button" item-right (click)="clear()">
+                <ion-icon name="md-close-circle"> </ion-icon>
+              </button>
             </ion-item>
           </ion-col>
           <ion-col col-xl-2 col-lg-2 col-md-12 col-sm-12 col-12>
@@ -55,7 +53,10 @@
   </form>
   <ion-card padding *ngIf="hasAnyTranslation == 2 || hasAnyTranslation == 1 ">
     <div>
-      <i>{{translation.word}}</i>
+      <button ion-button clear type="button" item-left (click)="copyToClipboard()">
+        <ion-icon name="copy"></ion-icon>
+      </button>
+      <i id="the_word" class="selectable">{{translation.word}}</i>
     </div>
     <br>
     <button *ngIf="hasAnyTranslation == 2" ion-button (click)="saveWord()">Add to pharasebook</button>
