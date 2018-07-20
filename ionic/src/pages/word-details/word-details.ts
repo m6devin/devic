@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, ToastController } from 'ionic-angular';
 import { TranslationSavePage } from '../translation-save/translation-save';
 import { TranslationService } from '../../app/services/translation.service';
 import * as _ from 'lodash';
 import { LoadingService } from '../../app/services/loading.service';
+import { Clipboard } from '@ionic-native/clipboard';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,9 @@ export class WordDetailsPage implements OnInit {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public translationService: TranslationService,
     public events: Events,
-    public loading: LoadingService) {
+    public loading: LoadingService,
+    public clipboard: Clipboard,
+    public toasCtrl: ToastController) {
     this.word = this.navParams.get('word');
     if (this.word == null) {
       this.navCtrl.pop();
@@ -92,6 +95,40 @@ export class WordDetailsPage implements OnInit {
     this.navCtrl.pop();
     this.events.publish('word:previous', this.word.index);
     this.loading.hide();
+  }
+
+  /**
+   * Copy word to clipboard
+   */
+  copyToClipboard() {
+    let node = document.getElementById('the_word');
+
+    if (document.body['createTextRange']) {
+        const range = document.body['createTextRange']();
+        range.moveToElementText(node);
+        range.select();
+        document.execCommand('copy');
+    } else if (window.getSelection) {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+        selection.removeAllRanges();
+    } else {
+        this.toasCtrl.create({
+          message: 'Unable to copy text! Please do it manualy.',
+          duration: 2000,
+        }).present();
+        return
+    }
+
+    this.toasCtrl.create({
+      message: "Copied!",
+      duration: 1000,
+    }).present();
+
   }
 
 }

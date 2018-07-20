@@ -15,3 +15,11 @@ ion-slide {
     text-align: start !important;
   }
 }
+
+.selectable{
+  -webkit-user-select: auto;
+}
+
+#the_word{
+  display: inline-block;
+}
