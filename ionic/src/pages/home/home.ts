@@ -6,8 +6,7 @@ import { LoginPage } from '../login/login';
 
 import { UserService } from '../../app/services/user.service';
 import { LoadingService } from '../../app/services/loading.service';
-import { PhrasebookPage } from '../phrasebook/phrasebook';
-import { ConfigPage } from '../config/config';
+import { TranslationDashboardPage } from '../translation-dashboard/translation-dashboard';
 
 @Component({
   selector: 'page-home',
@@ -30,7 +29,7 @@ export class HomePage implements OnInit {
     this.loading.show();
     this.userService.getAuthenticatedUser().subscribe(res => {
       this.loading.hide();
-      this.navCtrl.setRoot(PhrasebookPage);
+      this.navCtrl.setRoot(TranslationDashboardPage);
     } , err => {
       this.loading.hide();
       this.navCtrl.setRoot(LoginPage);
