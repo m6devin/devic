@@ -7,6 +7,7 @@ import { HomePage } from '../../pages/home/home';
 import { LoadingService } from '../../app/services/loading.service';
 import { ErrorHandlerService } from '../../app/services/error-handler.service';
 import { ConfigPage } from '../config/config';
+import { SignupPage } from '../signup/signup';
 /**
  * Generated class for the LoginPage page.
  *
@@ -56,6 +57,10 @@ export class LoginPage {
 
   goToConfig() {
     this.navCtrl.setRoot(ConfigPage);
+  }
+
+  goToSignup() {
+    this.navCtrl.setRoot(SignupPage);
   }
 
 }
