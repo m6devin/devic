@@ -93,4 +93,5 @@
         <variable name="DEEPLINK_HOST" value="example.com" />
         <variable name="ANDROID_PATH_PREFIX" value="/" />
     </plugin>
+    <plugin name="cordova-plugin-tts" spec="^0.2.3" />
 </widget>

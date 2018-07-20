@@ -6,6 +6,7 @@ import { WebIntent } from '@ionic-native/web-intent';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { Deeplinks } from '@ionic-native/deeplinks';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MyApp } from './app.component';
@@ -53,6 +54,7 @@ import { ConfigPage } from '../pages/config/config';
     Clipboard,
     WebIntent,
     Deeplinks,
+    TextToSpeech,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

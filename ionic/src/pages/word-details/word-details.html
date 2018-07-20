@@ -17,6 +17,7 @@
   <ion-slides page (swipe)="handleSwipe($event)">
     <ion-slide>
       <div style="text-align: start" padding>
+          <ion-icon name="volume-up" start (click)="speak(wrod.word)"></ion-icon>&nbsp;
           <ion-icon name="copy" start (click)="copyToClipboard()"></ion-icon>
           <h4 padding class="slide-title selectable" id="the_word"
             (click)="copyToClipboard()">{{word.word}}</h4>

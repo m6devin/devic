@@ -5,6 +5,7 @@ import { TranslationService } from '../../app/services/translation.service';
 import * as _ from 'lodash';
 import { LoadingService } from '../../app/services/loading.service';
 import { Clipboard } from '@ionic-native/clipboard';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 @IonicPage()
 @Component({
@@ -20,7 +21,8 @@ export class WordDetailsPage implements OnInit {
     public events: Events,
     public loading: LoadingService,
     public clipboard: Clipboard,
-    public toasCtrl: ToastController) {
+    public toasCtrl: ToastController,
+    public tts: TextToSpeech) {
     this.word = this.navParams.get('word');
     if (this.word == null) {
       this.navCtrl.pop();
@@ -129,6 +131,10 @@ export class WordDetailsPage implements OnInit {
       duration: 1000,
     }).present();
 
+  }
+
+  speak(text: string) {
+    this.tts.speak(text).then();
   }
 
 }
