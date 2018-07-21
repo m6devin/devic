@@ -107,9 +107,12 @@ export class WordDetailsPage implements OnInit {
   }
 
   speak(text: string) {
-    try{
-      this.tts.speak(text);
-    }catch(err){}
+    this.tts.speak(text).then(ok => {}, err => {
+      this.toasCtrl.create({
+        message: 'TTS not supported!'
+      }).present();
+    });
+
   }
 
 }
