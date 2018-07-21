@@ -21,5 +21,20 @@ ion-slide {
 }
 
 #the_word{
-  display: inline-block;
+  // display: inline-block;
+}
+.the_word_wrapper{
+  text-align: start;
+
+  button{
+    padding: .2em !important;
+
+    ion-icon{
+      font-size: 190%;
+    }
+  }
+
+  h4 {
+    margin-top: 0 !important;
+  }
 }

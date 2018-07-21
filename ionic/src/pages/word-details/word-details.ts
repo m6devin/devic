@@ -107,11 +107,9 @@ export class WordDetailsPage implements OnInit {
   }
 
   speak(text: string) {
-    // try {
-    //   this.tts.speak(text);
-    // } catch (error) {
-
-    // }
+    try{
+      this.tts.speak(text);
+    }catch(err){}
   }
 
 }
