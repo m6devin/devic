@@ -1,2 +1,9 @@
-var host = localStorage.getItem('api_host');
-export var HOST = host;
+export class Config {
+
+  /**
+   * Return host URL to interact with APIs
+   */
+  getHost(): string {
+    return localStorage.getItem('api_host');
+  }
+}

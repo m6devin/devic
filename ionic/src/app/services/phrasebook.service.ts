@@ -6,6 +6,8 @@ import * as cnf from '../config';
 @Injectable()
 export class PhrasebookService{
   token: string = '';
+  cnf = new cnf.Config();
+
   constructor(public http: HttpClient){
     this.token = localStorage.getItem('api_token');
   }
@@ -21,6 +23,6 @@ export class PhrasebookService{
       page = 1;
     }
 
-    return this.http.get<any>(cnf.HOST + '/api/translation/phrasebook?page=' + page + '&filters=' + JSON.stringify(filters) + '&token=' + this.token);
+    return this.http.get<any>(this.cnf.getHost() + '/api/translation/phrasebook?page=' + page + '&filters=' + JSON.stringify(filters) + '&token=' + this.token);
   }
 }

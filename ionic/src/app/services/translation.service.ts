@@ -8,6 +8,8 @@ import * as cnf from '../config';
 @Injectable()
 export class TranslationService {
   token: string = "";
+  cnf = new cnf.Config();
+
   constructor(public http: HttpClient, private toasCtrl: ToastController) {
     this.token = localStorage.getItem('api_token');
   }
@@ -17,11 +19,11 @@ export class TranslationService {
    * @return Observable<any>
    */
   getBasicInfo(): Observable<any> {
-    return this.http.get<any>(cnf.HOST + '/api/translation/basic_info');
+    return this.http.get<any>(this.cnf.getHost() + '/api/translation/basic_info');
   }
 
   translate(translation: any) {
-    return this.http.get<any>(cnf.HOST + '/api/translation/translate?token=' + this.token
+    return this.http.get<any>(this.cnf.getHost() + '/api/translation/translate?token=' + this.token
       + '&from_language=' + (translation.from_language ? translation.from_language : '')
         + '&to_language=' + (translation.to_language ? translation.to_language : '')
         + '&word=' + (translation.word ? translation.word : '')
@@ -33,7 +35,7 @@ export class TranslationService {
    * @param word any
    */
   saveWord(word: any): Observable<any> {
-    return this.http.post<any>(cnf.HOST + "/api/translation/save_word?token=" + this.token, word);
+    return this.http.post<any>(this.cnf.getHost() + "/api/translation/save_word?token=" + this.token, word);
   }
 
   /**
@@ -41,7 +43,7 @@ export class TranslationService {
    * @param translation object
    */
   saveTranslation(translation: any): Observable<any> {
-    return this.http.post(cnf.HOST + '/api/translation/save_translation?token=' + this.token, translation);
+    return this.http.post(this.cnf.getHost() + '/api/translation/save_translation?token=' + this.token, translation);
   }
 
   /**

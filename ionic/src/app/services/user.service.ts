@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http'
 import { Observable} from 'rxjs/Observable';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import * as cnf from '../config';
-
+import { Config } from '../config';
 @Injectable()
 export class UserService {
-
+  cnf = new Config();
   constructor(public http: HttpClient) { }
 
   /**
@@ -15,7 +15,7 @@ export class UserService {
    * @param password string
    */
   login(email: string, password: string) {
-    return this.http.post(cnf.HOST + '/api/login', {
+    return this.http.post(this.cnf.getHost() + '/api/login', {
       email: email,
       password: password,
     });
@@ -26,7 +26,7 @@ export class UserService {
    * @param password string
    */
   signup(email: string, password: string, password_confirmation: string) {
-    return this.http.post(cnf.HOST + '/api/signup', {
+    return this.http.post(this.cnf.getHost() + '/api/signup', {
       email: email,
       password: password,
       password_confirmation: password_confirmation,
@@ -42,7 +42,7 @@ export class UserService {
       return new ErrorObservable(false);
     }
 
-    return this.http.get(cnf.HOST + '/api/get_user?token=' + token);
+    return this.http.get(this.cnf.getHost() + '/api/get_user?token=' + token);
   }
 
 }
