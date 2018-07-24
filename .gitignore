@@ -13,3 +13,4 @@ yarn-error.log
 .env
 mix-manifest.json
 package-lock.json
+/public/devict.apk
