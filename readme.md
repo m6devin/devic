@@ -3,11 +3,11 @@ When you start learning new foreign language, you may need to save your new word
 
 This application licensed under MIT license.
 
-#How to use:
+# How to use:
 
 You can install this application in your own web server and config mobile application to use your own API server.
 
-#Installation on shared hosts
+# Installation on shared hosts
 
 First clone the source code to your local machine:
 
@@ -24,7 +24,7 @@ npm install
 
 ```
 
-Know, follow this steps:
+Now, follow this steps:
 
 1. Upload "devict" directory in your shared host
 1. Optional: Create a subdomain for example `devict.example.com` that points to public directory of devict folder
