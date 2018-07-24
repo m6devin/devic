@@ -93,6 +93,7 @@ export class PhrasebookPage implements OnInit {
 
   loadNextPage(onSuccess:()=>void= null ){
     this.theEnd = false;
+
     if (this.currentPage == this.lastPage) {
       if (this.infiniteScroll) {
         this.infiniteScroll.complete();
@@ -113,7 +114,7 @@ export class PhrasebookPage implements OnInit {
       this.lastPage = res.last_page;
       // this.words = this.words.concat(res.data);
       for(let i = 0; i < res.data.length; i ++) {
-        res.data[i]['index'] = i;
+        res.data[i]['index'] = ((this.currentPage - 1) * res.per_page) + i;
         this.words.push(res.data[i]);
       }
       this.nextPage++;
