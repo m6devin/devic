@@ -21,7 +21,7 @@ export class WordDetailsPage implements OnInit {
     public events: Events,
     public loading: LoadingService,
     public clipboard: Clipboard,
-    public toasCtrl: ToastController,
+    public toastCtrl: ToastController,
     public tts: TextToSpeech) {
     this.word = this.navParams.get('word');
     if (this.word == null) {
@@ -108,11 +108,28 @@ export class WordDetailsPage implements OnInit {
 
   speak(text: string) {
     this.tts.speak(text).then(ok => {}, err => {
-      this.toasCtrl.create({
+      this.toastCtrl.create({
         message: 'TTS not supported!'
       }).present();
     });
 
+  }
+
+  setReview(status: boolean) {
+    this.loading.show();
+    this.translationService.setReview(this.word.id, status).subscribe(res => {
+      this.loading.hide();
+      this.toastCtrl.create({
+        message: "Done!",
+        duration: 2000,
+      }).present();
+    } , err => {
+      this.loading.hide();
+      this.toastCtrl.create({
+        message: err.error.message,
+        duration: 4000,
+      }).present();
+    });
   }
 
 }
