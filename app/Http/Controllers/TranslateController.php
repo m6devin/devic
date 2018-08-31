@@ -6,6 +6,7 @@ use App\Language;
 use App\PartOfSpeech;
 use App\Translation;
 use App\Word;
+use App\Review;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -347,5 +348,38 @@ class TranslateController extends Controller {
             'langs' => Language::get(),
             'partsOfSpeech' => PartOfSpeech::get(),
         ]);
+    }
+
+    /**
+     * Save review status in review logs
+     *
+     * @param \Illuminate\Http\Request $r
+     * @param \App\Word $word
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function setWordReview(Request $r, Word $word) {
+        $user = Auth::user();
+        if($user->id != $word->created_by_id) {
+            return $this->quickResponse('Word not found!', 404);
+        }    
+
+        $now = new \DateTime();
+        if($word->last_review) {
+            $lastReview = new \DateTime($word->last_review);
+            $diff = date_diff($now, $lastReview);        
+            if($diff->days  < 1) {
+                $msg = sprintf('Your last review was at %s, atleast 24 hours or more reuired for the next review.', $word->last_review);
+                return $this->quickResponse($msg, 422);
+            }            
+        }
+        $review = new Review();
+        $review->word_id = $word->id;
+        $review->remembered = $r->input('remembered');
+        $review->save();
+
+        $word->last_review = $now;
+        $word->save();
+
+        return $this->quickResponse('Review saved!', 200);
     }
 }
