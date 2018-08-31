@@ -24,6 +24,12 @@
           <ion-icon name="copy"></ion-icon>
         </button>
         <h4 class="slide-title selectable" id="the_word" (click)="copyToClipboard()">{{word.word}}</h4>
+        <ion-fab right bottom>
+          <button ion-fab color="primary" (click)="setReview(true)"><ion-icon name="thumbs-up"></ion-icon></button>
+        </ion-fab>
+        <ion-fab left bottom>
+          <button ion-fab color="danger" (click)="setReview(false)"><ion-icon name="thumbs-down"></ion-icon></button>
+        </ion-fab>
       </div>
       <ion-card *ngIf="word.translations.length == 0 " style="height: 120px;">
         <ion-card-header>
