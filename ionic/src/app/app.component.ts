@@ -46,54 +46,54 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  private setupBackButtonBehavior() {
-    // If on web version (browser)
-    if (window.location.protocol !== "file:") {
+  // private setupBackButtonBehavior() {
+  //   // If on web version (browser)
+  //   if (window.location.protocol !== "file:") {
 
-      // Register browser back button action(s)
-      window.onpopstate = (evt) => {
-        // Close menu if open
-        if (this._menu.isOpen()) {
-          this._menu.close();
-          return;
-        }
+  //     // Register browser back button action(s)
+  //     window.onpopstate = (evt) => {
+  //       // Close menu if open
+  //       if (this._menu.isOpen()) {
+  //         this._menu.close();
+  //         return;
+  //       }
 
-        // Close any active modals or overlays
-        let activePortal = this._ionicApp._loadingPortal.getActive() ||
-          this._ionicApp._modalPortal.getActive() ||
-          this._ionicApp._toastPortal.getActive() ||
-          this._ionicApp._overlayPortal.getActive();
+  //       // Close any active modals or overlays
+  //       let activePortal = this._ionicApp._loadingPortal.getActive() ||
+  //         this._ionicApp._modalPortal.getActive() ||
+  //         this._ionicApp._toastPortal.getActive() ||
+  //         this._ionicApp._overlayPortal.getActive();
 
-        if (activePortal) {
-          activePortal.dismiss();
-          return;
-        }
+  //       if (activePortal) {
+  //         activePortal.dismiss();
+  //         return;
+  //       }
 
-        switch (localStorage.getItem('lastPage')) {
-          case "WordDetailsPage":
-            if (this.nav.canGoBack()) this.nav.pop();
-            return false;
-          default:
-            console.log(history.length);
-            return false;
-        }
+  //       switch (localStorage.getItem('lastPage')) {
+  //         case "WordDetailsPage":
+  //           if (this.nav.canGoBack()) this.nav.pop();
+  //           return false;
+  //         default:
+  //           console.log(history.length);
+  //           return false;
+  //       }
 
-      };
+  //     };
 
-      // Fake browser history on each view enter
-      this.app.viewDidEnter.subscribe((app) => {
-        localStorage.setItem('lastPage', app.name);
-        switch (app.name) {
-          case "WordDetailsPage":
-            history.pushState(null, null, '');
-            return false;
-          default:
-            break;
-        }
-      });
+  //     // Fake browser history on each view enter
+  //     this.app.viewDidEnter.subscribe((app) => {
+  //       localStorage.setItem('lastPage', app.name);
+  //       switch (app.name) {
+  //         case "WordDetailsPage":
+  //           history.pushState(null, null, '');
+  //           return false;
+  //         default:
+  //           break;
+  //       }
+  //     });
 
-    }
+  //   }
 
-  }
+  // }
 }
 
