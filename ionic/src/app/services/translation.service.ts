@@ -73,4 +73,12 @@ export class TranslationService {
       duration: 1000,
     }).present();
   }
+
+  setReview(wordID: number, status: boolean) {
+    const data = {
+      remembered: status,
+    };
+
+    return this.http.post(this.cnf.getHost() + '/api/translation/word/' + wordID + '/set_review?token=' + this.token, data);
+  }
 }
