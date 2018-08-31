@@ -18,6 +18,7 @@ class CreateWordsTable extends Migration
             $table->string("word", 512)->index();
             $table->integer("language_id")->unsigned();
             $table->integer("created_by_id")->unsigned()->nullable();
+            $table->datetime('last_review')->nullable();
             $table->timestamps();
 
             $table->unique(["word", "language_id", "created_by_id"]);
