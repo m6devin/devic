@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Language;
 use App\PartOfSpeech;
+use App\Review;
 use App\Translation;
 use App\Word;
-use App\Review;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
@@ -144,7 +144,6 @@ class TranslateController extends Controller {
                     'word' => ['This word already exists in your phrasebook!'],
                 ]], 422);
             }
-            
         } else {
             //check uniqueness
             $cnt = Word::where('word', $word)
@@ -286,9 +285,10 @@ class TranslateController extends Controller {
     }
 
     /**
-     * Load phrasebook words for API calls
+     * Load phrasebook words for API calls.
      *
      * @param \Illuminate\Http\Request $r
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function phrasebookAPI(Request $r) {
@@ -296,18 +296,18 @@ class TranslateController extends Controller {
 
         $word = $r->input('filters.word', null);
         $from = $r->input('filters.from_language_id', null);
-        
+
         $qry = Word::with([
             'language',
             'translations',
             'translations.language',
             'translations.partOfSpeech',
-            'reviews'
+            'reviews',
         ])->where('created_by_id', $user->id);
-        
-        if($from) {
+
+        if ($from) {
             $qry = $qry->where('language_id', $from);
-        } 
+        }
         if ($word) {
             $qry = $qry->where('word', 'LIKE', "%{$word}%");
         }
@@ -352,41 +352,53 @@ class TranslateController extends Controller {
     }
 
     /**
-     * Save review status in review logs
+     * Save review status in review logs.
      *
      * @param \Illuminate\Http\Request $r
-     * @param \App\Word $word
+     * @param \App\Word                $word
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function setWordReview(Request $r, Word $word) {
         $user = Auth::user();
-        if($user->id != $word->created_by_id) {
+        if ($user->id != $word->created_by_id) {
             return $this->quickResponse('Word not found!', 404);
-        }    
+        }
 
         $now = new \DateTime();
-        if($word->last_review) {
+        if ($word->last_review) {
             $lastReview = new \DateTime($word->last_review);
-            $diff = date_diff($now, $lastReview);        
-            if($diff->days  < 1) {
+            $diff = date_diff($now, $lastReview);
+            if ($diff->m < 5) {
+                $review = $word->reviews()->orderBy('id', 'desc')->first();
+                if (! $review) {
+                    $review = new Review();
+                }
+            } elseif ($diff->days < 1) {
                 $msg = sprintf('Your last review was at %s, atleast 24 hours or more reuired for the next review.', $word->last_review);
+
                 return $this->quickResponse($msg, 422);
-            }            
+            } else {
+                $review = new Review();
+            }
+        } else {
+            $review = new Review();
         }
-        $review = new Review();
         $review->word_id = $word->id;
-        $review->remembered = $r->input('remembered');
+        $review->remembered = boolval($r->input('remembered'));
+        $review->created_at = $now;
         $review->save();
 
         $word->last_review = $now;
-        if (boolval($review->remembered )== true) {
-            $word->success_reviews_count += 1;
-        }else{
-            $word->fail_reviews_count += 1;
+        if (true == boolval($r->input('remembered'))) {
+            ++$word->success_reviews_count;
+        } else {
+            ++$word->fail_reviews_count;
         }
         $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
 
-        return $this->quickResponse('Review saved!', 200);
+
+        return $this->wordDetails($r, $word->id);
     }
 }
