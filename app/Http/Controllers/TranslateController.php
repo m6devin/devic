@@ -379,6 +379,12 @@ class TranslateController extends Controller {
         $review->save();
 
         $word->last_review = $now;
+        if (boolval($review->remembered )== true) {
+            $word->success_reviews_count += 1;
+        }else{
+            $word->fail_reviews_count += 1;
+        }
+        $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
 
         return $this->quickResponse('Review saved!', 200);
