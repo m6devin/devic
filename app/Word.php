@@ -26,5 +26,9 @@ class Word extends Model
         return $this->belongsTo(Language::class);
     }
 
+    public function reviews() {
+        return $this->hasMany(Review::class)->orderBy('id', 'desc');
+    }
+
 
 }
