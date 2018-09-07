@@ -331,6 +331,7 @@ class TranslateController extends Controller {
             'translations',
             'translations.language',
             'translations.partOfSpeech',
+            'reviews',
         ])
         ->where('id', $id)
         ->where('created_by_id', Auth::user()->id)
@@ -367,14 +368,15 @@ class TranslateController extends Controller {
 
         $now = new \DateTime();
         if ($word->last_review) {
-            $lastReview = new \DateTime($word->last_review);
-            $diff = date_diff($now, $lastReview);
-            if ($diff->m < 5) {
+            $lastReview = (new \DateTime($word->last_review))->getTimestamp();
+            $diff = $now->getTimestamp() - $lastReview;
+            
+            if ($diff < (5 * 60)) {
                 $review = $word->reviews()->orderBy('id', 'desc')->first();
                 if (! $review) {
                     $review = new Review();
                 }
-            } elseif ($diff->days < 1) {
+            } elseif ($diff < (24 * 60 * 60)) {
                 $msg = sprintf('Your last review was at %s, atleast 24 hours or more reuired for the next review.', $word->last_review);
 
                 return $this->quickResponse($msg, 422);
