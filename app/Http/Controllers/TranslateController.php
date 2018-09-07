@@ -312,7 +312,7 @@ class TranslateController extends Controller {
             $qry = $qry->where('word', 'LIKE', "%{$word}%");
         }
 
-        $words = $qry->paginate(30);
+        $words = $qry->orderBy('total_reviews_count', 'ASC')->orderBy('fail_reviews_count', 'DESC')->paginate(30);
 
         return response()->json($words);
     }
@@ -370,7 +370,7 @@ class TranslateController extends Controller {
         if ($word->last_review) {
             $lastReview = (new \DateTime($word->last_review))->getTimestamp();
             $diff = $now->getTimestamp() - $lastReview;
-            
+
             if ($diff < (5 * 60)) {
                 $review = $word->reviews()->orderBy('id', 'desc')->first();
                 if (! $review) {
@@ -399,7 +399,6 @@ class TranslateController extends Controller {
         }
         $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
-
 
         return $this->wordDetails($r, $word->id);
     }
