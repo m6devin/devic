@@ -125,6 +125,7 @@ export class PhrasebookPage implements OnInit {
       if (this.refresher) {
         this.refresher.complete()
       }
+      this.loading.hide();
     }, err => {
       if (this.infiniteScroll) {
         this.infiniteScroll.complete();
@@ -156,6 +157,7 @@ export class PhrasebookPage implements OnInit {
    * @param refresher Refresher
    */
   doRefresh(refresher: Refresher) {
+    this.loading.show();
     this.refresher = refresher;
     this.currentPage = 1;
     this.nextPage = 1;
