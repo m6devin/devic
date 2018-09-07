@@ -63,7 +63,7 @@
           <p dir="{{word.language.dir}}" class="normal-p">{{tr.example}}</p>
         </ion-item>
       </ion-card>
-      <ion-card *ngIf="word.reviews.length > 0">
+      <ion-card *ngIf="word.reviews && word.reviews.length > 0">
         <ion-card-header>
           Reviews history
         </ion-card-header>
