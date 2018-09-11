@@ -118,6 +118,7 @@ export class WordDetailsPage implements OnInit {
   setReview(status: boolean) {
     this.loading.show();
     this.translationService.setReview(this.word.id, status).subscribe(res => {
+      res['index'] = this.word.index;
       this.word = res;
       this.loading.hide();
       this.toastCtrl.create({
