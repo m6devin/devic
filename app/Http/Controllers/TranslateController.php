@@ -370,37 +370,59 @@ class TranslateController extends Controller {
         if ($user->id != $word->created_by_id) {
             return $this->quickResponse('Word not found!', 404);
         }
-
+        a:
         $now = new \DateTime();
-        if ($word->last_review) {
-            $lastReview = (new \DateTime($word->last_review))->getTimestamp();
-            $diff = $now->getTimestamp() - $lastReview;
+        $step = $word->step;
+        if (1 == $word->step_id || ! $step /* word is on 'new word' mode and can be reviewed*/) {
+            $review = new Review();
+        } else {
+            $lastReview = $word->reviews()->orderBy('id', 'desc')->first();
+            if (! $lastReview) {
+                $word->step_id = 1;
+                $word->save();
+                goto a;
+            }
+
+            // Check for updating review
+            $lastReviewTimestamp = (new \DateTime($lastReview->created_at))->getTimestamp();
+            $diff = $now->getTimestamp() - $lastReviewTimestamp;
 
             if ($diff < (5 * 60)) {
-                $review = $word->reviews()->orderBy('id', 'desc')->first();
-                if (! $review) {
-                    $review = new Review();
-                }
-            } elseif ($diff < (24 * 60 * 60)) {
-                $msg = sprintf('Your last review was at %s, atleast 24 hours or more reuired for the next review.', $word->last_review);
+                $review = $lastReview;
+                --$word->step_id;
+                goto b;
+            }
+
+            // exact datetime of next review
+            $nextReview = $lastReviewTimestamp + ($step->days * (24 * 60 * 60));
+
+            // next review can be done 8 hours before the exact time
+            $minReviewAvailable = $nextReview - (8 * 60 * 60);
+            if ($minReviewAvailable >= $now->getTimestamp()) {
+                $msg = sprintf('Your last review was at %s and next reviwe will be available at %s.',
+                $lastReview->created_at->format('Y-m-d H:i:s'),
+                date('Y-m-d H:i:s', $minReviewAvailable));
 
                 return $this->quickResponse($msg, 422);
-            } else {
-                $review = new Review();
             }
-        } else {
+
             $review = new Review();
+            goto b;
         }
+        b:
         $review->word_id = $word->id;
         $review->remembered = boolval($r->input('remembered'));
         $review->created_at = $now;
+        $review->step_id = $word->step_id;
         $review->save();
 
         $word->last_review = $now;
         if (true == boolval($r->input('remembered'))) {
             ++$word->success_reviews_count;
+            ++$word->step_id;
         } else {
             ++$word->fail_reviews_count;
+            $word->step_id = 1;
         }
         $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
