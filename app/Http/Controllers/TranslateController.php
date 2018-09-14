@@ -306,6 +306,7 @@ class TranslateController extends Controller {
             'translations.language',
             'translations.partOfSpeech',
             'reviews',
+            'setp',
         ])->where('created_by_id', $user->id);
 
         if ($from) {
@@ -335,6 +336,7 @@ class TranslateController extends Controller {
             'translations.language',
             'translations.partOfSpeech',
             'reviews',
+            'step',
         ])
         ->where('id', $id)
         ->where('created_by_id', Auth::user()->id)
