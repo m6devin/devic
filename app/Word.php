@@ -32,6 +32,6 @@ class Word extends Model {
      * Get current step of Leitner review.
      */
     public function step() {
-        return $this->belongsTo(Step::calss);
+        return $this->belongsTo(Step::class);
     }
 }
