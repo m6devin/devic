@@ -157,6 +157,9 @@ class TranslateController extends Controller {
             }
 
             $dbWord = new Word();
+
+            // set as new word
+            $dbWord->step_id = 1;
         }
 
         $dbWord->word = $word;
