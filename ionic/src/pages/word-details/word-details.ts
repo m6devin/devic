@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { LoadingService } from '../../app/services/loading.service';
 import { Clipboard } from '@ionic-native/clipboard';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
+import * as moment from "moment";
 
 @IonicPage()
 @Component({
@@ -54,7 +55,7 @@ export class WordDetailsPage implements OnInit {
    * @param translation any If you want to add a new translation, pass null otherwise
    * If you want edit an existing translation, pass translation object with ID
    */
-  translationSave(translation: any = null){
+  translationSave(translation: any = null) {
     this.navCtrl.push(TranslationSavePage, {
       translation: translation,
       word: this.word,
@@ -66,7 +67,7 @@ export class WordDetailsPage implements OnInit {
    * Handle swip left and swip right
    * @param e event
    */
-  handleSwipe(e: any){
+  handleSwipe(e: any) {
     if (e.direction == 2) {
       this.nextItem();
       return;
@@ -107,7 +108,7 @@ export class WordDetailsPage implements OnInit {
   }
 
   speak(text: string) {
-    this.tts.speak(text).then(ok => {}, err => {
+    this.tts.speak(text).then(ok => { }, err => {
       this.toastCtrl.create({
         message: 'TTS not supported!'
       }).present();
@@ -125,13 +126,42 @@ export class WordDetailsPage implements OnInit {
         message: "Done!",
         duration: 2000,
       }).present();
-    } , err => {
+    }, err => {
       this.loading.hide();
       this.toastCtrl.create({
         message: err.error.message,
         duration: 4000,
       }).present();
     });
+  }
+
+  get canReview() {
+    if (1 == this.word.step_id || !this.word.step) {
+
+      return true;
+    }
+
+    const lastReview = this.word.reviews ? this.word.reviews[0] : null;
+    if (!lastReview) {
+      return true;
+    }
+
+    const now = moment().unix();
+    const lastReviewTimestamp = moment(lastReview.created_at, "YYYY-MM-DD HH:mm:ss").unix();
+    const diff = now - lastReviewTimestamp;
+
+    if (diff < (5 * 60)) {
+      return true;
+    }
+
+    const nextReview = lastReviewTimestamp + (this.word.step.days * (24 * 60 * 60));
+    const minReviewAvailable = nextReview - (8 * 60 * 60);
+    if (minReviewAvailable >= now) {
+      return false;
+    }
+
+    return true;
+
   }
 
 }

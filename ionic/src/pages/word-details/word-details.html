@@ -24,12 +24,12 @@
           <ion-icon name="copy"></ion-icon>
         </button>
         <h4 class="slide-title selectable" id="the_word" (click)="copyToClipboard()">{{word.word}}</h4>
-        <ion-fab right>
+        <ion-fab right *ngIf="canReview">
           <button ion-fab color="primary" (click)="setReview(true)">
             <ion-icon name="thumbs-up"></ion-icon>
           </button>
         </ion-fab>
-        <ion-fab right bottom>
+        <ion-fab right bottom *ngIf="canReview">
           <button ion-fab color="danger" (click)="setReview(false)">
             <ion-icon name="thumbs-down"></ion-icon>
           </button>
