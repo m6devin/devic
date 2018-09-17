@@ -373,8 +373,19 @@ class TranslateController extends Controller {
         a:
         $now = new \DateTime();
         $step = $word->step;
+        if (7 == $word->step_id /* Archived word*/) {
+            if (true == boolval($r->input('remembered'))) {
+                return $this->quickResponse('This word is archived!', 422);
+            } else {
+                $review = new Review();
+                $review->step_id = $word->step_id;
+                goto b;
+            }
+        }
+
         if (1 == $word->step_id || ! $step /* word is on 'new word' mode and can be reviewed*/) {
             $review = new Review();
+            $review->step_id = $word->step_id;
         } else {
             $lastReview = $word->reviews()->orderBy('id', 'desc')->first();
             if (! $lastReview) {
@@ -389,7 +400,15 @@ class TranslateController extends Controller {
 
             if ($diff < (5 * 60)) {
                 $review = $lastReview;
+                $review->step_id = $word->step_id;
+
                 --$word->step_id;
+                if (true == $lastReview->remembered) {
+                    --$word->success_reviews_count;
+                } else {
+                    --$word->fail_reviews_count;
+                }
+                $word->save();
                 goto b;
             }
 
@@ -407,14 +426,11 @@ class TranslateController extends Controller {
             }
 
             $review = new Review();
+            $review->step_id = $word->step_id;
+
             goto b;
         }
         b:
-        $review->word_id = $word->id;
-        $review->remembered = boolval($r->input('remembered'));
-        $review->created_at = $now;
-        $review->step_id = $word->step_id;
-        $review->save();
 
         $word->last_review = $now;
         if (true == boolval($r->input('remembered'))) {
@@ -422,10 +438,15 @@ class TranslateController extends Controller {
             ++$word->step_id;
         } else {
             ++$word->fail_reviews_count;
-            $word->step_id = 1;
+            $word->step_id = 2; // 24 hour review
         }
         $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
+
+        $review->word_id = $word->id;
+        $review->remembered = boolval($r->input('remembered'));
+        $review->created_at = $now;
+        $review->save();
 
         return $this->wordDetails($r, $word->id);
     }
