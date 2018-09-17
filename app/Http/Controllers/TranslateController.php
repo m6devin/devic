@@ -297,8 +297,10 @@ class TranslateController extends Controller {
     public function phrasebookAPI(Request $r) {
         $user = Auth::user();
 
-        $word = $r->input('filters.word', null);
-        $from = $r->input('filters.from_language_id', null);
+        $filters = json_decode($r->input('filters', []), true);
+        $word = isset($filters['word']) ? $filters['word'] : null;
+        $from = isset($filters['from']) ? $filters['from'] : null;
+        $todayReview = isset($filters['today_review']) ? $filters['today_review'] : null;
 
         $qry = Word::with([
             'language',
@@ -314,6 +316,11 @@ class TranslateController extends Controller {
         }
         if ($word) {
             $qry = $qry->where('word', 'LIKE', "%{$word}%");
+        }
+        if (true == $todayReview) {
+            $qry = $qry->whereRaw('
+            words.step_id = 1 OR (SELECT DATE_ADD(words.last_review, INTERVAL (SELECT days from steps where words.step_id = steps.id) DAY) ) <= (SELECT DATE_ADD(?, INTERVAL 8 HOUR) )
+        ', new \DateTime());
         }
 
         $words = $qry->orderBy('total_reviews_count', 'ASC')->orderBy('fail_reviews_count', 'DESC')->paginate(30);
