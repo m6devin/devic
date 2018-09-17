@@ -22,7 +22,7 @@
   <ion-list>
     <ion-item>
       <ion-label>Today review</ion-label>
-      <ion-checkbox color="primary" [(ngModel)]="filters.today_review"></ion-checkbox>
+      <ion-checkbox color="primary" [(ngModel)]="filters.today_review" (ionChange)="doRefresh()"></ion-checkbox>
     </ion-item>
     <ion-item *ngFor="let w of words" (click)="wordDetails(w)">{{w.word}}</ion-item>
   </ion-list>
