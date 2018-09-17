@@ -400,9 +400,8 @@ class TranslateController extends Controller {
 
             if ($diff < (5 * 60)) {
                 $review = $lastReview;
-                $review->step_id = $word->step_id;
+                $word->step_id = $lastReview->step_id;
 
-                --$word->step_id;
                 if (true == $lastReview->remembered) {
                     --$word->success_reviews_count;
                 } else {
