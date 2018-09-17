@@ -18,6 +18,7 @@ export class PhrasebookPage implements OnInit {
   filters: any = {
     word: null,
     from_language_id: null,
+    today_review: true,
   };
 
   words:Array<any> = [];
