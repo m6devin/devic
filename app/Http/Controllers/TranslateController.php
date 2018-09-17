@@ -319,8 +319,10 @@ class TranslateController extends Controller {
         }
         if (true == $todayReview) {
             $qry = $qry->whereRaw('
-            words.step_id = 1 OR (SELECT DATE_ADD(words.last_review, INTERVAL (SELECT days from steps where words.step_id = steps.id) DAY) ) <= (SELECT DATE_ADD(?, INTERVAL 8 HOUR) )
-        ', new \DateTime());
+            words.step_id = 1 OR 
+            (SELECT DATE_ADD(words.last_review, INTERVAL (SELECT days from steps where words.step_id = steps.id) DAY) ) <= (SELECT DATE_ADD(?, INTERVAL 8 HOUR) ) OR
+            (words.last_review >=  DATE_ADD(?, INTERVAL -5 MINUTE) )
+        ', [new \DateTime(), new \DateTime()]);
         }
 
         $words = $qry->orderBy('total_reviews_count', 'ASC')->orderBy('fail_reviews_count', 'DESC')->paginate(30);
