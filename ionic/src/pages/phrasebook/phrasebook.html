@@ -24,7 +24,22 @@
       <ion-label>Today review</ion-label>
       <ion-checkbox color="primary" [(ngModel)]="filters.today_review" (ionChange)="doRefresh()"></ion-checkbox>
     </ion-item>
-    <ion-item *ngFor="let w of words" (click)="wordDetails(w)">{{w.word}}</ion-item>
+    <ion-item *ngFor="let w of words" (click)="wordDetails(w)">
+      {{w.word}}
+      <ion-badge id="step-badge" color="orange" item-end *ngIf="w.step_id != null">
+        {{w.step_id}}
+      </ion-badge>
+      <span item-end id="review-counter-badge">
+        <ion-badge color="secondary" id="badge-success" *ngIf="w.success_reviews_count != null">
+          {{w.success_reviews_count}}
+        </ion-badge>
+        <ion-badge color="danger" id="badge-fail" *ngIf="w.fail_reviews_count != null">
+          {{w.fail_reviews_count}}
+        </ion-badge>
+      </span>
+      <ion-badge color="danger" item-end *ngIf="w.step_id == null && w.archived  == false">New</ion-badge>
+      <ion-icon ios="ios-archive" md="md-archive" item-end color="danger" *ngIf="w.step_id == null && w.archived == true"></ion-icon>
+    </ion-item>
   </ion-list>
   <p padding ion-text class="danger" *ngIf="theEnd">No more data to show :)</p>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">

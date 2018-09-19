@@ -1,3 +1,15 @@
 page-phrasebook {
 
+  #review-counter-badge{
+    #badge-success{
+      border-top-right-radius: 0%;
+      border-bottom-right-radius: 0%;
+      margin-right: -2px;
+    }
+    #badge-fail{
+      border-top-left-radius: 0%;
+      border-bottom-left-radius: 0%;
+      margin-left: -2px;
+    }
+  }
 }
