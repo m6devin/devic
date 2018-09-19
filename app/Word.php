@@ -11,6 +11,10 @@ class Word extends Model {
         'language_id',
     ];
 
+    protected $casts = [
+        'archived' => 'boolean',
+    ];
+
     /**
      * Get all translations of word.
      *
