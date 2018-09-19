@@ -325,7 +325,7 @@ class TranslateController extends Controller {
         ', [new \DateTime(), new \DateTime()]);
         }
 
-        $words = $qry->orderBy('total_reviews_count', 'ASC')->orderBy('fail_reviews_count', 'DESC')->paginate(30);
+        $words = $qry->orderBy('step_id', 'ASC')->orderBy('id', 'ASC')->paginate(30);
 
         return response()->json($words);
     }
