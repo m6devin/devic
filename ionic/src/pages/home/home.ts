@@ -6,7 +6,8 @@ import { LoginPage } from '../login/login';
 
 import { UserService } from '../../app/services/user.service';
 import { LoadingService } from '../../app/services/loading.service';
-import { TranslationDashboardPage } from '../translation-dashboard/translation-dashboard';
+// import { TranslationDashboardPage } from '../translation-dashboard/translation-dashboard';
+import { PhrasebookPage } from '../phrasebook/phrasebook';
 
 @Component({
   selector: 'page-home',
@@ -29,11 +30,13 @@ export class HomePage implements OnInit {
     this.loading.show();
     this.userService.getAuthenticatedUser().subscribe(res => {
       this.loading.hide();
-      this.navCtrl.setRoot(TranslationDashboardPage);
+      this.navCtrl.setRoot(PhrasebookPage);
     } , err => {
       this.loading.hide();
       this.navCtrl.setRoot(LoginPage);
     });
   }
+
+
 
 }
