@@ -19,27 +19,42 @@
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  <ion-item>
+    <ion-label>Today review</ion-label>
+    <ion-checkbox color="primary" [(ngModel)]="filters.today_review" (ionChange)="doRefresh()"></ion-checkbox>
+  </ion-item>
   <ion-list>
-    <ion-item>
-      <ion-label>Today review</ion-label>
-      <ion-checkbox color="primary" [(ngModel)]="filters.today_review" (ionChange)="doRefresh()"></ion-checkbox>
-    </ion-item>
-    <ion-item *ngFor="let w of words" (click)="wordDetails(w)">
-      {{w.word}}
-      <ion-badge id="step-badge" color="orange" item-end *ngIf="w.step_id != null">
-        {{w.step_id}}
-      </ion-badge>
-      <span item-end id="review-counter-badge">
-        <ion-badge color="secondary" id="badge-success" *ngIf="w.success_reviews_count != null">
-          {{w.success_reviews_count}}
+    <ion-item-sliding *ngFor="let w of words">
+      <ion-item (click)="wordDetails(w)">
+        {{w.word}}
+        <ion-badge color="orange" item-end *ngIf="w.step_id != null">
+          {{w.step_id}}
         </ion-badge>
-        <ion-badge color="danger" id="badge-fail" *ngIf="w.fail_reviews_count != null">
-          {{w.fail_reviews_count}}
+        <ion-badge color="danger" item-end *ngIf="w.step_id == null && w.archived  == false">
+          N
         </ion-badge>
-      </span>
-      <ion-badge color="danger" item-end *ngIf="w.step_id == null && w.archived  == false">New</ion-badge>
-      <ion-icon ios="ios-archive" md="md-archive" item-end color="danger" *ngIf="w.step_id == null && w.archived == true"></ion-icon>
-    </ion-item>
+        <ion-badge color="primary" item-end *ngIf="w.step_id == null && w.archived == true">
+          A
+        </ion-badge>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="orange" item-end *ngIf="w.step_id != null">
+          Step: {{w.step_id}}
+        </button>
+        <button ion-button color="danger" item-end *ngIf="w.step_id == null && w.archived  == false">
+          New
+        </button>
+        <button ion-button color="primary" item-end *ngIf="w.step_id == null && w.archived  == true">
+          Archived
+        </button>
+        <button ion-button color="secondary" id="badge-success" *ngIf="w.success_reviews_count != null">
+          Success: {{w.success_reviews_count}}
+        </button>
+        <button ion-button color="danger" id="badge-fail" *ngIf="w.fail_reviews_count != null">
+          Fail: {{w.fail_reviews_count}}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
   <p padding ion-text class="danger" *ngIf="theEnd">No more data to show :)</p>
   <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
