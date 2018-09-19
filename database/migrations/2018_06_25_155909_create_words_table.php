@@ -13,12 +13,13 @@ class CreateWordsTable extends Migration {
             $table->increments('id');
             $table->string('word', 512)->index();
             $table->integer('language_id')->unsigned();
-            $table->integer('step_id')->unsigned();
+            $table->integer('step_id')->unsigned()->nullable();
             $table->integer('created_by_id')->unsigned()->nullable();
             $table->integer('success_reviews_count')->default(0);
             $table->integer('fail_reviews_count')->default(0);
             $table->integer('total_reviews_count')->default(0);
             $table->datetime('last_review')->nullable();
+            $table->boolean('archived')->default(false);
             $table->timestamps();
 
             $table->unique(['word', 'language_id', 'created_by_id']);
