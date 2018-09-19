@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Language;
 use App\PartOfSpeech;
 use App\Review;
+use App\Step;
 use App\Translation;
 use App\Word;
 use Auth;
@@ -320,7 +321,7 @@ class TranslateController extends Controller {
         }
         if (true == $todayReview) {
             $qry = $qry->whereRaw('
-            words.step_id = 1 OR 
+            (words.step_id IS NULL and words.archived = 0) OR 
             (SELECT DATE_ADD(words.last_review, INTERVAL (SELECT days from steps where words.step_id = steps.id) DAY) ) <= (SELECT DATE_ADD(?, INTERVAL 8 HOUR) ) OR
             (words.last_review >=  DATE_ADD(?, INTERVAL -5 MINUTE) )
         ', [new \DateTime(), new \DateTime()]);
@@ -387,6 +388,28 @@ class TranslateController extends Controller {
             if (true == boolval($r->input('remembered'))) {
                 return $this->quickResponse('This word is archived!', 422);
             } else {
+                $lastReview = $word->reviews()->orderBy('id', 'desc')->first();
+                if (! $lastReview) {
+                    $word->step_id = null;
+                    $word->save();
+                    goto a;
+                }
+
+                // Check for updating review
+                $lastReviewTimestamp = (new \DateTime($lastReview->created_at))->getTimestamp();
+                $diff = $now->getTimestamp() - $lastReviewTimestamp;
+
+                if ($diff < (5 * 60)) {
+                    $review = $lastReview;
+                    if (true == $lastReview->remembered) {
+                        --$word->success_reviews_count;
+                    } else {
+                        --$word->fail_reviews_count;
+                    }
+                    $word->archived = false;
+                    $word->save();
+                    goto b;
+                }
                 $review = new Review();
                 $review->step_id = $word->step_id;
                 goto b;
@@ -399,7 +422,7 @@ class TranslateController extends Controller {
         } else {
             $lastReview = $word->reviews()->orderBy('id', 'desc')->first();
             if (! $lastReview) {
-                $word->step_id = 1;
+                $word->step_id = null;
                 $word->save();
                 goto a;
             }
@@ -449,12 +472,21 @@ class TranslateController extends Controller {
             ++$word->fail_reviews_count;
             $word->step_id = 1; // 24 hour review
         }
+
+        $maxStepID = Step::max('id');
+        if ($maxStepID == ($word->step_id - 1) /*word is in its last step and must be archived*/) {
+            $word->step_id = null;
+            $word->archived = true;
+        }
         $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
 
         $review->word_id = $word->id;
         $review->remembered = boolval($r->input('remembered'));
         $review->created_at = $now;
+        if (($review->step_id - 1) == $maxStepID) {
+            $review->step_id = null;
+        }
         $review->save();
 
         return $this->wordDetails($r, $word->id);
