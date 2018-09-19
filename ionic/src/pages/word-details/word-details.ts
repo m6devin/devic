@@ -136,7 +136,7 @@ export class WordDetailsPage implements OnInit {
   }
 
   get canReview() {
-    if (1 == this.word.step_id || !this.word.step) {
+    if (null == this.word.step_id) {
 
       return true;
     }
