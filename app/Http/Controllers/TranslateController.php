@@ -159,7 +159,8 @@ class TranslateController extends Controller {
             $dbWord = new Word();
 
             // set as new word
-            $dbWord->step_id = 1;
+            $dbWord->step_id = null;
+            $dbWord->archived = false;
         }
 
         $dbWord->word = $word;
@@ -382,7 +383,7 @@ class TranslateController extends Controller {
         a:
         $now = new \DateTime();
         $step = $word->step;
-        if (7 == $word->step_id /* Archived word*/) {
+        if (null == $word->step_id && true == $word->archived/* Archived word*/) {
             if (true == boolval($r->input('remembered'))) {
                 return $this->quickResponse('This word is archived!', 422);
             } else {
@@ -392,7 +393,7 @@ class TranslateController extends Controller {
             }
         }
 
-        if (1 == $word->step_id || ! $step /* word is on 'new word' mode and can be reviewed*/) {
+        if (null == $word->step_id && false == $word->archived /* word is on 'new word' mode and can be reviewed*/) {
             $review = new Review();
             $review->step_id = $word->step_id;
         } else {
@@ -446,7 +447,7 @@ class TranslateController extends Controller {
             ++$word->step_id;
         } else {
             ++$word->fail_reviews_count;
-            $word->step_id = 2; // 24 hour review
+            $word->step_id = 1; // 24 hour review
         }
         $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
