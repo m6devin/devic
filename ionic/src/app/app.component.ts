@@ -63,6 +63,7 @@ export class MyApp {
 
   logout() {
     localStorage.removeItem('api_token');
+    localStorage.removeItem('user');
     this.nav.setRoot(LoginPage);
   }
 
