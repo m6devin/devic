@@ -40,7 +40,9 @@ export class PhrasebookPage implements OnInit {
     public events: Events) {
 
       this.events.subscribe('word:next', index => {
-        if (index == this.words.length && this.theEnd == false) {
+        if (index == (this.words.length - 1) && this.theEnd == false) {
+          console.log(index);
+
           this.loadNextPage(() => {
             let w = this.words[index+1];
             if (w === undefined) {
@@ -127,6 +129,12 @@ export class PhrasebookPage implements OnInit {
         this.refresher.complete()
       }
       this.loading.hide();
+
+      this.theEnd = false;
+      if (onSuccess) {
+        onSuccess();
+      }
+
     }, err => {
       if (this.infiniteScroll) {
         this.infiniteScroll.complete();
