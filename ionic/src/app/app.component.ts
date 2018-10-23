@@ -47,6 +47,20 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
+  get userInfo() {
+    let user: any = localStorage.getItem('user');
+    if (user === undefined ) {
+      return '';
+    }
+
+    user = JSON.parse(user);
+    if (user === null) {
+      return;
+    }
+
+    return user.name ? user.name : user.email;
+  }
+
   logout() {
     localStorage.removeItem('api_token');
     this.nav.setRoot(LoginPage);

@@ -31,6 +31,7 @@ export class HomePage implements OnInit {
     this.userService.getAuthenticatedUser().subscribe(res => {
       this.loading.hide();
       this.navCtrl.setRoot(PhrasebookPage);
+      localStorage.setItem('user', JSON.stringify(res));
     } , err => {
       this.loading.hide();
       this.navCtrl.setRoot(LoginPage);
