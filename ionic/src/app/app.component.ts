@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { TranslationDashboardPage } from '../pages/translation-dashboard/translation-dashboard';
 import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
 import { ConfigPage } from '../pages/config/config';
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,9 +16,9 @@ export class MyApp {
   @ViewChild(Nav) nav:Nav;
 
   pages = [
-    { label: 'Translation', component: TranslationDashboardPage },
-    { label: 'Phrasebook', component: PhrasebookPage },
-    { label: 'Config', component: ConfigPage },
+    { label: 'Translation', component: TranslationDashboardPage, icon: 'git-compare' },
+    { label: 'Phrasebook', component: PhrasebookPage, icon: 'book'},
+    { label: 'Config', component: ConfigPage, icon: 'settings' },
   ];
 
   rootPage: any = HomePage;
@@ -44,6 +45,11 @@ export class MyApp {
 
   openPage(page) {
     this.nav.setRoot(page.component);
+  }
+
+  logout() {
+    localStorage.removeItem('api_token');
+    this.nav.setRoot(LoginPage);
   }
 
   // private setupBackButtonBehavior() {
