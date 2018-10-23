@@ -27,6 +27,9 @@
     <ion-item-sliding *ngFor="let w of words">
       <ion-item (click)="wordDetails(w)">
         {{w.word}}
+        <ion-badge item-end *ngIf="recentlyReviewd(w)">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+        </ion-badge>
         <ion-badge color="orange" item-end *ngIf="w.step_id != null">
           {{w.step_id}}
         </ion-badge>

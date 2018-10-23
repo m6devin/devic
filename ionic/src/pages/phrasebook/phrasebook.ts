@@ -5,7 +5,7 @@ import { ErrorHandlerService } from '../../app/services/error-handler.service';
 import { LoadingService } from '../../app/services/loading.service';
 import { WordDetailsPage } from '../word-details/word-details';
 import { TranslationService } from '../../app/services/translation.service';
-
+import * as moment from 'moment';
 
 
 @IonicPage()
@@ -187,6 +187,20 @@ export class PhrasebookPage implements OnInit {
       word: word,
       basicInfo: this.basicInfo
     });
+  }
+
+  recentlyReviewd(word: any): boolean {
+    if(word.reviews == undefined || word.reviews == null || word.reviews.length == 0) {
+      return false;
+    }
+    const createdAt = word.reviews[0].created_at;
+    const diff = moment().diff(createdAt);
+
+    if ((diff/1000) < (5 * 60)) {
+      return true;
+    }
+
+    return false;
   }
 
 }
