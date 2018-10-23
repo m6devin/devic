@@ -320,11 +320,11 @@ class TranslateController extends Controller {
             $qry = $qry->where('word', 'LIKE', "%{$word}%");
         }
         if (true == $todayReview) {
-            $qry = $qry->whereRaw('
+            $qry = $qry->whereRaw('(
             (words.step_id IS NULL and words.archived = 0) OR 
             (SELECT DATE_ADD(words.last_review, INTERVAL (SELECT days from steps where words.step_id = steps.id) DAY) ) <= (SELECT DATE_ADD(?, INTERVAL 8 HOUR) ) OR
             (words.last_review >=  DATE_ADD(?, INTERVAL -5 MINUTE) )
-        ', [new \DateTime(), new \DateTime()]);
+            )', [new \DateTime(), new \DateTime()]);
         }
 
         $words = $qry->orderBy('step_id', 'DES')->orderBy('id', 'ASC')->paginate(30);
