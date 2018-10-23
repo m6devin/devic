@@ -81,6 +81,10 @@ export class PhrasebookPage implements OnInit {
         }
         this.wordDetails(w)
       });
+
+      this.events.subscribe('word:update', (index, updatedWord) => {
+        this.words[index] = updatedWord;
+      });
   }
 
   ngOnInit() {

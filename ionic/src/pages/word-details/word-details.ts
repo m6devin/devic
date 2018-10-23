@@ -121,6 +121,7 @@ export class WordDetailsPage implements OnInit {
     this.translationService.setReview(this.word.id, status).subscribe(res => {
       res['index'] = this.word.index;
       this.word = res;
+      this.events.publish('word:update', this.word.index, this.word);
       this.loading.hide();
       this.toastCtrl.create({
         message: "Done!",
