@@ -4,6 +4,7 @@ build_browser:
 
 build_android:
 	ionic cordova build android --prod
+	cp ./platforms/android/app/build/outputs/apk/debug/app-debug.apk ../public/devict.apk
 
 run_browser:
 	ionic serve
