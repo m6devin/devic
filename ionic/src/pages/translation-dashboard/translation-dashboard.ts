@@ -9,6 +9,7 @@ import { ErrorHandlerService } from '../../app/services/error-handler.service';
 import { WordSavePage } from '../word-save/word-save';
 import * as _ from 'lodash';
 import { TranslationSavePage } from '../translation-save/translation-save';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 
 @IonicPage({ segment: 'translation' })
 @Component({
@@ -43,7 +44,8 @@ export class TranslationDashboardPage implements OnInit {
     public loading: LoadingService,
     public toastCtrl: ToastController,
     public errorHandler: ErrorHandlerService,
-    public events: Events) {
+    public events: Events,
+    public tts: TextToSpeech) {
 
     this.menu.enable(true);
     this.events.subscribe('word:save', word => {
@@ -289,5 +291,14 @@ export class TranslationDashboardPage implements OnInit {
    */
   copyToClipboard() {
     this.translationService.copyToClipboard('the_word');
+  }
+
+  speak(text: string) {
+    this.tts.speak(text).then(ok => { }, err => {
+      this.toastCtrl.create({
+        message: 'TTS not supported!'
+      }).present();
+    });
+
   }
 }

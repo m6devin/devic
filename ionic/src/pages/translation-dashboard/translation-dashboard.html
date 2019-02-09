@@ -53,10 +53,15 @@
   </form>
   <ion-card padding *ngIf="hasAnyTranslation == 2 || hasAnyTranslation == 1 ">
     <div>
+      <i id="the_word" class="selectable" (click)="speak(translation.word)">{{translation.word}}</i>
+    </div>
+    <div>
+      <button ion-button clear start (click)="speak(translation.word)">
+        <ion-icon name="volume-up"></ion-icon>
+      </button>&nbsp;
       <button ion-button clear type="button" item-left (click)="copyToClipboard()">
         <ion-icon name="copy"></ion-icon>
       </button>
-      <i id="the_word" class="selectable">{{translation.word}}</i>
     </div>
     <br>
     <button *ngIf="hasAnyTranslation == 2" ion-button (click)="saveWord()">Add to pharasebook</button>
@@ -80,17 +85,17 @@
       </ion-card-header>
       <ion-item>
         <label for="">Meaning:</label>
-        <p dir="{{tr.language.dir}}">{{tr.translation}}</p>
+        <p dir="{{tr.language.dir}}" class="normal-p">{{tr.translation}}</p>
         <hr>
       </ion-item>
       <ion-item *ngIf="tr.definition">
         <label for="">Definition: </label>
-        <p dir="{{translatedWord.language.dir}}">{{tr.definition}}</p>
+        <p dir="{{translatedWord.language.dir}}" class="normal-p">{{tr.definition}}</p>
         <hr>
       </ion-item>
       <ion-item *ngIf="tr.example">
         <label for="">Example:</label>
-        <p dir="{{translatedWord.language.dir}}">{{tr.example}}</p>
+        <p dir="{{translatedWord.language.dir}}" class="normal-p">{{tr.example}}</p>
       </ion-item>
     </ion-card>
   </ion-list>

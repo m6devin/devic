@@ -7,6 +7,7 @@ import { LoadingService } from '../../app/services/loading.service';
 import { Clipboard } from '@ionic-native/clipboard';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
 import * as moment from "moment";
+import { WordSavePage } from '../word-save/word-save';
 
 @IonicPage()
 @Component({
@@ -61,6 +62,13 @@ export class WordDetailsPage implements OnInit {
       word: this.word,
       basicInfo: this.basicInfo,
     });
+  }
+
+  editWord() {
+    this.navCtrl.push(WordSavePage, {
+      word: this.word,
+      basicInfo: this.basicInfo,
+    })
   }
 
   /**
