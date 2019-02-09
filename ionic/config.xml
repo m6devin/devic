@@ -3,7 +3,7 @@
     <name>Devict</name>
     <description>Your personal phrasebook.</description>
     <author email="gholami.mohammad.mgh@gmail.com" href="http://m6d.ir/">Mohammad Gholami</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.8.100:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
