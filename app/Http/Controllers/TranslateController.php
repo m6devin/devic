@@ -12,7 +12,8 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 
-class TranslateController extends Controller {
+class TranslateController extends Controller
+{
     /**
      * Show all translations of word.
      *
@@ -20,8 +21,9 @@ class TranslateController extends Controller {
      *
      * @return Response
      */
-    public function translate(Request $r) {
-        $word = $r->input('q', null);
+    public function translate(Request $r)
+    {
+        $word = strtolower($r->input('q', null));
         $from = $r->input('from', null);
         $to = $r->input('to', null);
         $dbWord = null;
@@ -64,14 +66,15 @@ class TranslateController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function translateAPI(Request $r) {
+    public function translateAPI(Request $r)
+    {
         $this->validate($r, [
             'word' => 'required',
             'from_language' => 'required',
             'to_language' => 'required',
         ]);
 
-        $word = $r->input('word', null);
+        $word = strtolower($r->input('word', null));
         $from = $r->input('from_language', null);
         $to = $r->input('to_language', null);
         $dbWord = null;
@@ -109,14 +112,15 @@ class TranslateController extends Controller {
      *
      * @return Response
      */
-    public function saveWord(Request $r) {
+    public function saveWord(Request $r)
+    {
         $this->validate($r, [
             'word' => 'required',
             'language_alph2code' => 'required',
         ], []);
 
         $id = $r->input('id', null);
-        $word = $r->input('word', null);
+        $word = strtolower($r->input('word', null));
         $from = $r->input('language_alph2code', null);
         $fromLang = Language::where('alpha2code', $from)->first();
 
@@ -194,7 +198,8 @@ class TranslateController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function saveTranslation(Request $r) {
+    public function saveTranslation(Request $r)
+    {
         $this->validate($r, [
             'word_id' => 'required',
             'from_language_id' => 'required',
@@ -263,7 +268,8 @@ class TranslateController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function phrasebook(Request $r) {
+    public function phrasebook(Request $r)
+    {
         $user = Auth::user();
         $langs = Language::get();
         $fromLang = null;
@@ -296,7 +302,8 @@ class TranslateController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function phrasebookAPI(Request $r) {
+    public function phrasebookAPI(Request $r)
+    {
         $user = Auth::user();
 
         $filters = json_decode($r->input('filters', []), true);
@@ -340,7 +347,8 @@ class TranslateController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function wordDetails(Request $r, $id) {
+    public function wordDetails(Request $r, $id)
+    {
         $word = Word::with([
             'language',
             'translations',
@@ -361,7 +369,8 @@ class TranslateController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function basicInfo() {
+    public function basicInfo()
+    {
         return response()->json([
             'langs' => Language::get(),
             'partsOfSpeech' => PartOfSpeech::get(),
@@ -376,7 +385,8 @@ class TranslateController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function setWordReview(Request $r, Word $word) {
+    public function setWordReview(Request $r, Word $word)
+    {
         $user = Auth::user();
         if ($user->id != $word->created_by_id) {
             return $this->quickResponse('Word not found!', 404);
@@ -450,9 +460,11 @@ class TranslateController extends Controller {
             // next review can be done 8 hours before the exact time
             $minReviewAvailable = $nextReview - (8 * 60 * 60);
             if ($minReviewAvailable >= $now->getTimestamp()) {
-                $msg = sprintf('Your last review was at %s and next reviwe will be available at %s.',
+                $msg = sprintf(
+                    'Your last review was at %s and next reviwe will be available at %s.',
                 $lastReview->created_at->format('Y-m-d H:i:s'),
-                date('Y-m-d H:i:s', $minReviewAvailable));
+                date('Y-m-d H:i:s', $minReviewAvailable)
+                );
 
                 return $this->quickResponse($msg, 422);
             }
