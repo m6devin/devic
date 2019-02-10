@@ -255,10 +255,12 @@ class TranslateController extends Controller
         $trans->created_by_id = Auth::user()->id;
 
         $dbWord->translations()->save($trans);
+        $trans->language;
+        $trans->partOfSpeech;
 
         DB::commit();
 
-        return response($trans::with(['language', 'partOfSpeech'])->first(), 200);
+        return response($trans, 200);
     }
 
     /**
