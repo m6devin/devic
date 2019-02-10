@@ -18,6 +18,9 @@ import { WordSavePage } from '../word-save/word-save';
 export class WordDetailsPage implements OnInit {
   word: any = null;
   basicInfo: any = {};
+  exampleIsPlaying = false;
+  definitionIsPlaying = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public translationService: TranslationService,
     public events: Events,
@@ -115,13 +118,53 @@ export class WordDetailsPage implements OnInit {
     this.translationService.copyToClipboard('the_word');
   }
 
-  speak(text: string) {
-    this.tts.speak(text).then(ok => { }, err => {
+  speak(text: string, player?: string) {
+    this.stopAllPlayers();
+    this.toggleMediaButtons(true, player);
+    this.tts.speak(text).then(ok => {
+      this.toggleMediaButtons(false, player);
+     }, err => {
+      this.toggleMediaButtons(false, player);
       this.toastCtrl.create({
-        message: 'TTS not supported!'
+        message: 'TTS not supported!',
+        duration: 2000,
       }).present();
     });
 
+  }
+
+  stopSpeaking(player?: string) {
+    this.tts.speak(' ').then(ok => {
+      this.toggleMediaButtons(false, player);
+    }, err => {
+    });
+  }
+
+  toggleMediaButtons(isPlaying: boolean, player?: string) {
+    if (! player) {
+      this.exampleIsPlaying = isPlaying;
+      this.definitionIsPlaying = isPlaying;
+      return;
+    }
+
+    switch(player) {
+      case 'example' : {
+        this.exampleIsPlaying = isPlaying;
+        break;
+      }
+      case 'definition' : {
+        this.definitionIsPlaying = isPlaying;
+        break;
+      }
+    }
+  }
+
+  stopAllPlayers() {
+    this.exampleIsPlaying = false;
+    this.definitionIsPlaying = false;
+    this.tts.speak(' ').then(ok => {
+    }, err => {
+    });
   }
 
   setReview(status: boolean) {
