@@ -41,6 +41,9 @@ export class TranslationSavePage {
     if (trs != null) {
       this.translation = trs;
       this.translation.to_language_id = trs.language_id;
+    } else {
+      // set Persian as default
+      this.translation.to_language_id = this.basicInfo.langs[0].id;
     }
 
     this.translation.word_id = this.word.id;
