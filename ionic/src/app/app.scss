@@ -17,7 +17,7 @@ ion-slide {
 }
 
 .selectable{
-  -webkit-user-select: auto;
+  -webkit-user-select: text;
 }
 
 .normal-p{
@@ -37,4 +37,8 @@ ion-slide {
   h4 {
     margin-top: 0 !important;
   }
+}
+
+.normal-text{
+  text-transform: unset !important;
 }
