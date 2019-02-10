@@ -10,6 +10,7 @@ import { WordSavePage } from '../word-save/word-save';
 import * as _ from 'lodash';
 import { TranslationSavePage } from '../translation-save/translation-save';
 import { TextToSpeech } from '@ionic-native/text-to-speech';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @IonicPage({ segment: 'translation' })
 @Component({
@@ -45,7 +46,8 @@ export class TranslationDashboardPage implements OnInit {
     public toastCtrl: ToastController,
     public errorHandler: ErrorHandlerService,
     public events: Events,
-    public tts: TextToSpeech) {
+    public tts: TextToSpeech,
+    public sanitizer: DomSanitizer) {
 
     this.menu.enable(true);
     this.events.subscribe('word:save', word => {
@@ -300,5 +302,9 @@ export class TranslationDashboardPage implements OnInit {
       }).present();
     });
 
+  }
+
+  callGoogleTranslate(text: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('https://translate.google.com?#en/fa/' + text)
   }
 }
