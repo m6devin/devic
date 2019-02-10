@@ -27,6 +27,8 @@
           {{word.word}}
         </h4>
         <button ion-button clear (click)="editWord()">Edit</button>
+        &nbsp;&nbsp;&nbsp;
+        <a ion-button clear (click)="translationSave()">Add translation</a>
         <ion-fab right *ngIf="canReview">
           <button ion-fab color="primary" (click)="setReview(true)">
             <ion-icon name="thumbs-up"></ion-icon>

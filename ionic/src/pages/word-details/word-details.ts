@@ -41,6 +41,7 @@ export class WordDetailsPage implements OnInit {
       })
 
       if (i == -1) {
+        this.word.translations.push(translation);
         return;
       }
 
@@ -215,5 +216,7 @@ export class WordDetailsPage implements OnInit {
     return true;
 
   }
+
+
 
 }
