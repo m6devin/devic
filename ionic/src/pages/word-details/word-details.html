@@ -58,12 +58,12 @@
         </ion-item>
         <ion-item *ngIf="tr.definition">
           <label for="">Definition: </label>
-          <p dir="{{word.language.dir}}" class="normal-p">{{tr.definition}}</p>
+          <p dir="{{word.language.dir}}" class="normal-p" (click)="speak(tr.definition)">{{tr.definition}}</p>
           <hr>
         </ion-item>
         <ion-item *ngIf="tr.example">
           <label for="">Example:</label>
-          <p dir="{{word.language.dir}}" class="normal-p">{{tr.example}}</p>
+          <p dir="{{word.language.dir}}" class="normal-p" (click)="speak(tr.example)">{{tr.example}}</p>
         </ion-item>
       </ion-card>
       <ion-card *ngIf="word.reviews && word.reviews.length > 0">
