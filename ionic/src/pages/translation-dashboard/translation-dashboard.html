@@ -51,7 +51,7 @@
       </ion-grid>
     </ion-list>
   </form>
-  <ion-card padding *ngIf="hasAnyTranslation == 2 || hasAnyTranslation == 1 ">
+  <ion-card padding *ngIf="translation.word">
     <div>
       <p id="the_word" class="selectable normal-p" (click)="speak(translation.word)">{{translation.word}}</p>
     </div>
