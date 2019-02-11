@@ -42,8 +42,8 @@
         <ion-col col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12>
           <ion-item>
             <ion-label stacked>Translation</ion-label>
-            <ion-input name="translation" [(ngModel)]="translation.translation">
-            </ion-input>
+            <ion-textarea dir="rtl" name="translation" [(ngModel)]="translation.translation">
+            </ion-textarea>
           </ion-item>
           <p ion-text color="danger" padding *ngIf="errors.translation && errors.translation.length > 0">{{errors.translation[0]}}</p>
         </ion-col>
