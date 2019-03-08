@@ -125,11 +125,9 @@ export class WordDetailsPage implements OnInit {
     this.tts.speak(text).then(ok => {
       this.toggleMediaButtons(false, player);
      }, err => {
+       var msg = new SpeechSynthesisUtterance(text);
+       window.speechSynthesis.speak(msg);
       this.toggleMediaButtons(false, player);
-      this.toastCtrl.create({
-        message: 'TTS not supported!',
-        duration: 2000,
-      }).present();
     });
 
   }
@@ -138,6 +136,8 @@ export class WordDetailsPage implements OnInit {
     this.tts.speak(' ').then(ok => {
       this.toggleMediaButtons(false, player);
     }, err => {
+      var msg = new SpeechSynthesisUtterance(' ');
+       window.speechSynthesis.speak(msg);
     });
   }
 
@@ -165,6 +165,8 @@ export class WordDetailsPage implements OnInit {
     this.definitionIsPlaying = false;
     this.tts.speak(' ').then(ok => {
     }, err => {
+      var msg = new SpeechSynthesisUtterance(' ');
+       window.speechSynthesis.speak(msg);
     });
   }
 

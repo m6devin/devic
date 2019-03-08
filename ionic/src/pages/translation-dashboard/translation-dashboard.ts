@@ -297,10 +297,8 @@ export class TranslationDashboardPage implements OnInit {
 
   speak(text: string) {
     this.tts.speak(text).then(ok => { }, err => {
-      this.toastCtrl.create({
-        message: 'TTS not supported!',
-        duration: 2000,
-      }).present();
+      var msg = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(msg);
     });
 
   }
