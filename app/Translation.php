@@ -25,6 +25,11 @@ class Translation extends Model
         return $this->belongsTo(Word::class, "word_id");
     }
 
+    public function wordItem()
+    {
+        return $this->belongsTo(Word::class, "word_id");
+    }
+
     /**
      * Relation to PartOfSpeech model
      *
@@ -53,5 +58,10 @@ class Translation extends Model
     public function language()
     {
         return $this->belongsTo(Language::class, 'language_alpha2code', 'alpha2code');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'item_id')->where('review_type', 't')->orderBy('id', 'desc');
     }
 }
