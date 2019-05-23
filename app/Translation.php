@@ -20,17 +20,19 @@ class Translation extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function word() {
+    public function word()
+    {
         return $this->belongsTo(Word::class, "word_id");
-    }    
+    }
 
     /**
      * Relation to PartOfSpeech model
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function partOfSpeech() {
-        return $this->belongsTo(PartOfSpeech::class, "part_of_speech_id");
+    public function partOfSpeech()
+    {
+        return $this->belongsTo(PartOfSpeech::class, "part_of_speech_name", 'name');
     }
 
     /**
@@ -38,7 +40,8 @@ class Translation extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo(User::class, "created_by_id");
     }
 
@@ -47,9 +50,8 @@ class Translation extends Model
      *
      * @return Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function language() {
-        return $this->belongsTo(Language::class, "language_id");
+    public function language()
+    {
+        return $this->belongsTo(Language::class, 'language_alpha2code', 'alpha2code');
     }
-
-
 }
