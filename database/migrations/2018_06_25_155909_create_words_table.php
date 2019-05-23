@@ -13,8 +13,8 @@ class CreateWordsTable extends Migration {
             $table->increments('id');
             $table->string('word', 512)->index();
             $table->string('language_alpha2code', 2);
-            $table->integer('step_id')->unsigned()->nullable();
             $table->integer('created_by_id')->unsigned()->nullable();
+            $table->integer('step_id')->unsigned()->nullable();
             $table->integer('success_reviews_count')->default(0);
             $table->integer('fail_reviews_count')->default(0);
             $table->integer('total_reviews_count')->default(0);
