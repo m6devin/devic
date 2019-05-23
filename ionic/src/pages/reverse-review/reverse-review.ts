@@ -82,7 +82,7 @@ export class ReverseReviewPage {
       this.wordDetails(w)
     });
 
-    this.events.subscribe('word:update', (index, updatedWord) => {
+    this.events.subscribe('word:save', (index, updatedWord) => {
       this.words[index] = updatedWord;
     });
   }
@@ -116,7 +116,7 @@ export class ReverseReviewPage {
       }
       return;
     }
-    this.phrasebookService.search(this.nextPage, this.filters).subscribe(res => {
+    this.phrasebookService.reverseReviewIndex(this.nextPage, this.filters).subscribe(res => {
       this.currentPage = res.current_page;
       this.lastPage = res.last_page;
       // this.words = this.words.concat(res.data);
@@ -185,7 +185,8 @@ export class ReverseReviewPage {
   wordDetails(word: any) {
     this.navCtrl.push(WordDetailsPage, {
       word: word,
-      basicInfo: this.basicInfo
+      translationStyle: true,
+      basicInfo: this.basicInfo,
     });
   }
 

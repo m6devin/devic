@@ -20,6 +20,7 @@ export class WordDetailsPage implements OnInit {
   basicInfo: any = {};
   exampleIsPlaying = false;
   definitionIsPlaying = false;
+  translationStyle = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public translationService: TranslationService,
@@ -29,27 +30,42 @@ export class WordDetailsPage implements OnInit {
     public toastCtrl: ToastController,
     public tts: TextToSpeech) {
     this.word = this.navParams.get('word');
+    this.translationStyle = this.navParams.get('translationStyle');
     if (this.word == null) {
       this.navCtrl.pop();
     }
 
-    this.basicInfo = this.navParams.get('basicInfo');
+
 
     this.events.subscribe('translation:save', translation => {
-      let i = _.findIndex(this.word.translations, item => {
-        return item.id == translation.id;
-      })
+      if (this.translationStyle == true) {
+        console.log(translation);
 
-      if (i == -1) {
-        this.word.translations.push(translation);
-        return;
+      } else {
+        let i = _.findIndex(this.word.translations, item => {
+          return item.id == translation.id;
+        })
+
+        if (i == -1) {
+          this.word.translations.push(translation);
+          return;
+        }
+
+        this.word.translations[i] = translation;
       }
-
-      this.word.translations[i] = translation;
+    });
+    this.events.subscribe('word:save', word => {
+      if (this.translationStyle == true) {
+        this.word.word = word.word;
+        this.word.word_item = word;
+      } else {
+        this.word = word;
+      }
     });
   }
 
   ngOnInit() {
+    this.basicInfo = this.translationService.getOfflineBasicInfo();
   }
 
   ionViewDidLoad() {
@@ -61,16 +77,24 @@ export class WordDetailsPage implements OnInit {
    * If you want edit an existing translation, pass translation object with ID
    */
   translationSave(translation: any = null) {
-    this.navCtrl.push(TranslationSavePage, {
-      translation: translation,
-      word: this.word,
-      basicInfo: this.basicInfo,
-    });
+    if(this.translationStyle == true) {
+      this.navCtrl.push(TranslationSavePage, {
+        translation: translation,
+        word: this.word.word_item,
+        basicInfo: this.basicInfo,
+      });
+    } else {
+      this.navCtrl.push(TranslationSavePage, {
+        translation: translation,
+        word: this.word,
+        basicInfo: this.basicInfo,
+      });
+    }
   }
 
   editWord() {
     this.navCtrl.push(WordSavePage, {
-      word: this.word,
+      word: this.translationStyle ? this.word.word_item : this.word,
       basicInfo: this.basicInfo,
     })
   }

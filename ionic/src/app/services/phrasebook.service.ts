@@ -25,4 +25,15 @@ export class PhrasebookService{
 
     return this.http.get<any>(this.cnf.getHost() + '/api/translation/phrasebook?page=' + page + '&filters=' + JSON.stringify(filters) + '&token=' + this.token);
   }
+
+  reverseReviewIndex(page:number, filters: any): Observable<any>{
+    if(filters == undefined || filters == null) {
+      filters = {};
+    }
+    if(!page || page <=0 ){
+      page = 1;
+    }
+
+    return this.http.get<any>(this.cnf.getHost() + '/api/translation/reverse_review?page=' + page + '&filters=' + JSON.stringify(filters) + '&token=' + this.token);
+  }
 }

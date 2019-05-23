@@ -25,8 +25,8 @@
   </ion-item>
   <ion-list>
     <ion-item-sliding *ngFor="let w of words">
-      <ion-item (click)="wordDetails(w)">
-        {{w.word}}
+      <ion-item (click)="wordDetails(w)" dir="rtl">
+        {{w.translation}}
         <ion-badge item-end *ngIf="recentlyReviewd(w)">
           <ion-icon name="checkmark-circle-outline"></ion-icon>
         </ion-badge>

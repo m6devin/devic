@@ -185,7 +185,8 @@ export class PhrasebookPage implements OnInit {
   wordDetails(word: any) {
     this.navCtrl.push(WordDetailsPage, {
       word: word,
-      basicInfo: this.basicInfo
+      basicInfo: this.basicInfo,
+      translationStyle: false,
     });
   }
 

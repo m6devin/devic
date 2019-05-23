@@ -81,4 +81,61 @@ export class TranslationService {
 
     return this.http.post(this.cnf.getHost() + '/api/translation/word/' + wordID + '/set_review?token=' + this.token, data);
   }
+
+  getOfflineBasicInfo() {
+    return {
+      'langs' : [
+        {
+          "id": 1,
+          "name": "Persian فارسی",
+          "alpha2code": "fa",
+          "dir": "rtl",
+        },
+        {
+          "id": 2,
+          "name": "English",
+          "alpha2code": "en",
+          "dir": "ltr",
+        }
+      ],
+      'partsOfSpeech': [
+        {
+          "id": 1,
+          "name": "noun",
+        },
+        {
+          "id": 2,
+          "name": "pronoun",
+        },
+        {
+          "id": 3,
+          "name": "verb",
+        },
+        {
+          "id": 4,
+          "name": "adjective",
+        },
+        {
+          "id": 5,
+          "name": "adverb",
+        },
+        {
+          "id": 6,
+          "name": "preposition",
+        },
+        {
+          "id": 7,
+          "name": "conjunction",
+        },
+        {
+          "id": 8,
+          "name": "interjection",
+        },
+        {
+          "id": 9,
+          "name": "phrase",
+        }
+      ],
+    };
+  }
 }
