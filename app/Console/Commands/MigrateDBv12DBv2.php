@@ -91,7 +91,7 @@ class MigrateDBv12DBv2 extends Command
             ->where('word_id', $w->id)
             ->get();
             foreach($reviews as $r) {
-                DB::insert('INSERT INTO `reviews`(`id`, `review_type`, `items_id`, `step_id`, `remembered`, `created_at`, `updated_at`) VALUES (?,?,?,?,?,?,?)', [
+                DB::insert('INSERT INTO `reviews`(`id`, `review_type`, `item_id`, `step_id`, `remembered`, `created_at`, `updated_at`) VALUES (?,?,?,?,?,?,?)', [
                     $r->id,
                     'w',
                     $r->word_id,
