@@ -195,23 +195,43 @@ export class WordDetailsPage implements OnInit {
   }
 
   setReview(status: boolean) {
-    this.loading.show();
-    this.translationService.setReview(this.word.id, status).subscribe(res => {
-      res['index'] = this.word.index;
-      this.word = res;
-      this.events.publish('word:update', this.word.index, this.word);
-      this.loading.hide();
-      this.toastCtrl.create({
-        message: "Done!",
-        duration: 2000,
-      }).present();
-    }, err => {
-      this.loading.hide();
-      this.toastCtrl.create({
-        message: err.error.message,
-        duration: 4000,
-      }).present();
-    });
+    if (this.translationStyle == true) {
+      this.loading.show();
+      this.translationService.setReviewForTranslation(this.word.id, status).subscribe(res => {
+        res['index'] = this.word.index;
+        this.word = res;
+        this.events.publish('word:update', this.word.index, this.word);
+        this.loading.hide();
+        this.toastCtrl.create({
+          message: "Done!",
+          duration: 2000,
+        }).present();
+      }, err => {
+        this.loading.hide();
+        this.toastCtrl.create({
+          message: err.error.message,
+          duration: 4000,
+        }).present();
+      });
+    } else {
+      this.loading.show();
+      this.translationService.setReview(this.word.id, status).subscribe(res => {
+        res['index'] = this.word.index;
+        this.word = res;
+        this.events.publish('word:update', this.word.index, this.word);
+        this.loading.hide();
+        this.toastCtrl.create({
+          message: "Done!",
+          duration: 2000,
+        }).present();
+      }, err => {
+        this.loading.hide();
+        this.toastCtrl.create({
+          message: err.error.message,
+          duration: 4000,
+        }).present();
+      });
+    }
   }
 
   get canReview() {

@@ -82,6 +82,14 @@ export class TranslationService {
     return this.http.post(this.cnf.getHost() + '/api/translation/word/' + wordID + '/set_review?token=' + this.token, data);
   }
 
+  setReviewForTranslation(translationID: number, status: boolean) {
+    const data = {
+      remembered: status,
+    };
+
+    return this.http.post(this.cnf.getHost() + '/api/translation/translation/' + translationID + '/set_review?token=' + this.token, data);
+  }
+
   getOfflineBasicInfo() {
     return {
       'langs' : [

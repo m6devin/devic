@@ -26,5 +26,6 @@ Route::group([
     Route::post('/save_translation', 'TranslateController@saveTranslation');
     Route::get('/phrasebook', 'TranslateController@phrasebookAPI');
     Route::post('/word/{word}/set_review', 'TranslateController@setWordReview');
+    Route::post('/translation/{translation}/set_review', 'ReverseReviewController@setReview');
     Route::get('/reverse_review', 'ReverseReviewController@wordsList');
 });
