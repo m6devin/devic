@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WordReview extends Model
+class Review extends Model
 {
     public function word() 
     {
