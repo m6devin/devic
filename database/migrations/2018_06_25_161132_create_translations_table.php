@@ -16,9 +16,9 @@ class CreateTranslationsTable extends Migration
         Schema::create('translations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer("word_id")->unsigned()->index();
-            $table->integer("part_of_speech_id")->unsigned()->nullable();
+            $table->string("part_of_speech_name", 30)->unsigned()->nullable();
+            $table->string('language_alpha2code', 2)->index();
             $table->integer("created_by_id")->unsigned()->nullable();
-            $table->integer("language_id")->unsigned()->index();
             $table->string("translation", 512);
             $table->text("definition")->nullable();
             $table->text("example")->nullable();
@@ -27,11 +27,11 @@ class CreateTranslationsTable extends Migration
             $table->foreign("word_id")
                 ->on("words")
                 ->references("id")
-                ->onDelete("RESTRICT")
+                ->onDelete("CASCADE")
                 ->onUpdate("CASCADE");
-            $table->foreign("part_of_speech_id")
+            $table->foreign("part_of_speech_name")
                 ->on("parts_of_speech")
-                ->references("id")
+                ->references("name")
                 ->onDelete("SET NULL")
                 ->onUpdate("CASCADE");
             $table->foreign("created_by_id")
@@ -39,9 +39,9 @@ class CreateTranslationsTable extends Migration
                 ->references("id")
                 ->onDelete("SET NULL")
                 ->onUpdate("CASCADE");
-            $table->foreign("language_id")
+            $table->foreign("language_alpha2code")
                 ->on("languages")
-                ->references("id")
+                ->references("alpha2code")
                 ->onDelete("RESTRICT")
                 ->onUpdate("CASCADE");
         });

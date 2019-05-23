@@ -21,6 +21,7 @@ class PartsOfSpeechSeeder extends Seeder
             "preposition",
             "conjunction",
             "interjection",
+            'phrase',
         ];
 
         foreach ($parts as $v) {

@@ -15,7 +15,7 @@ class CreatePartsOfSpeechTable extends Migration
     {
         Schema::create('parts_of_speech', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 30)->unique();
             $table->timestamps();
         });
     }

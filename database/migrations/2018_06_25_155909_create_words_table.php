@@ -12,7 +12,7 @@ class CreateWordsTable extends Migration {
         Schema::create('words', function (Blueprint $table) {
             $table->increments('id');
             $table->string('word', 512)->index();
-            $table->integer('language_id')->unsigned();
+            $table->string('language_alpha2code', 2);
             $table->integer('step_id')->unsigned()->nullable();
             $table->integer('created_by_id')->unsigned()->nullable();
             $table->integer('success_reviews_count')->default(0);
@@ -22,11 +22,11 @@ class CreateWordsTable extends Migration {
             $table->boolean('archived')->default(false);
             $table->timestamps();
 
-            $table->unique(['word', 'language_id', 'created_by_id']);
+            $table->unique(['word', 'language_alpha2code', 'created_by_id']);
 
-            $table->foreign('language_id')
+            $table->foreign('language_alpha2code')
                 ->on('languages')
-                ->references('id')
+                ->references('alpha2code')
                 ->onDelete('RESTRICT')
                 ->onUpdate('CASCADE');
 
@@ -39,7 +39,7 @@ class CreateWordsTable extends Migration {
             $table->foreign('created_by_id')
                 ->on('users')
                 ->references('id')
-                ->onDelete('SET NULL')
+                ->onDelete('CASCADE')
                 ->onUpdate('CASCADE');
         });
     }
