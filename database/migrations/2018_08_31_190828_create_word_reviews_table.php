@@ -4,12 +4,12 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReviewsTable extends Migration {
+class CreateWordReviewsTable extends Migration {
     /**
      * Run the migrations.
      */
     public function up() {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('word_reviews', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('word_id')->unsigned()->index();
             $table->integer('step_id')->unsigned()->nullable();
