@@ -254,7 +254,7 @@ class TranslateController extends Controller
             $qry = $qry->whereRaw('(
             (words.step_id IS NULL and words.archived = 0) OR 
             (SELECT DATE_ADD(words.last_review, INTERVAL (SELECT days from steps where words.step_id = steps.id) DAY) ) <= (SELECT DATE_ADD(?, INTERVAL 8 HOUR) ) OR
-            (words.last_review >=  DATE_ADD(?, INTERVAL -5 MINUTE) )
+            (words.last_review >=  DATE_ADD(?, INTERVAL -1 MINUTE) )
             )', [new \DateTime(), new \DateTime()]);
         }
 
@@ -334,7 +334,7 @@ class TranslateController extends Controller
                 $lastReviewTimestamp = (new \DateTime($lastReview->created_at))->getTimestamp();
                 $diff = $now->getTimestamp() - $lastReviewTimestamp;
 
-                if ($diff < (5 * 60)) {
+                if ($diff < (1 * 60)) {
                     $review = $lastReview;
                     if (true == $lastReview->remembered) {
                         --$word->success_reviews_count;
@@ -366,7 +366,7 @@ class TranslateController extends Controller
             $lastReviewTimestamp = (new \DateTime($lastReview->created_at))->getTimestamp();
             $diff = $now->getTimestamp() - $lastReviewTimestamp;
 
-            if ($diff < (5 * 60)) {
+            if ($diff < (1 * 60)) {
                 $review = $lastReview;
                 $word->step_id = $lastReview->step_id;
 

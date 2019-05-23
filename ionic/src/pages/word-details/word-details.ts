@@ -249,7 +249,7 @@ export class WordDetailsPage implements OnInit {
     const lastReviewTimestamp = moment(lastReview.created_at, "YYYY-MM-DD HH:mm:ss").unix();
     const diff = now - lastReviewTimestamp;
 
-    if (diff < (5 * 60)) {
+    if (diff < (1 * 60)) {
       return true;
     }
 

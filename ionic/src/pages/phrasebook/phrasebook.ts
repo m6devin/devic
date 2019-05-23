@@ -197,7 +197,7 @@ export class PhrasebookPage implements OnInit {
     const createdAt = word.reviews[0].created_at;
     const diff = moment().diff(createdAt);
 
-    if ((diff/1000) < (5 * 60)) {
+    if ((diff/1000) < (1 * 60)) {
       return true;
     }
 
