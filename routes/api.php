@@ -19,12 +19,12 @@ Route::get('/get_user', 'APIAuthController@getAuthUser');
 Route::get('/translation/basic_info', 'TranslateController@basicInfo');
 Route::group([
     'prefix' => 'translation',
-    'middleware' => 'jwt_auth', 
+    'middleware' => 'jwt_auth',
 ], function () {
     Route::get('/translate', 'TranslateController@translateAPI');
     Route::post('/save_word', 'TranslateController@saveWord');
     Route::post('/save_translation', 'TranslateController@saveTranslation');
     Route::get('/phrasebook', 'TranslateController@phrasebookAPI');
     Route::post('/word/{word}/set_review', 'TranslateController@setWordReview');
-
+    Route::get('/reverse_review', 'ReverseReviewController@wordsList');
 });
