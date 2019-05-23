@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    public function word() 
+    public function word()
     {
         return $this->belongsTo(Word::class);
     }

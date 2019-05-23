@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 
 class ReverseReviewController extends Controller
 {
-    public function wordsList ()
+    public function wordsList()
     {
-        
     }
 }

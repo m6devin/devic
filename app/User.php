@@ -28,7 +28,7 @@ class User extends Authenticatable implements JWTSubject
         'password', 'remember_token',
     ];
 
-        // Rest omitted for brevity
+    // Rest omitted for brevity
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

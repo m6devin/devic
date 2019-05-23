@@ -18,10 +18,10 @@ class Controller extends BaseController
      * @param int $statusCode
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function quickResponse($message, $statusCode = 200) {
+    protected function quickResponse($message, $statusCode = 200)
+    {
         return response()->json([
             'message' => $message,
         ], $statusCode);
     }
-
 }

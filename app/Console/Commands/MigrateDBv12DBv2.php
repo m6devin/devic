@@ -66,8 +66,8 @@ class MigrateDBv12DBv2 extends Command
             ->table('translations')
             ->where('word_id', $w->id)
             ->get();
-            foreach($translations as $t) {
-                if ( DB::table('translations')->find($t->id)) {
+            foreach ($translations as $t) {
+                if (DB::table('translations')->find($t->id)) {
                     continue;
                 }
                 $alpha = DB::table('languages')->where('id', $t->language_id)->first();
@@ -90,7 +90,7 @@ class MigrateDBv12DBv2 extends Command
             ->table('reviews')
             ->where('word_id', $w->id)
             ->get();
-            foreach($reviews as $r) {
+            foreach ($reviews as $r) {
                 DB::insert('INSERT INTO `reviews`(`id`, `review_type`, `item_id`, `step_id`, `remembered`, `created_at`, `updated_at`) VALUES (?,?,?,?,?,?,?)', [
                     $r->id,
                     'w',
@@ -102,6 +102,5 @@ class MigrateDBv12DBv2 extends Command
                 ]);
             }
         }
-
     }
 }

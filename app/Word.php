@@ -4,7 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Word extends Model {
+class Word extends Model
+{
     protected $fillable = [
         'word',
         'created_by_id',
@@ -20,22 +21,26 @@ class Word extends Model {
      *
      * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function translations() {
+    public function translations()
+    {
         return $this->hasMany(Translation::class, 'word_id');
     }
 
-    public function language() {
+    public function language()
+    {
         return $this->belongsTo(Language::class, 'language_alpha2code', 'alpha2code');
     }
 
-    public function reviews() {
+    public function reviews()
+    {
         return $this->hasMany(Review::class, 'item_id')->orderBy('id', 'desc');
     }
 
     /**
      * Get current step of Leitner review.
      */
-    public function step() {
+    public function step()
+    {
         return $this->belongsTo(Step::class);
     }
 }

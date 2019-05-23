@@ -8,12 +8,13 @@ use JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Hash;
 
-
-class APIAuthController extends Controller {
+class APIAuthController extends Controller
+{
     /**
      * Create a new AuthController instance.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth:api', ['except' => ['login', 'signup']]);
     }
 
@@ -23,7 +24,8 @@ class APIAuthController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAuthUser(Request $request) {
+    public function getAuthUser(Request $request)
+    {
         return response()->json($this->guard()->user());
     }
 
@@ -34,7 +36,8 @@ class APIAuthController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $credentials = $request->only('email', 'password');
 
         if ($token = JWTAuth::attempt($credentials)) {
@@ -49,7 +52,8 @@ class APIAuthController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout() {
+    public function logout()
+    {
         $this->guard()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
@@ -61,7 +65,8 @@ class APIAuthController extends Controller {
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function signup(Request $request) {
+    public function signup(Request $request)
+    {
         $this->validate($request, [
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
@@ -88,7 +93,8 @@ class APIAuthController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh() {
+    public function refresh()
+    {
         return $this->respondWithToken($this->guard()->refresh());
     }
 
@@ -99,7 +105,8 @@ class APIAuthController extends Controller {
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token) {
+    protected function respondWithToken($token)
+    {
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
@@ -112,7 +119,8 @@ class APIAuthController extends Controller {
      *
      * @return \Illuminate\Contracts\Auth\Guard
      */
-    public function guard() {
+    public function guard()
+    {
         return Auth::guard();
     }
 }
