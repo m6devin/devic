@@ -37,7 +37,7 @@ class TranslateController extends Controller
 
         $dbWord = Word::with(['language'])
         ->where('word', $word)
-        ->where('language_id', $from)
+        ->where('language_alpha2code', $from)
         ->where('created_by_id', Auth::user()->id)
         ->first();
 
@@ -51,7 +51,7 @@ class TranslateController extends Controller
             'language',
         ])
         ->where('word_id', $dbWord->id)
-        ->where('language_id', $to)
+        ->where('language_alpha2code', $to)
         ->where('created_by_id', Auth::user()->id)
         ->get();
 
@@ -96,7 +96,7 @@ class TranslateController extends Controller
             //check uniqueness
             $cnt = Word::where('word', $word)
                     ->where('created_by_id', Auth::user()->id)
-                    ->where('language_id', $fromLang->id)
+                    ->where('language_alpha2code', $fromLang->id)
                     ->where('id', '<>', $id)
                     ->count();
             if ($cnt >= 1) {
@@ -108,7 +108,7 @@ class TranslateController extends Controller
             //check uniqueness
             $cnt = Word::where('word', $word)
                     ->where('created_by_id', Auth::user()->id)
-                    ->where('language_id', $fromLang->id)
+                    ->where('language_alpha2code', $fromLang->alpha2code)
                     ->count();
             if ($cnt >= 1) {
                 return response(['message' => 'The given data was invalid.', 'errors' => [
@@ -124,7 +124,7 @@ class TranslateController extends Controller
         }
 
         $dbWord->word = $word;
-        $dbWord->language_id = $fromLang->id;
+        $dbWord->language_alpha2code = $fromLang->alpha2code;
         $dbWord->created_by_id = Auth::user()->id;
         $dbWord->save();
 
@@ -137,7 +137,7 @@ class TranslateController extends Controller
             'language',
         ])
         ->where('word_id', $dbWord->id)
-        ->where('language_id', $r->input('to_language_id'))
+        ->where('language_alpha2code', $r->input('language_alpha2code'))
         ->where('created_by_id', Auth::user()->id)
         ->get();
 
@@ -157,24 +157,24 @@ class TranslateController extends Controller
     {
         $this->validate($r, [
             'word_id' => 'required',
-            'from_language_id' => 'required',
-            'to_language_id' => 'required',
+            'from_language_alpha2code' => 'required',
+            'to_language_alpha2code' => 'required',
             'translation' => 'required',
         ], []);
 
         $wordID = $r->input('word_id');
-        $from = $r->input('from_language_id', null);
-        $to = $r->input('to_language_id', null);
+        $from = $r->input('from_language_alpha2code', null);
+        $to = $r->input('to_language_alpha2code', null);
         $dbWord = null;
-        $fromLang = Language::where('id', $from)->first();
-        $toLang = Language::where('id', $to)->first();
+        $fromLang = Language::where('alpha2code', $from)->first();
+        $toLang = Language::where('alpha2code', $to)->first();
 
         $errs = [];
         if (! $fromLang) {
-            $errs['from_language_id'] = ['Source language not selected.'];
+            $errs['language_alpha2code'] = ['Source language not selected.'];
         }
         if (! $toLang) {
-            $errs['to_language_id'] = ['Destination language not selected.'];
+            $errs['language_alpha2code'] = ['Destination language not selected.'];
         }
         if (count($errs)) {
             return response([
@@ -184,7 +184,7 @@ class TranslateController extends Controller
         }
         $dbWord = Word::where('id', $wordID)
         ->where('created_by_id', Auth::user()->id)
-        ->where('language_id', $fromLang->id)
+        ->where('language_alpha2code', $fromLang->alpha2code)
         ->first();
         if (! $dbWord) {
             return response('No word found :(', 404);
@@ -203,8 +203,8 @@ class TranslateController extends Controller
         }
 
         $trans->translation = $r->input('translation');
-        $trans->language_id = $toLang->id;
-        $trans->part_of_speech_id = $r->input('part_of_speech_id');
+        $trans->language_alpha2code = $toLang->alpha2code;
+        $trans->part_of_speech_name = $r->input('part_of_speech_name');
         $trans->definition = $r->input('definition');
         $trans->example = $r->input('example');
         $trans->created_by_id = Auth::user()->id;
@@ -245,7 +245,7 @@ class TranslateController extends Controller
         ])->where('created_by_id', $user->id);
 
         if ($from) {
-            $qry = $qry->where('language_id', $from);
+            $qry = $qry->where('language_alpha2code', $from);
         }
         if ($word) {
             $qry = $qry->where('word', 'LIKE', "%{$word}%");
@@ -311,6 +311,7 @@ class TranslateController extends Controller
      */
     public function setWordReview(Request $r, Word $word)
     {
+        DB::beginTransaction();
         $user = Auth::user();
         if ($user->id != $word->created_by_id) {
             return $this->quickResponse('Word not found!', 404);
@@ -417,14 +418,16 @@ class TranslateController extends Controller
         $word->total_reviews_count = $word->success_reviews_count + $word->fail_reviews_count;
         $word->save();
 
-        $review->word_id = $word->id;
+        $review->item_id = $word->id;
         $review->remembered = boolval($r->input('remembered'));
         $review->created_at = $now;
         if (($review->step_id - 1) == $maxStepID) {
             $review->step_id = null;
         }
+        $review->review_type = 'w';
         $review->save();
 
+        DB::commit();
         return $this->wordDetails($r, $word->id);
     }
 }
