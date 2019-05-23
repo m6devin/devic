@@ -33,7 +33,7 @@ class Word extends Model
 
     public function reviews()
     {
-        return $this->hasMany(Review::class, 'item_id')->orderBy('id', 'desc');
+        return $this->hasMany(Review::class, 'item_id')->where('review_type', 'w')->orderBy('id', 'desc');
     }
 
     /**
