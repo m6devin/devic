@@ -26,9 +26,7 @@ export class TranslationDashboardPage implements OnInit {
   translatedWord: any = null;
   translation: any = {
     from_language: null,
-    from_language_id: null,
     to_language: null,
-    to_language_id: null,
     word: null,
   };
   /**
@@ -52,7 +50,7 @@ export class TranslationDashboardPage implements OnInit {
     this.menu.enable(true);
     this.events.subscribe('word:save', word => {
       this.translation.word = word.word;
-      this.translation.from_language = word.language_id;
+      this.translation.from_language = word.language_alpha2code;
 
     });
     this.events.subscribe('translation:save', translation => {
@@ -182,13 +180,13 @@ export class TranslationDashboardPage implements OnInit {
 
     let word: any = {
       word: this.translation.word,
-      language_id: this.translation.from_language,
+      language_alpha2code: this.translation.from_language,
       language: _.find(this.basicInfo.langs, item => {
-        return item.id == this.translation.from_language;
+        return item.alpha2code == this.translation.from_language;
       }),
-      to_language_id: this.translation.to_language,
+      to_language_alpha2code: this.translation.to_language,
       to_language: _.find(this.basicInfo.langs, item => {
-        return item.id == this.translation.to_language;
+        return item.alpha2code == this.translation.to_language;
       }),
 
       id: this.translatedWord != null ? this.translatedWord.id : null,

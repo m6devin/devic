@@ -74,7 +74,7 @@ export class WordSavePage {
     };
 
     let lang: any =  _.find(this.basicInfo.langs, item => {
-      return item.id == this.word.language_id;
+      return item.alpha2code == this.word.language_alpha2code;
     })
 
     if (lang == undefined) {

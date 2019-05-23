@@ -17,7 +17,7 @@ import * as moment from 'moment';
 export class PhrasebookPage implements OnInit {
   filters: any = {
     word: null,
-    from_language_id: null,
+    from_language_alpha2code: null,
     today_review: true,
   };
 

@@ -40,14 +40,14 @@ export class TranslationSavePage {
 
     if (trs != null) {
       this.translation = trs;
-      this.translation.to_language_id = trs.language_id;
+      this.translation.to_language_alpha2code = trs.language_alpha2code;
     } else {
       // set Persian as default
-      this.translation.to_language_id = this.basicInfo.langs[0].id;
+      this.translation.to_language_alpha2code = this.basicInfo.langs[0].alpha2code;
     }
 
     this.translation.word_id = this.word.id;
-    this.translation.from_language_id = this.word.language_id;
+    this.translation.from_language_alpha2code = this.word.language_alpha2code;
   }
 
   /**
@@ -58,7 +58,7 @@ export class TranslationSavePage {
     this.loading.show();
 
 
-    this.translation.language_id = this.translation.to_language_id;
+    this.translation.language_alpha2code = this.translation.to_language_alpha2code;
 
     this.translationService.saveTranslation(this.translation)
     .subscribe(res => {
