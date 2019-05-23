@@ -8,6 +8,7 @@ import { TranslationDashboardPage } from '../pages/translation-dashboard/transla
 import { PhrasebookPage } from '../pages/phrasebook/phrasebook';
 import { ConfigPage } from '../pages/config/config';
 import { LoginPage } from '../pages/login/login';
+import { ReverseReviewPage } from '../pages/reverse-review/reverse-review';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,6 +19,7 @@ export class MyApp {
   pages = [
     { label: 'Translation', component: TranslationDashboardPage, icon: 'git-compare' },
     { label: 'Phrasebook', component: PhrasebookPage, icon: 'book'},
+    { label: 'Reverse review', component: ReverseReviewPage, icon: 'book'},
     { label: 'Config', component: ConfigPage, icon: 'settings' },
   ];
 
