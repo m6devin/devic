@@ -8,7 +8,7 @@ class Translation extends Model
 {
     protected $fillable = [
         "word_id",
-        "part_of_speech_id",
+        "part_of_speech_name",
         "created_by_id",
         "language_id",
         "translation",
