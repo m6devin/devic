@@ -8,7 +8,7 @@ class Word extends Model {
     protected $fillable = [
         'word',
         'created_by_id',
-        'language_id',
+        'language_alpha2code',
     ];
 
     protected $casts = [
@@ -25,11 +25,11 @@ class Word extends Model {
     }
 
     public function language() {
-        return $this->belongsTo(Language::class);
+        return $this->belongsTo(Language::class, 'language_alpha2code', 'alpha2code');
     }
 
     public function reviews() {
-        return $this->hasMany(Review::class)->orderBy('id', 'desc');
+        return $this->hasMany(Review::class, 'item_id')->orderBy('id', 'desc');
     }
 
     /**
