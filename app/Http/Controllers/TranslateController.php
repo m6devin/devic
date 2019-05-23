@@ -15,51 +15,6 @@ use Illuminate\Http\Request;
 class TranslateController extends Controller
 {
     /**
-     * Show all translations of word.
-     *
-     * @param Request $r
-     *
-     * @return Response
-     */
-    public function translate(Request $r)
-    {
-        $word = strtolower($r->input('q', null));
-        $from = $r->input('from', null);
-        $to = $r->input('to', null);
-        $dbWord = null;
-        $translations = [];
-
-        $fromLang = Language::where('alpha2code', $from)->first();
-        $toLang = Language::where('alpha2code', $to)->first();
-
-        if ($word && $fromLang && $toLang) {
-            $dbWord = Word::where('word', $word)
-            ->where('language_id', $fromLang->id)
-            ->where('created_by_id', Auth::user()->id)
-            ->first();
-        }
-        $langs = Language::get();
-        $partsOfSpeech = PartOfSpeech::get();
-
-        if ($dbWord && $toLang) {
-            $translations = Translation::where('word_id', $dbWord->id)
-            ->where('language_id', $toLang->id)
-            ->where('created_by_id', Auth::user()->id)
-            ->get();
-        }
-
-        return view('translate.translate', [
-            'dbWord' => $dbWord,
-            'word' => $word,
-            'langs' => $langs,
-            'partsOfSpeech' => $partsOfSpeech,
-            'fromLang' => $fromLang,
-            'toLang' => $toLang,
-            'translations' => $translations,
-        ]);
-    }
-
-    /**
      * Show all translations of word in API.
      *
      * @param Request $r
@@ -263,39 +218,6 @@ class TranslateController extends Controller
         return response($trans, 200);
     }
 
-    /**
-     * List all user's words and search them.
-     *
-     * @param \Illuminate\Http\Request $r
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function phrasebook(Request $r)
-    {
-        $user = Auth::user();
-        $langs = Language::get();
-        $fromLang = null;
-        $from = $r->input('from', null);
-        $word = $r->input('word', null);
-
-        if ($from) {
-            $fromLang = Language::where('alpha2code', $from)->first();
-        }
-
-        $qry = Word::where('created_by_id', $user->id);
-        if ($fromLang) {
-            $qry = $qry->where('language_id', $fromLang->id);
-        }
-        if ($word) {
-            $qry = $qry->where('word', 'LIKE', "%{$word}%");
-        }
-        $words = $qry->paginate(15);
-
-        return view('translate.phrasebook', [
-            'words' => $words,
-            'langs' => $langs,
-        ]);
-    }
 
     /**
      * Load phrasebook words for API calls.

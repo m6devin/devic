@@ -10,12 +10,4 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
-
-Route::get('/', 'TranslateController@translate')->name('translate.translate')->middleware('auth');
-Route::group(["prefix" => "translation", "middleware" => "auth"], function() {
-    Route::get('/phrasebook', 'TranslateController@phrasebook')->name('translate.phrasebook');
-    Route::post('/word/save', 'TranslateController@saveWord')->name('translate.saveWord');
-    Route::post('/translate/save', 'TranslateController@saveTranslation')->name('translate.save');
-    Route::get('/word/{id}/details', 'TranslateController@wordDetails');
-});
+// Auth::routes();
