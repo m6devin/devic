@@ -1,0 +1,118 @@
+<aside *ngIf="isUserAuthenticated()">
+  <div class="sidebar right bg-dark" [class.sidebar-closed]="isSidebarCollapsed">
+    <a class="sidebar-toggler text-secondary" (click)="toggleSidebar()">
+      <fa-icon [icon]="['fas', 'times']" size="2x" *ngIf="!isSidebarCollapsed"></fa-icon>
+    </a>
+    <div class="sidebar-brand text-white pt-3 bg-info">
+      <span>
+        Devict
+      </span>
+    </div>
+    <div class="user-panel" *ngIf="isUserAuthenticated()">
+      <div class="float-right image">
+        <!-- <img src="160x160" class="rounded-circle" alt="User Image"> -->
+      </div>
+      <div class="float-right info">
+        <p>
+          {{authenticatedUser.name ?
+          authenticatedUser.name : authenticatedUser.username}}
+        </p>
+      </div>
+    </div>
+    <ul class="list-sidebar">
+      <li>
+        <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed" [routerLinkActive]="['active']">
+          <fa-icon [icon]="['fas', 'home']"></fa-icon>
+          <span class="nav-label"> Dashboard </span>
+          <fa-icon [icon]="['fas', 'chevron-left']" class="float-left"></fa-icon>
+        </a>
+      </li>
+      <li *ngIf="userService.permissions.user_crud">
+        <a [routerLink]="['/admin/user']" [routerLinkActive]="['active']">
+          <fa-icon [icon]="['fas', 'users']"></fa-icon>
+          <span class="nav-label"> Users </span>
+        </a>
+      </li>
+      <li *ngIf="userService.permissions.my_words_crud">
+        <a [routerLink]="['/userarea/my_words']" [routerLinkActive]="['active']">
+          <fa-icon [icon]="['fas', 'book']"></fa-icon>
+          <span class="nav-label"> Words </span>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</aside>
+
+<div class="main" [class.sidebar-closed]="isSidebarCollapsed">
+  <nav class="navbar bg-white topbar shadow">
+    <ul class="nav navbar ml-auto">
+      <li>
+        <a class="text-secondary topbar-toggler" (click)="toggleSidebar()" *ngIf="isSidebarCollapsed">
+          <fa-icon [icon]="['fas', 'bars']" size="2x" ></fa-icon>
+        </a>
+      </li>
+    </ul>
+    <ul class="nav navbar mr-auto">
+      <li *ngIf="isUserAuthenticated()">
+        <button class="text-secondary" mat-icon-button [matMenuTriggerFor]="menu">
+          <fa-icon [icon]="['far', 'bell']"></fa-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <span>Redial</span>
+          </button>
+          <button mat-menu-item disabled>
+            <span>Check voicemail</span>
+          </button>
+          <button mat-menu-item>
+            <span>Disable alerts</span>
+          </button>
+        </mat-menu>
+      </li>
+      <li *ngIf="isUserAuthenticated(); else noUser" class="user-info">
+        <a class="text-secondary" mat-button [matMenuTriggerFor]="menu">
+          <fa-icon [icon]="['far', 'user']"></fa-icon>
+          &nbsp;
+          {{authenticatedUser.name ?
+          authenticatedUser.name : authenticatedUser.username}}
+        </a>
+        <mat-menu #menu="matMenu">
+          <a mat-menu-item [routerLink]="['userarea/profile/edit']">
+            <fa-icon [icon]="['fas', 'user']"></fa-icon>
+            <span> پروفایل </span>
+          </a>
+          <a mat-menu-item href="#">
+            <fa-icon [icon]="['fas', 'key']"></fa-icon>
+            تغییر رمز عبور
+          </a>
+          <a mat-menu-item href="#" (click)="logout()">
+            <fa-icon [icon]="['fas', 'sign-out-alt']"></fa-icon>
+            خروج
+          </a>
+        </mat-menu>
+      </li>
+      <ng-template #noUser>
+        <li class="user-info">
+          <a class="text-secondary" mat-button [matMenuTriggerFor]="menu">
+            <fa-icon [icon]="['far', 'user']"></fa-icon>
+            میهمان
+          </a>
+          <mat-menu #menu="matMenu">
+            <a mat-menu-item [routerLink]="['/login']">
+              <fa-icon [icon]="['fas', 'sign-in-alt']"></fa-icon>
+              <span> ورود </span>
+            </a>
+            <a mat-menu-item href="/register">
+              <fa-icon [icon]="['fas', 'user-plus']"></fa-icon>
+              <span> ثبت نام </span>
+            </a>
+          </mat-menu>
+        </li>
+      </ng-template>
+    </ul>
+  </nav>
+  <div id="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

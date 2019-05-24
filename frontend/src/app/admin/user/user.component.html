@@ -1,0 +1,63 @@
+<app-loading [isLoading]="loading"></app-loading>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <app-search-form [elements]="searchElements" (doSearch)="doSearch($event)"></app-search-form>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="example-loading-shade" *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead class="">
+            <tr>
+              <th style="width: 10px !important;" class="text-success">
+                <a class="btn btn-primary" [routerLink]="['/admin/user', 'new']">
+                  <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                </a>
+              </th>
+              <th>نام </th>
+              <th> نام‌کاربری / ایمیل / موبایل</th>
+              <th style="width: 10vw;"> وضعیت </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of pagination.data">
+              <td>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <a mat-menu-item [routerLink]="['/admin/user', item.id, 'edit']">
+                    <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+                    ویرایش
+                  </a>
+                </mat-menu>
+              </td>
+              <td [innerHtml]="item.name"></td>
+              <td>
+                {{item.username}}
+                <hr>
+                {{item.email}}
+                <hr>
+                {{item.mobile}}
+              </td>
+              <td>
+                <span class="badge badge-success" *ngIf="item.enabled == true"> فعال </span>
+                <span class="badge badge-danger" *ngIf="item.enabled == false"> غیرفعال </span>
+                <span class="badge badge-danger" *ngIf="item.expired == true"> منقصی </span>
+                <span class="badge badge-danger" *ngIf="item.locked == true"> مسدود </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <app-pagination [pagination]="pagination" (gotopage)="getIndex($event)"></app-pagination>
+    </div>
+  </div>
+</div>

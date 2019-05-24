@@ -1,0 +1,26 @@
+.search-element-input {
+  width: 70%;
+  margin-left: .7%;
+  display: inline-block;
+}
+
+.search-element-operator {
+  width: 29%;
+  display: inline-block;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.card-header.collapse-btn {
+  cursor: pointer;
+}
+
+.clear-data {
+  position: absolute;
+  left: 18px;
+  bottom: 20px;
+  font-size: 11px;
+  cursor: pointer;
+}

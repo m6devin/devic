@@ -1,0 +1,21 @@
+.disabled {
+  a {
+    color: rgb(185, 185, 185);
+    cursor: not-allowed;
+  }
+}
+
+.page-item:first-child {
+  margin-left: 3px;
+  .page-link {
+    border-radius: 0px;
+  }
+}
+
+.page-item:last-child {
+  margin-right: 3px;
+}
+
+.page-link{
+  font-size: 11px;
+}

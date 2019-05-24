@@ -1,0 +1,99 @@
+<app-loading [isLoading]="loading"></app-loading>
+<form #frm="ngForm" (ngSubmit)="saveFile()">
+  <div>
+    <button type="submit" mat-raised-button color="primary">ذخیره فایل</button>
+
+    <button (click)="back()" mat-button color="secondary">
+      <fa-icon [icon]="['fas', 'reply']"></fa-icon>
+      بازگشت
+    </button>
+  </div>
+  <mat-tab-group class="mt-4 mr-2 language_descriptions_tab" *ngIf="item">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="f11">
+          فایل
+        </span>
+      </ng-template>
+      <ng-container>
+        <div class="clearfix">&nbsp;</div>
+        <mat-radio-group *ngIf="enablePurchaseType" [(ngModel)]="item.purchase_type" class="purchase_type"
+          name="purchase_type">
+          <label for="" class="d-block full-width">نوع فایل</label>
+          <mat-radio-button [value]="1">
+            غیر رایگان
+          </mat-radio-button>
+          <mat-radio-button [value]="2">
+            رایگان
+          </mat-radio-button>
+          <mat-radio-button [value]="3">
+            فایل دمو
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-form-field class="full-width ltr">
+          <input matInput type="number" placeholder="ترتیب" name="sort_order" [(ngModel)]="item.sort_order" required
+            min="1">
+        </mat-form-field>
+        <mat-slide-toggle class="full-width" [(ngModel)]="item.status" name="status"> فعال </mat-slide-toggle>
+        <div class="clearfix">&nbsp;</div>
+        <input type="file" (change)="fileChangeEvent($event)" />
+        <div class="cropper-container" *ngIf="imageCropperEnabled">
+          <image-cropper [imageChangedEvent]="mediaFileChangedEvent" [maintainAspectRatio]="true"
+            [aspectRatio]="imageCropperRatio" format="png" (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+        </div>
+
+        <img *ngIf="item.image_base64 == null && item.image != null" [src]="item.image" />
+        <div class="clearfix">&nbsp;</div>
+      </ng-container>
+    </mat-tab>
+    <mat-tab *ngFor="let lang of languages">
+      <ng-template mat-tab-label>
+        <span class="f11">
+          {{lang.name}}
+        </span>
+      </ng-template>
+      <ng-container *ngIf="item.language_descriptions && item.language_descriptions['lang_' + lang.id]">
+        <mat-form-field class="full-width" [class.ltr]="lang.dir == 'ltr'" [class.rtl]="lang.dir == 'rtl'">
+          <input matInput type="text" placeholder="نام / عنوان" name="lang_{{lang.id}}[{{nameKey}}]"
+            [(ngModel)]="item.language_descriptions['lang_' + lang.id][nameKey]">
+        </mat-form-field>
+        <mat-form-field class="full-width" [class.ltr]="lang.dir == 'ltr'" [class.rtl]="lang.dir == 'rtl'">
+          <textarea matInput placeholder="توضیحات" name="lang_{{lang.id}}[{{descriptionKey}}]"
+            [(ngModel)]="item.language_descriptions['lang_' + lang.id][descriptionKey]" rows="6"></textarea>
+        </mat-form-field>
+        <mat-form-field class="full-width" [class.ltr]="lang.dir == 'ltr'" [class.rtl]="lang.dir == 'rtl'">
+          <input matInput type="text" placeholder="Meta title" name="lang_{{lang.id}}[meta_title]"
+            [(ngModel)]="item.language_descriptions['lang_' + lang.id].meta_title">
+        </mat-form-field>
+        <mat-form-field class="full-width" [class.ltr]="lang.dir == 'ltr'" [class.rtl]="lang.dir == 'rtl'">
+          <textarea matInput placeholder="Meta description" name="lang_{{lang.id}}[meta_description]"
+            [(ngModel)]="item.language_descriptions['lang_' + lang.id].meta_description" rows="3"></textarea>
+        </mat-form-field>
+        <mat-form-field class="full-width" [class.ltr]="lang.dir == 'ltr'" [class.rtl]="lang.dir == 'rtl'">
+          <textarea matInput placeholder="Meta keywords" name="lang_{{lang.id}}[meta_keyword]"
+            [(ngModel)]="item.language_descriptions['lang_' + lang.id].meta_keyword"></textarea>
+        </mat-form-field>
+      </ng-container>
+
+    </mat-tab>
+    <mat-tab *ngIf="thumbnailImageEnabled">
+      <ng-template mat-tab-label>
+        <span class="f11">
+          تصویر بندانگشتی
+        </span>
+      </ng-template>
+      <ng-container>
+        <div class="clearfix">&nbsp;</div>
+        <input type="file" (change)="thumbnailFileChangeEvent($event)" />
+        <div class="cropper-container">
+          <image-cropper [imageChangedEvent]="thumbnailImageChangedEvent" [maintainAspectRatio]="true"
+            [aspectRatio]="thumbnailImageCropperRatio" format="png" (imageCropped)="thumbnailImageCropped($event)"
+            (imageLoaded)="thumbnailImageLoaded()" (loadImageFailed)="thumbnailLoadImageFailed()"></image-cropper>
+        </div>
+
+        <img *ngIf="item.image_base64 == null && item.image != null" [src]="item.image" />
+      </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</form>

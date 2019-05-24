@@ -9,13 +9,17 @@ class UserSeeder extends Seeder {
      */
     public function run() {
         $users = [
-            ['email' => 'mgh', 'password' => Hash::make('123123')],
+            [
+                'username' => 'mgh', 
+                'email' => 'gholami.mohammad.mgh@gmail.com', 
+                'name' => 'Mohammad Gholami', 
+                'password' => Hash::make('123123'), 
+                'roles' => json_encode(['admin', 'student'])
+            ],
         ];
 
         foreach ($users as $v) {
-            User::updateOrCreate(['email' => $v['email']], [
-                'password' => $v['password'],
-            ]);
+            User::updateOrCreate(['email' => $v['email']], $v);
         }
     }
 }

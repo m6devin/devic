@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>
+   مدیریت فایل
+   <button mat-button mat-dialog-close class="float-left"> x </button>
+</h2>
+<mat-dialog-content class="mat-typography">
+  <div *ngIf="pageError == null" style="padding:15px;">
+    <div *ngIf="isLoading; else loaded">در حال بارگیری...</div>
+    <ng-template #loaded>
+      <app-file-manager-form *ngIf="showForm == true; else indexBlock" [languages]="languages"
+        [imageCropperEnabled]="imageCropperEnabled" [imageCropperRatio]="imageCropperRatio" [indexRoute]="indexRoute"
+        [item]="selectedFile" [thumbnailImageEnabled]="thumbnailImageEnabled" [enablePurchaseType]="enablePurchaseType" (goBack)="showForm=false; getIndex(1)">
+      </app-file-manager-form>
+      <ng-template #indexBlock>
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-lg-12" style="padding-bottom: 10px;">
+            <button class="btn btn-primary" (click)="showFormFunc()">
+              <!-- <fa-icon [icon]="['fas', 'plus']"></fa-icon> -->
+              افزودن فایل
+            </button>
+          </div>
+          <div *ngFor="let item of pagination.data" class="col-xs-12 col-sm-12 col-md-6 col-lg-4 file-item">
+            <div class="file-container">
+              <img *ngIf="isImage(item)" class="card-image"
+                [src]="item.thumbnail? item.thumbnail : getStreamRoute(item)" alt="">
+              <video *ngIf="isVideo(item)" class="card-video" controls [src]="getStreamRoute(item)"></video>
+              <audio *ngIf="isAudio(item)" controls [src]="getStreamRoute(item)"></audio>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" *ngIf="item.default_description">{{item.default_description[nameKey]}}</h5>
+              <a href="javascript:void(0)" class="" (click)="showFormFunc(item)">
+                <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+              </a>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-template>
+  </div>
+  <div *ngIf="pageError" [innerHtml]="pageError"></div>
+</mat-dialog-content>

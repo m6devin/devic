@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
-use JWTAuth;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Hash;
+use Illuminate\Http\Request;
 
 class APIAuthController extends Controller
 {
@@ -15,13 +14,13 @@ class APIAuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'signup']]);
     }
 
     /**
-     * Get authenticated user data using api token
+     * Get authenticated user data using api token.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getAuthUser(Request $request)
@@ -30,21 +29,21 @@ class APIAuthController extends Controller
     }
 
     /**
-     * Get a JWT token via given credentials.
-     *
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function loginWeb(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
-        if ($token = JWTAuth::attempt($credentials)) {
-            return $this->respondWithToken($token);
+        $credentials2 = ['username' => $credentials['email'], 'password' => $credentials['password']];
+        if (Auth::attempt($credentials) || Auth::attempt($credentials2)) {
+            $user = Auth::user();
+            $user['permissions'] = $user->getPermissionsArray();
+            return response()->json($user);
         }
 
-        return response()->json(['message' => 'Incorrect email or password!'], 401);
+        return response()->json(['message' => 'Username or password isn\'t valid!'], 401);
     }
 
     /**
@@ -54,15 +53,19 @@ class APIAuthController extends Controller
      */
     public function logout()
     {
-        $this->guard()->logout();
+        try {
+            $this->guard()->logout();
+        } catch (\Exception $e) {
+        }
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return $this->quickJsonResponse('You\'ve logged out successfully.');
     }
 
     /**
-     * Signup new Users
+     * Signup new Users.
      *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function signup(Request $request)
@@ -72,7 +75,7 @@ class APIAuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
         $data = $request->only('email', 'password', 'password_confirmation');
-        
+
         $user = new User();
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
@@ -84,7 +87,7 @@ class APIAuthController extends Controller
         }
 
         return response()->json([
-            'message' => 'Failed to create your account!'
+            'message' => 'Failed to create your account!',
         ]);
     }
 

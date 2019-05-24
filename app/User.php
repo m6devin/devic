@@ -16,7 +16,15 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'username',
+        'email',
+        'mobile',
+        'password',
+        'enabled',
+        'expired',
+        'locked',
+        'roles',
     ];
 
     /**
@@ -48,5 +56,81 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function omiteSecureData()
+    {
+        unset(
+            $this->oauth_token,
+            $this->roles,
+            $this->invited_by_id,
+            $this->app_commission,
+            $this->inviter_commission,
+            $this->marketer_commission,
+            $this->invited_by_id,
+            $this->created_at,
+            $this->updated_at,
+            $this->customer_group_id
+        );
+    }
+
+    public function getFullname() : string
+    {
+        return $this->name;
+    }
+
+    public function getDefaultUsername()
+    {
+        if (! $this->id) {
+            return null;
+        }
+        return $this->id * 13;
+    }
+
+    /**
+     * تعیین وضعیت مجاز یا عدم مجاز بودن کاربر برای دسترسی به یک منبع
+     *
+     * @param string $action
+     * @return boolean
+     */
+    public function isPermitted(string $action): bool
+    {
+        $roles = $this->getRoles();
+        if (empty($roles)) {
+            return false;
+        }
+        $cnt = AuthRoleActionMapping::where('action_machine_name', $action)
+        ->whereIn('role_machine_name', $roles)
+        ->count();
+
+        return $cnt > 0 ? true : false;
+    }
+
+    public function getRoles()
+    {
+        return json_decode($this->roles);
+    }
+
+    public function hasRole(string $role)
+    {
+        return in_array($role, $this->getRoles());
+    }
+
+    public function getPermissionsArray($type = null)
+    {
+        $arr = AuthRoleActionMapping::select('action_machine_name')
+        ->whereIn('role_machine_name', $this->getRoles());
+        if ($type === 'action' || $type === 'menu') {
+            $arr = $arr->join('auth_actions', 'machine_name', '=', 'action_machine_name')
+            ->where('auth_actions.action_type', $type);
+        }
+        $arr = $arr->get()
+        ->toArray();
+
+        $perms = [];
+        foreach ($arr as $item) {
+            $perms[$item['action_machine_name']] = true;
+        }
+        return $perms;
     }
 }

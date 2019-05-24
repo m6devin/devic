@@ -1,0 +1,80 @@
+<app-loading [isLoading]="loading"></app-loading>
+<div class="container">
+  <form ngForm (ngSubmit)="saveUser()" *ngIf="user">
+    <mat-card>
+      <mat-card-title>
+        <span *ngIf="user && user.id == null">ایجاد کاربر جدید</span>
+        <span *ngIf="user && user.id > 0"> ویرایش کاربر</span>
+      </mat-card-title>
+      <mat-card-content>
+        <mat-tab-group [dynamicHeight]="true">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="f15">
+                عمومی
+              </span>
+            </ng-template>
+            <ng-container>
+              <div class="clearfix">&nbsp;</div>
+              <mat-form-field class="full-width">
+                <input matInput autocomplete="off" type="text" placeholder="نام و نام خانوادگی" name="name" [(ngModel)]="user.name">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput autocomplete="off" type="text" placeholder="نام کاربری" name="username" [(ngModel)]="user.username"
+                  class="ltr">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput autocomplete="off" type="text" placeholder="ایمیل" name="email" [(ngModel)]="user.email" class="ltr">
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput autocomplete="off" type="text" placeholder="موبایل" name="mobile" [(ngModel)]="user.mobile" class="ltr">
+                <mat-hint>مانند 09171209668</mat-hint>
+              </mat-form-field>
+              <mat-form-field class="full-width">
+                <input matInput autocomplete="off" type="text" placeholder="رمزعبور جدید" name="password" [(ngModel)]="user.password" class="ltr">
+                <mat-hint>
+                  در صورت عدم نیاز به تغییر رمزعبور، این مقدار را خالی رها کنید.
+                </mat-hint>
+              </mat-form-field>
+              <div>
+                <label> نقش های سیستمی </label>
+                <ng-select [items]="basicInfo.roles" bindLabel="name" bindValue="machine_name"  [multiple]="true" name="roles" [(ngModel)]="user.roles"></ng-select>
+              </div>
+              <div class="clearfix">&nbsp;</div>
+              <mat-slide-toggle class="full-width" [(ngModel)]="user.enabled" name="enabled">
+                حساب کاربری فعال
+              </mat-slide-toggle>
+              <mat-slide-toggle class="full-width" [(ngModel)]="user.expired" name="expired"> حساب کاربری منقضی شده
+              </mat-slide-toggle>
+              <mat-slide-toggle class="full-width" [(ngModel)]="user.locked" name="locked">
+                حساب کاربری مسدود شده
+              </mat-slide-toggle>
+            </ng-container>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="f15">
+                آواتار
+              </span>
+            </ng-template>
+            <ng-container>
+              <div class="clearfix">&nbsp;</div>
+              <input type="file" (change)="fileChangeEvent($event)" />
+              <div class="cropper-container">
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                  [aspectRatio]="1" [resizeToWidth]="512" format="png" (imageCropped)="imageCropped($event)"
+                  (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+              </div>
+
+              <img *ngIf="user.image_base64 == null && user.avatar != null" [src]="'/storage/' + user.avatar" />
+            </ng-container>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary"> ذخیره </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+
+</div>

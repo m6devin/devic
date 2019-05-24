@@ -1,0 +1,21 @@
+.ng-select {
+  padding-bottom: 1.25em;
+  .ng-select-container {
+      min-height: 34.5px;
+      .ng-value-container {
+          padding: .25em 0 .4375em 0;
+      }
+  }
+}
+
+.search-form {
+  .ng-select {
+    padding-bottom: 1.25em;
+    .ng-select-container {
+        min-height: 40.5px;
+        .ng-value-container {
+            padding: .25em 0 .4375em 0;
+        }
+    }
+  }
+}

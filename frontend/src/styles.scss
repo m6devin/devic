@@ -1,0 +1,272 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "./styles/mixins/bootstrap-rtl.scss"; // Override some bootstrap mixins
+@import "../node_modules/bootstrap/scss/root";
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/code";
+@import "../node_modules/bootstrap/scss/grid";
+@import "../node_modules/bootstrap/scss/tables";
+@import "../node_modules/bootstrap/scss/forms";
+@import "../node_modules/bootstrap/scss/buttons";
+@import "../node_modules/bootstrap/scss/transitions";
+@import "../node_modules/bootstrap/scss/dropdown";
+@import "../node_modules/bootstrap/scss/button-group";
+@import "../node_modules/bootstrap/scss/input-group";
+@import "../node_modules/bootstrap/scss/custom-forms";
+@import "../node_modules/bootstrap/scss/nav";
+@import "../node_modules/bootstrap/scss/navbar";
+@import "../node_modules/bootstrap/scss/card";
+@import "../node_modules/bootstrap/scss/breadcrumb";
+@import "../node_modules/bootstrap/scss/pagination";
+@import "../node_modules/bootstrap/scss/badge";
+@import "../node_modules/bootstrap/scss/jumbotron";
+@import "../node_modules/bootstrap/scss/alert";
+@import "../node_modules/bootstrap/scss/progress";
+@import "../node_modules/bootstrap/scss/media";
+@import "../node_modules/bootstrap/scss/list-group";
+@import "../node_modules/bootstrap/scss/close";
+@import "../node_modules/bootstrap/scss/modal";
+@import "../node_modules/bootstrap/scss/tooltip";
+@import "../node_modules/bootstrap/scss/popover";
+@import "../node_modules/bootstrap/scss/carousel";
+@import "../node_modules/bootstrap/scss/utilities";
+@import "../node_modules/bootstrap/scss/print";
+@import "../node_modules/@ng-select/ng-select/scss/material.theme.scss";
+@import "./styles/ng-select.scss";
+@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/assets/fonts/vazir/Vazir.ttf');
+}
+
+@font-face {
+  font-family: 'vazir';
+  src: url('/assets/fonts/vazir/Vazir-Bold.ttf');
+  font-weight: bold;
+}
+
+@mixin serif-font {
+  font-family: 'vazir', 'Droid Serif', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@mixin script-font {
+  font-family: 'vazir', 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;
+}
+
+@mixin body-font {
+  font-family: 'vazir', 'Roboto Slab', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+}
+
+@mixin heading-font {
+  font-family: 'vazir', 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+@mixin normal-font-size {
+  font-size: 12px;
+}
+
+@for $i from 5 to 25 {
+  .f#{$i} {
+    font-size: #{$i}px !important;
+  }
+}
+
+$bodyBG:#f5f5f5;
+
+
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+button,
+div,
+th,
+td {
+  @include body-font;
+}
+
+.mat-option-text,
+.mat-menu-item,
+.mat-slide-toggle-content,
+.mat-simple-snackbar {
+  @include body-font;
+  @include normal-font-size;
+}
+
+mat-card-title,
+mat-panel-title {
+  @include body-font;
+}
+
+body {
+  text-align: right;
+  background: $bodyBG;
+  @include normal-font-size;
+}
+
+.ltr {
+  text-align: left !important;
+  direction: ltr !important;
+}
+
+.rtl {
+  direction: rtl !important;
+}
+
+table {
+  width: 100%;
+}
+
+.dropdown-menu {
+  @include normal-font-size;
+  text-align: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.priority-arrows-container {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+  position: relative;
+  top: 4px;
+  width: 40px;
+}
+
+.priority-arrows {
+  position: relative;
+  float: right;
+
+  .up {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    height: 20px !important;
+  }
+
+  .down {
+    cursor: pointer;
+    position: absolute;
+    top: 27px;
+    height: 20px !important;
+  }
+}
+
+.priority-value {
+  position: relative;
+  float: right;
+  margin-right: auto;
+  top: 14px;
+  right: 2px;
+}
+
+.oprions {
+  position: relative;
+  float: right;
+
+}
+
+.selected-row {
+  background-color: lighten($bodyBG, 1) !important;
+}
+
+/*
+* Inline edit mode
+*/
+.inline-edit {
+  input[type='text'] {
+    width: 100%;
+    min-width: fit-content;
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    &:focus,
+    &:hover {
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+  }
+}
+
+@media(max-width: 768px) {
+  .inline-edit {
+    input[type='text'] {
+      width: fit-content;
+    }
+  }
+}
+
+.snak-success {
+  background-color: $success;
+
+  button {
+    color: $gray-100;
+  }
+}
+
+.snak-error {
+  background-color: lighten($danger, .8);
+
+  button {
+    color: $gray-100;
+  }
+}
+
+.snak-info {
+  background-color: lighten($info, .8);
+
+  button {
+    color: $gray-100;
+  }
+}
+
+[dir=rtl] .mat-form-field-label {
+  text-align: right !important;
+}
+
+dp-date-picker input {
+  width: 100% !important;
+}
+
+.nl2br {
+  white-space: pre-line;
+}
+
+.table-body-striped {
+  tbody:nth-child(odd) {
+    background-color: rgb(245, 245, 245);
+  }
+
+  tbody {
+    tr:last-child {
+      td {
+        border-bottom: 2px solid #d2d2d3;
+      }
+    }
+  }
+
+}
+
+.cropper-container {
+  max-width: 512px;
+  width: auto;
+
+  img {
+    max-width: 512px;
+    width: auto;
+  }
+}

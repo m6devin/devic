@@ -1,0 +1,106 @@
+<app-loading [isLoading]="loading"></app-loading>
+<div class="container">
+  <mat-card>
+    <mat-card-title>
+      <span> ویرایش پروفایل</span>
+    </mat-card-title>
+    <mat-card-content>
+      <mat-tab-group [dynamicHeight]="true">
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="f15">
+              عمومی
+            </span>
+          </ng-template>
+          <ng-container>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+                <form #profileForm="ngForm" (ngSubmit)="updateProfile()" *ngIf="user">
+                  <div class="clearfix">&nbsp;</div>
+                  <mat-form-field class="full-width">
+                    <input matInput autocomplete="off" type="text" placeholder="نام و نام خانوادگی" name="name"
+                      [(ngModel)]="user.name" required>
+                  </mat-form-field>
+                  <!-- <mat-form-field class="full-width">
+                    <input matInput autocomplete="off" type="text" placeholder="نام کاربری" name="username" [(ngModel)]="user.username"
+                      class="ltr">
+                  </mat-form-field> -->
+                  <!-- <mat-form-field class="full-width">
+                    <input matInput autocomplete="off" type="text" placeholder="ایمیل" name="email" [(ngModel)]="user.email"
+                      class="ltr">
+                  </mat-form-field> -->
+                  <mat-form-field class="full-width">
+                    <input matInput autocomplete="off" type="text" placeholder="موبایل" name="mobile"
+                      [(ngModel)]="user.mobile" class="ltr" required>
+                    <mat-hint>مانند 09171209668</mat-hint>
+                  </mat-form-field>
+                  <div class="mt-3">
+                    <button mat-raised-button color="primary" [disabled]="profileForm.invalid"> بروز رسانی پروفایل </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </ng-container>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="f15">
+              رمز عبور
+            </span>
+          </ng-template>
+          <ng-container>
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+                <form #passForm="ngForm" (ngSubmit)="updatePassword()" *ngIf="user">
+                  <div class="clearfix">&nbsp;</div>
+                  <mat-form-field class="full-width">
+                    <input matInput autocomplete="off" type="password" placeholder="رمزعبور جدید" name="password"
+                      [(ngModel)]="user.password" class="ltr" required>
+                    <mat-hint>
+                      حداقل ۶ کاراکتر
+                    </mat-hint>
+                  </mat-form-field>
+                  <mat-form-field class="full-width">
+                    <input matInput autocomplete="off" type="password" placeholder="رمزعبور جدید" name="password_confirmation"
+                      [(ngModel)]="user.password_confirmation" class="ltr" required>
+                  </mat-form-field>
+                  <div class="mt-3">
+                    <button mat-raised-button [disabled]="passForm.invalid"> بروز رسانی رمزعبور </button>
+                  </div>
+                  <div class="clearfix">&nbsp;</div>
+                </form>
+              </div>
+            </div>
+          </ng-container>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="f15">
+              آواتار
+            </span>
+          </ng-template>
+          <ng-container>
+            <form #avatarForm="ngForm" *ngIf="user" (ngSubmit)="updateAvatar()">
+              <div class="clearfix">&nbsp;</div>
+              <input type="file" (change)="fileChangeEvent($event)" name="avatar_file" required/>
+              <div class="cropper-container">
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1"
+                  [resizeToWidth]="512" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                  (loadImageFailed)="loadImageFailed()"></image-cropper>
+                  <img *ngIf="avatarPath && avatarCropped == false && firstTimeLoad" [src]="'/storage/' + avatarPath" />
+              </div>
+
+              <div class="mt-3">
+                <button mat-raised-button color="primary" [disabled]="avatarCropped == false"> بروز رسانی آواتار </button>
+              </div>
+              <div class="clearfix">&nbsp;</div>
+            </form>
+          </ng-container>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+
+    </mat-card-actions>
+  </mat-card>
+</div>

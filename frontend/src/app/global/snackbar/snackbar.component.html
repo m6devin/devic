@@ -1,0 +1,5 @@
+<b>{{data.message}}</b>
+<ul *ngFor="let e of flatErrors">
+  <li>{{e}}</li>
+</ul>
+<a mat-button *ngIf="data.actionText" (click)="close()" >{{data.actionText}}</a>

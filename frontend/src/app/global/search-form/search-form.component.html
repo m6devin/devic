@@ -1,0 +1,70 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-title p13">
+      جستجو
+    </div>
+    <div class="card-text">
+      <div class="row search-form">
+        <div *ngFor="let input of elements" class="{{input.cssClass}}">
+          <div [ngSwitch]="input.type">
+            <div *ngSwitchCase="'text'">
+              <mat-form-field class="search-element-input">
+                <input matInput placeholder="{{input.placeholder}}" name="{{input.name}}" (change)="updateFiltersData()"
+                  [(ngModel)]="filterValues[input.name]">
+              </mat-form-field>
+              <mat-form-field class="search-element-operator">
+                <mat-select matInput placeholder="" (selectionChange)="updateFiltersData()"
+                  [(ngModel)]="filterOperators[input.name]" class="ltr">
+                  <mat-option *ngFor="let t of operators"
+                    [disabled]="t == 'LIKE' && input.type != 'text' && input.type == 'textearia'" [value]="t"
+                    style="direction:ltr; text-align:left;">
+                    {{t}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div *ngSwitchCase="'boolean'">
+              <ng-select [items]="input.optionItems" bindLabel="label" bindValue="value" (change)="updateFiltersData()"
+                [(ngModel)]="filterValues[input.name]" class="rtl" placeholder="{{input.placeholder}}"></ng-select>
+            </div>
+            <div *ngSwitchCase="'select'">
+              <ng-select [items]="input.optionItems" bindLabel="label" bindValue="value" (change)="updateFiltersData();"
+                [(ngModel)]="filterValues[input.name]" class="rtl" placeholder="{{input.placeholder}}"></ng-select>
+            </div>
+            <div *ngSwitchCase="'country_province_city'" class="row">
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <ng-select [items]="input.optionItems" bindLabel="name" (change)="countryChanged()"
+                  [(ngModel)]="selectedCountry" class="rtl" placeholder="{{input.placeholder.country}}"></ng-select>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <ng-select *ngIf="selectedCountry" [items]="selectedCountry.provinces" bindLabel="name"
+                  (change)="provinceChanged()" [(ngModel)]="selectedProvince" class="rtl"
+                  placeholder="{{input.placeholder.province}}"></ng-select>
+              </div>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <ng-select *ngIf="selectedProvince" [items]="selectedProvince.cities" bindLabel="name" bindValue="id"
+                  (change)="updateFiltersData();" [(ngModel)]="filterValues.city_id" class="rtl"
+                  placeholder="{{input.placeholder.city}}"></ng-select>
+              </div>
+            </div>
+            <div *ngSwitchCase="'jdate'">
+              <mat-form-field class="full-width">
+                <input autocomplete="off" matInput name="{{input.name}}" [(ngModel)]="jdates[input.name]"
+                  theme="dp-material" [dpDayPicker]="config" (onChange)="setDateFor($event, input.name)"
+                  placeholder="{{input.placeholder}}" />
+              </mat-form-field>
+              <span class="clear-data" (click)="clearData(input.name)">
+                <fa-icon [icon]="['fas', 'times']"></fa-icon>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-muted text-left">
+    <button mat-raised-button color="primary" (click)="doSearchHandler()">جستجو</button>
+    <button mat-button color="" (click)="clearForm()">پاک سازی</button>
+  </div>
+</div>
+<br>
