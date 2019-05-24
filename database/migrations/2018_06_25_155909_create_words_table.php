@@ -11,7 +11,7 @@ class CreateWordsTable extends Migration {
     public function up() {
         Schema::create('words', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('word', 512)->index();
+            $table->string('word', 150)->index();
             $table->string('language_alpha2code', 2);
             $table->integer('created_by_id')->unsigned()->nullable();
             $table->integer('step_id')->unsigned()->nullable();
