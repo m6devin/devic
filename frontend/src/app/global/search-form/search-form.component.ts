@@ -9,6 +9,12 @@ import { DatePickerComponent } from 'ng2-jalali-date-picker';
 })
 export class SearchFormComponent implements OnInit {
   @Input() elements: FormElement[] = [];
+
+  /**
+   * رشته جیسون ارسال شده را در فرم بارگیری میکند
+   */
+  @Input() filterJson = {};
+
   @Output() updateFilters: EventEmitter<any> = new EventEmitter();
   @Output() doSearch: EventEmitter<any> = new EventEmitter();
   @ViewChild('dayPicker') datePicker: DatePickerComponent;
@@ -40,7 +46,11 @@ export class SearchFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
+     // tslint:disable-next-line:forin
+     for (const key in this.filterJson) {
+      this.filterValues[key] = this.filterJson[key].value;
+      this.filterOperators[key] = this.filterJson[key].operator;
+    }
   }
 
   /**
