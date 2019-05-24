@@ -55,6 +55,7 @@ import { UserComponent } from './admin/user/user.component';
 import { UserFormComponent } from './admin/user/user-form/user-form.component';
 import { UserProfileEditComponent } from './components/user-profile/user-profile-edit/user-profile-edit.component';
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
+import { WordComponent } from './components/word/word.component';
 library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock, faBars,
   faTelegram, faTwitter, faGithub, faLinkedin, faStackOverflow, faBell, faUser);
 
@@ -75,6 +76,7 @@ library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock,
     UserComponent,
     UserFormComponent,
     UserProfileEditComponent,
+    WordComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,

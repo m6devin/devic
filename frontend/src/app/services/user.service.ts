@@ -92,7 +92,7 @@ export class UserService {
    * @param user
    */
   updateProfile(user: User): Observable<User> {
-    return this.http.post<User>('/api/userarea/profile/update', user);
+    return this.http.post<User>('/api/v2/userarea/profile/update', user);
   }
 
   /**
@@ -105,7 +105,7 @@ export class UserService {
       password: password,
       password_confirmation: password_confirmation,
     };
-    return this.http.post('/api/userarea/profile/update_password', payload);
+    return this.http.post('/api/v2/userarea/profile/update_password', payload);
   }
 
   /**
@@ -114,7 +114,7 @@ export class UserService {
    * @return                Observable<string>
    */
   updateAvatar(avatarBase64: string): Observable<User> {
-    return this.http.post<User>('/api/userarea/profile/update_avatar', {
+    return this.http.post<User>('/api/v2/userarea/profile/update_avatar', {
       image_base64: avatarBase64,
     });
   }
@@ -124,7 +124,7 @@ export class UserService {
    * @returns Observable<any>
    */
   getProfileBasicInfo(): Observable<any> {
-    return this.http.get('/api/userarea/profile/basic_info');
+    return this.http.get('/api/v2/userarea/profile/basic_info');
   }
 
   /**

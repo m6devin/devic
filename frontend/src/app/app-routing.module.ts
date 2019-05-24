@@ -5,6 +5,7 @@ import { LoginComponent } from './user/login/login.component';
 import { UserComponent } from './admin/user/user.component';
 import { UserFormComponent } from './admin/user/user-form/user-form.component';
 import { UserProfileEditComponent } from './components/user-profile/user-profile-edit/user-profile-edit.component';
+import { WordComponent } from './components/word/word.component';
 
 
 const appRoutes: Routes = [
@@ -39,6 +40,10 @@ const appRoutes: Routes = [
       {
         path: 'profile/edit',
         component: UserProfileEditComponent,
+      },
+      {
+        path: 'word/index',
+        component: WordComponent,
       },
     ],
   },

@@ -12,6 +12,8 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    public $filters;
+
     public function authorizeAction(string $action)
     {
         if (!Auth()->user()->isPermitted($action)) {
@@ -49,7 +51,8 @@ class Controller extends BaseController
         if (! $arr) {
             return [];
         }
-
+        $this->filters = $arr;
+        
         return $arr;
     }
 

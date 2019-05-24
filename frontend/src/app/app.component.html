@@ -34,7 +34,7 @@
         </a>
       </li>
       <li *ngIf="userService.permissions.my_words_crud">
-        <a [routerLink]="['/userarea/my_words']" [routerLinkActive]="['active']">
+        <a [routerLink]="['/userarea/word/index']" [routerLinkActive]="['active']">
           <fa-icon [icon]="['fas', 'book']"></fa-icon>
           <span class="nav-label"> Words </span>
         </a>

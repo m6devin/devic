@@ -30,10 +30,14 @@ Route::group([
     Route::get('user/{id}/details', 'UserAdminController@details');
 });
 
-Route::group(['prefix' => '/api/userarea', 'middleware' => ['auth'] ], function () {
+Route::group(['prefix' => '/api/v2/userarea', 'middleware' => ['auth'] ], function () {
     // User profile
     Route::post('/profile/update', 'UserController@updateProfile');
     Route::post('/profile/update_password', 'UserController@updatePassword');
     Route::post('/profile/update_avatar', 'UserController@updateAvatar');
     Route::get('/profile/basic_info', 'UserController@profileBasicInfo');
+
+    // Words' APIs
+    Route::get('word/index', 'WordController@index');
+    Route::get('word/basic_info', 'WordController@getBasicInfo');
 });
