@@ -17,7 +17,7 @@ class WordController extends Controller
         $items = Word::with(['reviews']);
         $items = $this->buildSearchQuery($r, $items, $this->searchableProperties());
 
-        if ($this->filters['today_review']) {
+        if ($this->filters['today_review'] && !empty($this->filters['today_review']['value'])) {
             $items = $items->whereRaw('(
             (words.step_id IS NULL and words.archived = 0) OR 
             (SELECT DATE_ADD(words.last_review, INTERVAL (SELECT days from steps where words.step_id = steps.id) DAY) ) <= (SELECT DATE_ADD(?, INTERVAL 8 HOUR) ) OR
