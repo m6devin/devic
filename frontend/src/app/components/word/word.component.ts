@@ -19,7 +19,9 @@ import * as moment from 'jalali-moment';
 export class WordComponent implements OnInit {
 
   page = 1;
-  filters: any = {};
+  filters: any = {
+    today_review: { value: 1 }
+  };
   loading = true;
   errors: IError = {};
   searchElements: FormElement[];
@@ -29,14 +31,35 @@ export class WordComponent implements OnInit {
   constructor(private wordService: WordService,
     public dialog: MatDialog,
     private errHandler: ErrorHandlerService,
-    private snacker: SnackerService) { }
+    private snacker: SnackerService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
+    this.loadFiltersFormQueryParams();
     this.wordService.getBasicInfo().subscribe(infoRes => {
       this.basicInfo = infoRes;
       this.initSearchForm();
     });
-    this.getList(this.page);
+  }
+
+  loadFiltersFormQueryParams() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      if (params['lfs'] == 'true') {
+        const ps = JSON.parse(localStorage.getItem('word_query_params'));
+        this.page = ps && parseInt(ps['page'], 10) > 0 ? parseInt(ps['page'], 10) : 1;
+        try {
+          this.filters = JSON.parse(ps['filters']);
+        } catch (e) { }
+
+      } else {
+        this.page = parseInt(params['page'], 10) > 0 ? parseInt(params['page'], 10) : 1;
+        try {
+          this.filters = JSON.parse(params['filters']);
+        } catch (e) { }
+      }
+      this.getList(this.page);
+    });
   }
 
   handleHttpError(err: HttpErrorResponse) {
@@ -47,6 +70,13 @@ export class WordComponent implements OnInit {
 
 
   getList(page: number) {
+    const params = { filters: JSON.stringify(this.filters), page: page };
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: params,
+      queryParamsHandling: 'merge',
+    });
+    localStorage.setItem('word_query_params', JSON.stringify(params));
     this.wordService.myWordsIndex(page, this.filters).subscribe(res => {
       this.loading = false;
       this.pagination = res;
@@ -73,6 +103,17 @@ export class WordComponent implements OnInit {
         optionItems: this.basicInfo.languages,
       }),
       new FormElement({
+        name: 'today_review',
+        placeholder: 'Today Review Only',
+        type: 'boolean',
+        label: 'Today Review Only',
+        cssClass: 'col-xs-12 col-sm-12 col-md-6 col-lg-4',
+        optionItems: [
+          { label: 'Yes', value: 1 },
+          { label: 'No', value: 0 },
+        ],
+      }),
+      new FormElement({
         name: 'archived',
         placeholder: 'Archived',
         type: 'boolean',
@@ -85,6 +126,7 @@ export class WordComponent implements OnInit {
         ],
       }),
     ];
+    this.filters.today_review = true;
   }
 
   doSearch(e) {
@@ -93,13 +135,13 @@ export class WordComponent implements OnInit {
   }
 
   recentlyReviewd(word: any): boolean {
-    if(word.reviews == undefined || word.reviews == null || word.reviews.length == 0) {
+    if (word.reviews == undefined || word.reviews == null || word.reviews.length == 0) {
       return false;
     }
     const createdAt = word.reviews[0].created_at;
     const diff = moment().diff(createdAt);
 
-    if ((diff/1000) < (1 * 60)) {
+    if ((diff / 1000) < (1 * 60)) {
       return true;
     }
 
