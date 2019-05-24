@@ -20,7 +20,6 @@ export class WordComponent implements OnInit {
 
   page = 1;
   filters: any = {
-    today_review: { value: 1 }
   };
   loading = true;
   errors: IError = {};
@@ -126,7 +125,6 @@ export class WordComponent implements OnInit {
         ],
       }),
     ];
-    this.filters.today_review = true;
   }
 
   doSearch(e) {
