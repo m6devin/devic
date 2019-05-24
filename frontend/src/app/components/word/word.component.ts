@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pagination } from 'src/app/global/pagination/pagination-model';
@@ -18,6 +18,8 @@ import * as moment from 'jalali-moment';
 })
 export class WordComponent implements OnInit {
 
+  @Input() showSearch = true;
+  @Input() todayReview = false;
   page = 1;
   filters: any = {
   };
@@ -35,7 +37,11 @@ export class WordComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
+    if (this.todayReview == true) {
+      this.filters = { today_review: { value: 1 } };
+    }
     this.loadFiltersFormQueryParams();
+    this.getList(this.page);
     this.wordService.getBasicInfo().subscribe(infoRes => {
       this.basicInfo = infoRes;
       this.initSearchForm();
@@ -57,7 +63,6 @@ export class WordComponent implements OnInit {
           this.filters = JSON.parse(params['filters']);
         } catch (e) { }
       }
-      this.getList(this.page);
     });
   }
 
