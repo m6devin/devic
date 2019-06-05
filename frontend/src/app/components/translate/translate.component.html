@@ -50,5 +50,6 @@
   </div>
 </div>
 <div class="container mt-3" *ngIf="word">
+  <a [routerLink]="['/userarea/word/new_translation']" mat-raised-button color="accent" class="mt-3 mb-3 full-width"> + Add Translation </a>
   <app-word-translations [word]="word"></app-word-translations>
 </div>
