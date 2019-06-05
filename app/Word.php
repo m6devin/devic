@@ -26,6 +26,19 @@ class Word extends Model
         return $this->hasMany(Translation::class, 'word_id');
     }
 
+    public function getTranslations($languageAlpha2Code)
+    {
+        if ($this->id == null) {
+            return;
+        }
+
+        $this->translations = $this->translations()->with([
+            'partOfSpeech',
+        ])
+        ->where('language_alpha2code', $languageAlpha2Code)
+        ->get();
+    }
+
     public function language()
     {
         return $this->belongsTo(Language::class, 'language_alpha2code', 'alpha2code');
