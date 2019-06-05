@@ -14,6 +14,39 @@ use Illuminate\Http\Request;
 
 class TranslateController extends Controller
 {
+    public function getBasicInfo() 
+    {
+        return response()->json([
+            'languages' => Language::get()->map(function ($item) {
+                return ['label' => $item->name, 'value' => $item->alpha2code];
+            }),
+        ]);
+    }
+
+    public function searchForTranslation(Request $r)
+    {   
+        $this->validateTranslateRequest($r);
+        $searchedWord = strtolower($r->input('word', null));
+        $fromLanguage = $r->input('from_language', null);
+        $toLanguage = $r->input('to_language', null);
+
+        $word = (new WordRepository)->findWord($searchedWord, $fromLanguage, Auth()->user()->id);
+        if (! $word) {
+            return $this->quickJsonResponse('no match found', 404);
+        }
+        $word->getTranslations($toLanguage);
+
+        return response()->json($word);
+    }
+
+    private function validateTranslateRequest(Request $r)
+    {
+        $this->validate($r, [
+            'word' => 'required',
+            'from_language' => 'required',
+            'to_language' => 'required',
+        ]);        
+    }
     /**
      * Show all translations of word in API.
      *
