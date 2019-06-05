@@ -1,7 +1,7 @@
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
 @import "../node_modules/bootstrap/scss/mixins";
-@import "./styles/mixins/bootstrap-rtl.scss"; // Override some bootstrap mixins
+// @import "./styles/mixins/bootstrap-rtl.scss"; // Override some bootstrap mixins
 @import "../node_modules/bootstrap/scss/root";
 @import "../node_modules/bootstrap/scss/reboot";
 @import "../node_modules/bootstrap/scss/type";
@@ -109,7 +109,7 @@ mat-panel-title {
 }
 
 body {
-  text-align: right;
+  // text-align: right;
   background: $bodyBG;
   @include normal-font-size;
 }
