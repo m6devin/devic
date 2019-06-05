@@ -1,0 +1,27 @@
+<div *ngIf="word">
+  <div class="card" *ngFor="let t of word.translations">
+    <h4 class="card-heading">
+      Translations
+    </h4>
+    <div class="card-body">
+      <h6 class="card-title">
+        <small>{{word.language_alpha2code}} -> {{t.language_alpha2code}}</small>
+      </h6>
+      <div class="card-text">
+        <p class="rtl text-right nl2br">{{t.translation}}</p>
+        <hr *ngIf="t.definition || t.example">
+        <p class="ltr text-left" *ngIf="t.definition"> 
+          <b class="d-block">Definition:</b>
+          {{t.definition}} 
+        </p>
+        <p class="ltr text-left nl2br" *ngIf="t.example"> 
+          <b class="d-block">Example</b>
+          {{t.example}} 
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="alert alert-warning" role="alert" *ngIf="word.translations.length == 0">
+    <strong>No translation added yet!</strong>
+  </div>
+</div>
