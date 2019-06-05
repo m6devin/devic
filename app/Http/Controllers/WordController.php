@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Language;
 use App\Word;
 use Auth;
+use Illuminate\Validation\ValidationException;
 
 class WordController extends Controller
 {
@@ -46,12 +47,71 @@ class WordController extends Controller
         ];
     }
 
-    public function getBasicInfo() 
+    public function getBasicInfo()
     {
         return response()->json([
             'languages' => Language::get()->map(function ($item) {
                 return ['label' => $item->name, 'value' => $item->alpha2code];
             }),
         ]);
+    }
+
+    public function save(Request $r, $id = null)
+    {
+        $this->validateRequest($r);
+
+        $wordToSave = strtolower($r->input('word', null));
+        $from = $r->input('language_alph2code', null);
+        $this->validateFromLanguage($from);
+
+        $word = $this->getWord($id);
+        $word->word = $wordToSave;
+        $word->language_alpha2code = $from;
+        $word->created_by_id = Auth::user()->id;
+        $word->save();
+
+        $word->translations;
+
+        return response()->json($word);
+    }
+
+    private function validateRequest(Request $r)
+    {
+        $this->validate($r, [
+            'word' => 'required',
+            'language_alph2code' => 'required',
+        ], []);
+    }
+
+    private function validateFromLanguage(string $fromLanguageAlpha2Code)
+    {
+        $fromLang = Language::where('alpha2code', $fromLanguageAlpha2Code)->first();
+
+        if (! $fromLang) {
+            throw ValidationException::withMessages([
+                'language_alph2code' => ['Invalid source language'],
+            ]);
+        }
+    }
+
+    private function getWord($id = null)
+    {
+        if ($id) {
+            $word = Word::where('id', $id)
+                        ->where('created_by_id', Auth::user()->id)
+                        ->first();
+            if (! $word) {
+                throw ValidationException::withMessages(['word' => 'No word found :(']);
+            }
+
+            return $word;
+        }
+        
+        $word = new Word();
+        // set as new word
+        $word->step_id = null;
+        $word->archived = false;
+
+        return $word;
     }
 }

@@ -20,4 +20,12 @@ export class WordService {
   getBasicInfo() {
     return this.http.get<any>('/api/v2/userarea/word/basic_info');
   }
+
+  saveWord(word: {word: string; language_alph2code: string; id?: number}) {
+    let url = '/api/v2/userarea/word/save';
+    if (word.id) {
+      url += '/' + word.id;
+    }
+    return this.http.post(url, word);
+  }
 }

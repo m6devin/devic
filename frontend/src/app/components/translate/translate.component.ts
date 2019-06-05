@@ -5,12 +5,13 @@ import { ErrorHandlerService } from 'src/app/services/error-handler.service';
 import { SnackerService } from 'src/app/services/snacker.service';
 import { TranslateService } from 'src/app/services/translate.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { WordService } from 'src/app/services/word.service';
 
 @Component({
   selector: 'app-translate',
   templateUrl: './translate.component.html',
   styleUrls: ['./translate.component.scss'],
-  providers: [ TranslateService ],
+  providers: [ TranslateService, WordService ],
 })
 export class TranslateComponent implements OnInit {
   loading = false;
@@ -18,13 +19,15 @@ export class TranslateComponent implements OnInit {
   basicInfo: any = {};
   wordToTranslate: any = {};
   word: any;
+  wordDoesnotExist = false;
 
   constructor(
     private errHandler: ErrorHandlerService,
     private snacker: SnackerService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private translateService: TranslateService) { }
+    private translateService: TranslateService,
+    private wordService: WordService) { }
 
   ngOnInit() {
     this.translateService.getBasicInfo().subscribe(res => {
@@ -85,6 +88,9 @@ export class TranslateComponent implements OnInit {
       this.word = res;
     }, err => {
       this.handleHttpError(err);
+      if (err.status == 404) {
+        this.wordDoesnotExist = true;
+      }
     });
   }
 
@@ -101,4 +107,25 @@ export class TranslateComponent implements OnInit {
     return this.wordToTranslate.word && this.wordToTranslate.from_language && this.wordToTranslate.to_language;
   }
 
+  wordChanged() {
+    this.word = null;
+    this.wordDoesnotExist = false;
+  }
+
+  saveWord() {
+    if (this.wordDoesnotExist == false) {
+      return;
+    }
+    this.loading = true;
+    this.wordService.saveWord({
+      word: this.wordToTranslate.word,
+      language_alph2code: this.wordToTranslate.from_language,
+      id: this.word ? this.word.id : null,
+    }).subscribe(res => {
+      this.word = res;
+      this.loading = false;
+    }, err => {
+      this.handleHttpError(err);
+    });
+  }
 }
