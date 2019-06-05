@@ -7,6 +7,7 @@ import { UserFormComponent } from './admin/user/user-form/user-form.component';
 import { UserProfileEditComponent } from './components/user-profile/user-profile-edit/user-profile-edit.component';
 import { WordComponent } from './components/word/word.component';
 import { WordTodayReviewComponent } from './components/word/word-today-review/word-today-review.component';
+import { TranslateComponent } from './components/translate/translate.component';
 
 
 const appRoutes: Routes = [
@@ -41,6 +42,10 @@ const appRoutes: Routes = [
       {
         path: 'profile/edit',
         component: UserProfileEditComponent,
+      },
+      {
+        path: 'translate',
+        component: TranslateComponent,
       },
       {
         path: 'word/today',

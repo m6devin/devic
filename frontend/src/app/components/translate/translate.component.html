@@ -1,0 +1,70 @@
+<app-loading [isLoading]="loading"></app-loading>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-text">
+        <form #frm="ngForm" (ngSubmit)="searchForTranslation()">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6">
+              <mat-form-field class="full-width">
+                <mat-label>Source Language</mat-label>
+                <mat-select name="from_language" [(ngModel)]="wordToTranslate.from_language">
+                  <mat-option *ngFor="let lang of basicInfo.languages" [value]="lang.value">
+                    {{lang.label}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+              <mat-form-field class="full-width">
+                <mat-label>Destination Language</mat-label>
+                <mat-select name="to_language" [(ngModel)]="wordToTranslate.to_language">
+                  <mat-option *ngFor="let lang of basicInfo.languages" [value]="lang.value">
+                    {{lang.label}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-10">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Word" class="ltr" autocomplete="off" [(ngModel)]="wordToTranslate.word" name="word">
+              </mat-form-field>
+            </div>
+            <div class="col-xs-12 col-sm-2">
+              <button mat-raised-button color="accent" class="full-width" type="submit">Search</button>
+            </div>
+            <div class="col-xs-12 col-sm-12 ltr" *ngIf="wordToTranslate.word" >
+              {{wordToTranslate.word}}
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-3" *ngIf="word">
+  <h4>
+    Translations
+  </h4>
+  <div class="card" *ngFor="let t of word.translations">
+    <div class="card-body">
+      <h6 class="card-title">
+        <small>{{word.language_alpha2code}} -> {{t.language_alpha2code}}</small>
+      </h6>
+      <div class="card-text">
+        <p class="rtl text-right nl2br">{{t.translation}}</p>
+        <hr *ngIf="t.definition || t.example">
+        <p class="ltr text-left" *ngIf="t.definition"> 
+          <b class="d-block">Definition:</b>
+          {{t.definition}} 
+        </p>
+        <p class="ltr text-left nl2br" *ngIf="t.example"> 
+          <b class="d-block">Example</b>
+          {{t.example}} 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

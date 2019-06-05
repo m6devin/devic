@@ -40,4 +40,8 @@ Route::group(['prefix' => '/api/v2/userarea', 'middleware' => ['auth'] ], functi
     // Words' APIs
     Route::get('word/index', 'WordController@index');
     Route::get('word/basic_info', 'WordController@getBasicInfo');
+    
+    // Translate page's APIs
+    Route::get('translate/basic_info', 'TranslateController@getBasicInfo');
+    Route::post('translate/search', 'TranslateController@searchForTranslation');
 });

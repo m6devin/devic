@@ -57,6 +57,7 @@ import { UserProfileEditComponent } from './components/user-profile/user-profile
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { WordComponent } from './components/word/word.component';
 import { WordTodayReviewComponent } from './components/word/word-today-review/word-today-review.component';
+import { TranslateComponent } from './components/translate/translate.component';
 library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock, faBars,
   faTelegram, faTwitter, faGithub, faLinkedin, faStackOverflow, faBell, faUser);
 
@@ -79,6 +80,7 @@ library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock,
     UserProfileEditComponent,
     WordComponent,
     WordTodayReviewComponent,
+    TranslateComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,
