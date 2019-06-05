@@ -59,6 +59,7 @@ import { WordComponent } from './components/word/word.component';
 import { WordTodayReviewComponent } from './components/word/word-today-review/word-today-review.component';
 import { TranslateComponent } from './components/translate/translate.component';
 import { WordTranslationsComponent } from './components/word-translations/word-translations.component';
+import { WordTranslationSaveComponent } from './components/word-translation-save/word-translation-save.component';
 library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock, faBars,
   faTelegram, faTwitter, faGithub, faLinkedin, faStackOverflow, faBell, faUser);
 
@@ -83,6 +84,7 @@ library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock,
     WordTodayReviewComponent,
     TranslateComponent,
     WordTranslationsComponent,
+    WordTranslationSaveComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,
