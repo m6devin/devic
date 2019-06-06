@@ -20,6 +20,7 @@ export class TranslateComponent implements OnInit {
   wordToTranslate: any = {};
   word: any;
   wordDoesnotExist = false;
+  showTranslationForm = false;
 
   constructor(
     private errHandler: ErrorHandlerService,
@@ -127,5 +128,10 @@ export class TranslateComponent implements OnInit {
     }, err => {
       this.handleHttpError(err);
     });
+  }
+
+  translationSaved(event) {
+    this.word.translations.push(event);
+    this.showTranslationForm = false;
   }
 }

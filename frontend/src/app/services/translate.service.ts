@@ -17,5 +17,13 @@ export class TranslateService {
     return this.http.post<any>('/api/v2/userarea/translate/search', word);
   }
 
+  save(translation: any) {
+    let url = '/api/v2/userarea/translate/save';
+    if (translation.id) {
+      url += '/' + translation.id;
+    }
+    return this.http.post<any>(url, translation);
+  }
+
 
 }

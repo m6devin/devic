@@ -8,7 +8,6 @@ import { UserProfileEditComponent } from './components/user-profile/user-profile
 import { WordComponent } from './components/word/word.component';
 import { WordTodayReviewComponent } from './components/word/word-today-review/word-today-review.component';
 import { TranslateComponent } from './components/translate/translate.component';
-import { WordTranslationSaveComponent } from './components/word-translation-save/word-translation-save.component';
 
 
 const appRoutes: Routes = [
@@ -55,10 +54,6 @@ const appRoutes: Routes = [
       {
         path: 'word/index',
         component: WordComponent,
-      },
-      {
-        path: 'word/new_translation',
-        component: WordTranslationSaveComponent,
       },
     ],
   },
