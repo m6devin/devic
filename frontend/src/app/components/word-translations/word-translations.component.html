@@ -1,28 +1,34 @@
+<app-loading [isLoading]="loading"></app-loading>
 <div *ngIf="word">
   <h4 class="card-heading">
     Translations
   </h4>
-  <div class="card" *ngFor="let t of word.translations">
-    <div class="card-body">
-      <h6 class="card-title">
-        <a (click)="editTranslation.emit(t)" mat-button color="warn">Edit</a>&nbsp;
-        <small>{{word.language_alpha2code}} -> {{t.language_alpha2code}}</small>
-      </h6>
-      <div class="card-text">
-        <p class="rtl text-right nl2br">{{t.translation}}</p>
-        <hr *ngIf="t.definition || t.example">
-        <p class="ltr text-left" *ngIf="t.definition"> 
-          <b class="d-block">Definition:</b>
-          {{t.definition}} 
-        </p>
-        <p class="ltr text-left nl2br" *ngIf="t.example"> 
-          <b class="d-block">Example</b>
-          {{t.example}} 
-        </p>
+  <ng-container *ngFor="let t of word.translations">
+    <div class="card" *ngIf="t">
+      <div class="card-body">
+        <h6 class="card-title">
+          <a (click)="editTranslation.emit(t)" mat-button color="accent">Edit</a>&nbsp;
+          <small>{{word.language_alpha2code}} -> {{t.language_alpha2code}}</small>
+          <a (click)="delete(t)" mat-button color="warn" class="f10 ml-2">
+            <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+          </a>&nbsp;
+        </h6>
+        <div class="card-text">
+          <p class="rtl text-right nl2br">{{t.translation}}</p>
+          <hr *ngIf="t.definition || t.example">
+          <p class="ltr text-left" *ngIf="t.definition"> 
+            <b class="d-block">Definition:</b>
+            {{t.definition}} 
+          </p>
+          <p class="ltr text-left nl2br" *ngIf="t.example"> 
+            <b class="d-block">Example</b>
+            {{t.example}} 
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="alert alert-warning" role="alert" *ngIf="word.translations.length == 0">
-    <strong>No translation added yet!</strong>
-  </div>
+    <div class="alert alert-warning" role="alert" *ngIf="word.translations.length == 0">
+      <strong>No translation added yet!</strong>
+    </div>
+  </ng-container>
 </div>

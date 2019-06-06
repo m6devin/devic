@@ -25,5 +25,9 @@ export class TranslateService {
     return this.http.post<any>(url, translation);
   }
 
+  deleteTranslation(id: number): Observable<any> {
+    return this.http.get<any>('/api/v2/userarea/translate/' + id + '/delete');
+  }
+
 
 }

@@ -15,7 +15,7 @@ use App\WordRepository;
 
 class TranslateController extends Controller
 {
-    public function getBasicInfo() 
+    public function getBasicInfo()
     {
         return response()->json([
             'languages' => Language::get()->map(function ($item) {
@@ -28,7 +28,7 @@ class TranslateController extends Controller
     }
 
     public function searchForTranslation(Request $r)
-    {   
+    {
         $this->validateTranslateRequest($r);
         $searchedWord = strtolower($r->input('word', null));
         $fromLanguage = $r->input('from_language', null);
@@ -49,7 +49,7 @@ class TranslateController extends Controller
             'word' => 'required',
             'from_language' => 'required',
             'to_language' => 'required',
-        ]);        
+        ]);
     }
 
     public function save(Request $r, $id = null) 
@@ -120,6 +120,20 @@ class TranslateController extends Controller
             'example',
         ]);
     }
+
+    public function deleteTranslation(Request $r, $id)
+    {
+        $trans = Translation::findOrFail($id);
+        $trans->delete();
+        return $this->quickJsonResponse('Translatoin was deleted.');
+    }
+
+
+
+    /**
+     * All functions below this comment need review
+     */
+
 
     /**
      * Show all translations of word in API.
@@ -395,18 +409,7 @@ class TranslateController extends Controller
         return response($word);
     }
 
-    /**
-     * Load basic informations required to render translaiton main form.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function basicInfo()
-    {
-        return response()->json([
-            'langs' => Language::get(),
-            'partsOfSpeech' => PartOfSpeech::get(),
-        ]);
-    }
+    
 
     /**
      * Save review status in review logs.
