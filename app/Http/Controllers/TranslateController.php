@@ -61,9 +61,9 @@ class TranslateController extends Controller
 
         DB::beginTransaction();
         if ($id) {
-            $trans = Translation::find($id);
+            $trans = Translation::where('created_by_id', Auth()->user()->id)->find($id);
             if (! $trans) {
-                $trans = new Translation();
+                return $this->quickJsonResponse('Translation not found!', 404);
             }
         } else {
             $trans = new Translation();
@@ -100,7 +100,7 @@ class TranslateController extends Controller
 
     private function validateSelectedWordToTranslate($wordID) 
     {
-        $word = Word::where('id', $wordID)->first();
+        $word = Word::where('id', $wordID)->where('created_by_id', Auth()->user()->id)->first();
 
         if (! $word) {
             throw ValidationException::withMessages([
@@ -123,7 +123,9 @@ class TranslateController extends Controller
 
     public function deleteTranslation(Request $r, $id)
     {
-        $trans = Translation::findOrFail($id);
+        $trans = Translation::where('created_by_id', Auth()->user()->id)
+        ->findOrFail($id);
+        
         $trans->delete();
         return $this->quickJsonResponse('Translatoin was deleted.');
     }

@@ -51,7 +51,9 @@ class WordController extends Controller
     {
         $word = null;
         if ($r->get('word_id', null)) {
-            $word = Word::with(['translations'])->find($r->get('word_id', null));
+            $word = Word::with(['translations'])
+            ->where('created_by_id', Auth()->user()->id)
+            ->find($r->get('word_id', null));
         }
         return response()->json([
             'languages' => Language::get()->map(function ($item) {
