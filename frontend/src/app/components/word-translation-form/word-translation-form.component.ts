@@ -29,6 +29,9 @@ export class WordTranslationFormComponent implements OnInit {
     private wordService: WordService) { }
 
   ngOnInit() {
+    if (!this.translation) {
+      this.translation = {};
+    }
     this.translateService.getBasicInfo().subscribe(res => {
       this.basicInfo = res;
       this.loadLastLanguage();
