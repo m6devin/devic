@@ -73,6 +73,6 @@ export class WordTranslationsComponent implements OnInit {
       return;
     }
 
-    delete this.word.translations[index];
+    this.word.translations.splice(index, 1);
   }
 }
