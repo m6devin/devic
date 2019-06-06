@@ -18,6 +18,7 @@ export class WordTranslationFormComponent implements OnInit {
   @Input() translation: any = {};
   
   @Output() translationSaved: EventEmitter<any> = new EventEmitter();
+  @Output() closeInlineForm: EventEmitter<any> = new EventEmitter();
 
   loading = false;
   errors: IError = {};
@@ -68,5 +69,9 @@ export class WordTranslationFormComponent implements OnInit {
   resetModel() {
     this.translation = {};
     this.loadLastLanguage();
+  }
+
+  closeForm() {
+    this.closeInlineForm.emit(true);
   }
 }

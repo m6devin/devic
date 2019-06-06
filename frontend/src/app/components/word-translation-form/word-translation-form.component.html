@@ -1,6 +1,7 @@
 <app-loading [isLoading]="loading"></app-loading>
 <div class="">
   <div class="card">
+    <button mat-button color="warn" class="close-button" type="button" (click)="closeForm()">close</button>
     <div class="card-body">
       <div class="card-text">
         <form #frm="ngForm" (ngSubmit)="save()">

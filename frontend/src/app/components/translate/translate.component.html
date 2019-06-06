@@ -55,5 +55,5 @@
   <app-word-translations [word]="word" (editTranslation)="editTranslation($event)"></app-word-translations>
 </div>
 <div class="container mt-3" *ngIf="showTranslationForm">
-  <app-word-translation-form [word]="word" [basicInfo]="basicInfo" [translation]="selectedTranslation" (translationSaved)="translationSaved($event)"></app-word-translation-form>
+  <app-word-translation-form [word]="word" [basicInfo]="basicInfo" [translation]="selectedTranslation" (translationSaved)="translationSaved($event)" (closeInlineForm)="showTranslationForm=false;"></app-word-translation-form>
 </div>
