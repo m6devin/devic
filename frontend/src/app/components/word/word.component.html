@@ -31,7 +31,7 @@
                   <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                  <a mat-menu-item [routerLink]="['/userarea/word', item.id, 'edit']">
+                  <a mat-menu-item [routerLink]="['/userarea/word/', item.id, 'edit']" [queryParams]="{from_page: 'word_index'}">
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon>
                     Edit
                   </a>

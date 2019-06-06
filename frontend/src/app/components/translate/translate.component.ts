@@ -121,7 +121,7 @@ export class TranslateComponent implements OnInit {
     this.loading = true;
     this.wordService.saveWord({
       word: this.wordToTranslate.word,
-      language_alph2code: this.wordToTranslate.from_language,
+      language_alpha2code: this.wordToTranslate.from_language,
       id: this.word ? this.word.id : null,
     }).subscribe(res => {
       this.word = res;

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pagination } from '../global/pagination/pagination-model';
+import { Word } from '../models/word';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,15 @@ export class WordService {
     return this.http.get<Pagination<any[]>>('/api/v2/userarea/word/index?page=' + page + '&filters=' + JSON.stringify(filters));
   }
 
-  getBasicInfo() {
-    return this.http.get<any>('/api/v2/userarea/word/basic_info');
+  /**
+   * 
+   * @param wordID If this parameter passes to function, the response will contain this word's details
+   */
+  getBasicInfo(wordID = null) {
+    return this.http.get<any>('/api/v2/userarea/word/basic_info?word_id=' + (wordID ? wordID : ''));
   }
 
-  saveWord(word: {word: string; language_alph2code: string; id?: number}) {
+  saveWord(word: Word) {
     let url = '/api/v2/userarea/word/save';
     if (word.id) {
       url += '/' + word.id;
