@@ -11,6 +11,7 @@ use App\Word;
 use Auth;
 use DB;
 use Illuminate\Http\Request;
+use App\WordRepository;
 
 class TranslateController extends Controller
 {
@@ -19,6 +20,9 @@ class TranslateController extends Controller
         return response()->json([
             'languages' => Language::get()->map(function ($item) {
                 return ['label' => $item->name, 'value' => $item->alpha2code];
+            }),
+            'parts_of_speech' => PartOfSpeech::get()->map(function ($item) {
+                return ['label' => $item->name, 'value' => $item->name];
             }),
         ]);
     }
@@ -47,6 +51,76 @@ class TranslateController extends Controller
             'to_language' => 'required',
         ]);        
     }
+
+    public function save(Request $r, $id = null) 
+    {        
+        $this->validateSaveTranslationRequest($r);
+        $this->validateTranslationLanguage($r->input('language_alpha2code'));
+        $this->validateSelectedWordToTranslate($r->input('word_id'));
+        $reqModel = $this->loadRequestModel($r);
+
+        DB::beginTransaction();
+        if ($id) {
+            $trans = Translation::find($id);
+            if (! $trans) {
+                $trans = new Translation();
+            }
+        } else {
+            $trans = new Translation();
+        }
+        $trans->fill($reqModel);
+        $trans->created_by_id = Auth::user()->id;
+        $trans->save();
+        $trans->partOfSpeech;
+
+        DB::commit();
+
+        return response($trans, 200);
+    }
+
+    private function validateSaveTranslationRequest(Request $r)
+    {
+        $this->validate($r, [
+            'language_alpha2code' => 'required', 
+            'translation' => 'required',
+            'word_id' => 'required',
+        ]);
+    }
+
+    private function validateTranslationLanguage(string $languageAlpha2Code)
+    {
+        $language = Language::where('alpha2code', $languageAlpha2Code)->first();
+
+        if (! $language) {
+            throw ValidationException::withMessages([
+                'language_alph2code' => ['Invalid language'],
+            ]);
+        }
+    }
+
+    private function validateSelectedWordToTranslate($wordID) 
+    {
+        $word = Word::where('id', $wordID)->first();
+
+        if (! $word) {
+            throw ValidationException::withMessages([
+                'word_id' => ['No related word found!'],
+            ]);
+        }
+    }
+
+    private function loadRequestModel(Request $r) :array 
+    {
+        return $r->only([
+            'word_id',
+            'language_alpha2code',
+            'part_of_speech_name',
+            'translation',
+            'definition',
+            'example',
+        ]);
+    }
+
     /**
      * Show all translations of word in API.
      *

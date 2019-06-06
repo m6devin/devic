@@ -45,4 +45,5 @@ Route::group(['prefix' => '/api/v2/userarea', 'middleware' => ['auth'] ], functi
     // Translate page's APIs
     Route::get('translate/basic_info', 'TranslateController@getBasicInfo');
     Route::post('translate/search', 'TranslateController@searchForTranslation');
+    Route::post('translate/save/{id?}', 'TranslateController@save');
 });
