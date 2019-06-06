@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Translation extends Model
 {
     protected $fillable = [
-        "word_id",
-        "part_of_speech_name",
         "created_by_id",
-        "language_id",
-        "translation",
-        "definition",
+        'word_id',
+        'language_alpha2code',
+        'part_of_speech_name',
+        'translation',
+        'definition',
+        'example',
     ];
 
     /**
