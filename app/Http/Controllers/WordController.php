@@ -47,21 +47,28 @@ class WordController extends Controller
         ];
     }
 
-    public function getBasicInfo()
+    public function getBasicInfo(Request $r)
     {
+        $word = null;
+        if ($r->get('word_id', null)) {
+            $word = Word::with(['translations'])->find($r->get('word_id', null));
+        }
         return response()->json([
             'languages' => Language::get()->map(function ($item) {
                 return ['label' => $item->name, 'value' => $item->alpha2code];
             }),
+            'word' => $word,
         ]);
     }
 
     public function save(Request $r, $id = null)
     {
         $this->validateRequest($r);
-
+        
         $wordToSave = strtolower($r->input('word', null));
-        $from = $r->input('language_alph2code', null);
+        $this->valodateWordUniqueness($wordToSave, $id);
+
+        $from = $r->input('language_alpha2code', null);
         $this->validateFromLanguage($from);
 
         $word = $this->getWord($id);
@@ -79,8 +86,25 @@ class WordController extends Controller
     {
         $this->validate($r, [
             'word' => 'required',
-            'language_alph2code' => 'required',
+            'language_alpha2code' => 'required',
         ], []);
+    }
+
+    private function valodateWordUniqueness(string $word, $id = null)
+    {
+        $qry = Word::where('word', $word)->where('created_by_id', Auth::user()->id);
+        if($id) {
+            $qry = $qry->where('id', '<>', $id);
+        }
+        $dbWord = $qry->first();
+        if (!$dbWord) {
+            // this word has never been saved
+            return;
+        }
+
+        throw ValidationException::withMessages([
+            'word' => 'This word exists.'
+        ]);
     }
 
     private function validateFromLanguage(string $fromLanguageAlpha2Code)
@@ -89,7 +113,7 @@ class WordController extends Controller
 
         if (! $fromLang) {
             throw ValidationException::withMessages([
-                'language_alph2code' => ['Invalid source language'],
+                'language_alpha2code' => ['Invalid source language'],
             ]);
         }
     }
