@@ -51,8 +51,8 @@
 </div>
 <div class="container mt-3" *ngIf="word && showTranslationForm == false">
   <a mat-raised-button color="accent" class="mt-3 mb-3 full-width" (click)="this.showTranslationForm = true;"> + Add Translation </a>
-  <app-word-translations [word]="word"></app-word-translations>
+  <app-word-translations [word]="word" (editTranslation)="editTranslation($event)"></app-word-translations>
 </div>
 <div class="container mt-3" *ngIf="showTranslationForm">
-  <app-word-translation-form [word]="word" [basicInfo]="basicInfo" (translationSaved)="translationSaved($event)"></app-word-translation-form>
+  <app-word-translation-form [word]="word" [basicInfo]="basicInfo" [translation]="selectedTranslation" (translationSaved)="translationSaved($event)"></app-word-translation-form>
 </div>

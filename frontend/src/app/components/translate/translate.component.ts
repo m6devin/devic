@@ -21,6 +21,7 @@ export class TranslateComponent implements OnInit {
   word: any;
   wordDoesnotExist = false;
   showTranslationForm = false;
+  selectedTranslation: any;
 
   constructor(
     private errHandler: ErrorHandlerService,
@@ -133,5 +134,10 @@ export class TranslateComponent implements OnInit {
   translationSaved(event) {
     this.word.translations.push(event);
     this.showTranslationForm = false;
+  }
+
+  editTranslation($event) {
+    this.selectedTranslation = $event;
+    this.showTranslationForm = true;
   }
 }

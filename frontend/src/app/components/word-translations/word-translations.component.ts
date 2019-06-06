@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-word-translations',
@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class WordTranslationsComponent implements OnInit {
   @Input() word;
+  @Output() editTranslation: EventEmitter<any> = new EventEmitter();
   constructor() { }
 
   ngOnInit() {

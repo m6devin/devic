@@ -1,10 +1,11 @@
 <div *ngIf="word">
+  <h4 class="card-heading">
+    Translations
+  </h4>
   <div class="card" *ngFor="let t of word.translations">
-    <h4 class="card-heading">
-      Translations
-    </h4>
     <div class="card-body">
       <h6 class="card-title">
+        <a (click)="editTranslation.emit(t)" mat-button color="warn">Edit</a>&nbsp;
         <small>{{word.language_alpha2code}} -> {{t.language_alpha2code}}</small>
       </h6>
       <div class="card-text">
