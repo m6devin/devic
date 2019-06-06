@@ -10,6 +10,7 @@ import { IError } from 'src/app/models/error';
 import { ErrorHandlerService } from 'src/app/services/error-handler.service';
 import { SnackerService } from 'src/app/services/snacker.service';
 import * as moment from 'jalali-moment';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-word',
@@ -149,5 +150,46 @@ export class WordComponent implements OnInit {
     }
 
     return false;
+  }
+
+  deleteWord(wordID: number) {
+    const dialogRef = this.showDeleteConfirmation();
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == false) {
+        return;
+      }
+      this.loading = true;
+      this.wordService.deleteWord(wordID).subscribe(res => {
+        this.loading = false;
+        this.removeWordFromArray(wordID);
+        this.snacker.success(res.message);
+      }, err => {
+        this.handleHttpError(err);
+      });
+    });
+  }
+
+  showDeleteConfirmation() {
+    return this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure to delete the word?',
+        confirmText: 'Yes, Delete it.',
+        cancelText: 'Cancel',
+      },
+      direction: 'ltr',
+    });
+  }
+
+  removeWordFromArray(wordID: number) {
+    const index = _.findIndex(this.pagination.data, (item: any) => {
+      return item.id == wordID;
+    });
+
+    if (index == -1) {
+      return;
+    }
+
+    this.pagination.data.splice(index, 1);
   }
 }

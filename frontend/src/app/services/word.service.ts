@@ -33,4 +33,8 @@ export class WordService {
     }
     return this.http.post(url, word);
   }
+
+  deleteWord(id: number): Observable<any> {
+    return this.http.get<any>('/api/v2/userarea/word/' + id + '/delete');
+  }
 }

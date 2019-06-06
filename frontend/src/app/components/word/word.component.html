@@ -35,6 +35,10 @@
                     <fa-icon [icon]="['fas', 'edit']"></fa-icon>
                     Edit
                   </a>
+                  <a mat-menu-item (click)="deleteWord(item.id)">
+                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                    Delete
+                  </a>
                 </mat-menu>
               </td>
               <td>

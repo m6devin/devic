@@ -68,7 +68,7 @@ class WordController extends Controller
         $this->validateRequest($r);
         
         $wordToSave = strtolower($r->input('word', null));
-        $this->valodateWordUniqueness($wordToSave, $id);
+        $this->validateWordUniqueness($wordToSave, $id);
 
         $from = $r->input('language_alpha2code', null);
         $this->validateFromLanguage($from);
@@ -92,10 +92,10 @@ class WordController extends Controller
         ], []);
     }
 
-    private function valodateWordUniqueness(string $word, $id = null)
+    private function validateWordUniqueness(string $word, $id = null)
     {
         $qry = Word::where('word', $word)->where('created_by_id', Auth::user()->id);
-        if($id) {
+        if ($id) {
             $qry = $qry->where('id', '<>', $id);
         }
         $dbWord = $qry->first();
@@ -139,5 +139,12 @@ class WordController extends Controller
         $word->archived = false;
 
         return $word;
+    }
+
+    public function deleteWord($id)
+    {
+        $word = $this->getWord($id);
+        $word->delete();
+        return $this->quickJsonResponse('Word was deleted!');
     }
 }
