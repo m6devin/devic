@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.loading = true;
     this.errors = {};
-    this.http.post<User>('api/login_web', this.user).subscribe(res => {
+    this.http.post<User>('/api/login_web', this.user).subscribe(res => {
       this.loading = false;
       this.signinSucceed = true;
       this.userService.authenticatedUser = res;
