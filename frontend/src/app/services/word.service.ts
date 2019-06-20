@@ -3,13 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pagination } from '../global/pagination/pagination-model';
 import { Word } from '../models/word';
+import { SnackerService } from './snacker.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WordService {
 
-  constructor(public http: HttpClient) { }
+  constructor(public http: HttpClient,
+    private snacker: SnackerService) { }
 
   myWordsIndex(page: number = 1, filters = {}): Observable<Pagination<any[]>> {
     if (page <= 0) {
@@ -41,5 +43,25 @@ export class WordService {
   speak(text: string) {
     const msg = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(msg);
+  }
+
+  copyToClipboard(elementID: string) {
+    const node = document.getElementById(elementID);
+    if (window.getSelection) {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        document.execCommand('copy');
+        selection.removeAllRanges();
+    } else {
+        this.snacker.error({
+          message: 'Unable to copy text! Please do it manualy.',
+        }, 320);
+        return;
+    }
+
+    this.snacker.success('Copied!', 320);
   }
 }

@@ -29,18 +29,21 @@
           <div class="row">
             <div class="col-xs-12 col-sm-10">
               <mat-form-field class="full-width">
-                <input matInput placeholder="Word" class="ltr" autocomplete="off" [(ngModel)]="wordToTranslate.word" name="word" (keyup)="wordChanged()">
+                <input matInput placeholder="Word" class="ltr" autocomplete="off" [(ngModel)]="wordToTranslate.word" name="word" id="word" (keyup)="wordChanged()">
               </mat-form-field>
             </div>
             <div class="col-xs-12 col-sm-2">
               <button mat-raised-button color="accent" class="full-width" type="submit">Search</button>
             </div>
             <div class="col-xs-12 col-sm-12 ltr" *ngIf="wordToTranslate.word" >
-              <b class="f13 ml-1">{{wordToTranslate.word}}</b>
+              <b class="f13 ml-1" id="the_word">{{wordToTranslate.word}}</b>
             </div>
             <div class="col-xs-12 col-sm-12">
-              <a *ngIf="wordToTranslate.word" (click)="wordService.speak(wordToTranslate.word)" class="text-primary">
+              <a *ngIf="wordToTranslate.word" (click)="wordService.speak(wordToTranslate.word)" class="text-primary mr-3 pointer">
                 <fa-icon [icon]="['fas', 'volume-up']"></fa-icon>
+              </a>
+              <a *ngIf="wordToTranslate.word" (click)="wordService.copyToClipboard('the_word')" class="text-primary mr-3 pointer">
+                <fa-icon [icon]="['fas', 'copy']"></fa-icon>
               </a>
               <a *ngIf="word" mat-button [routerLink]="['/userarea/word/', word.id, 'edit']" [queryParams]="{from_page: 'translate'}" color="warn">Edit</a>
             </div>
