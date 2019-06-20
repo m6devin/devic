@@ -1,0 +1,17 @@
+<div *ngIf="translationData" class="col-xs-12 col-sm-12">
+  <ul>
+    <li *ngFor="let d of translationData.dict">
+      <div class="pos">{{d.pos}}:</div>
+      <div *ngFor="let e of d.entry" class="entry">
+        <a (click)="getEntryRowClicked(d.pos, e)" class="pointer text-primary">
+          <fa-icon [icon]="['fas', 'arrow-circle-down']"></fa-icon>
+        </a>
+        {{e.word}}
+        <br>
+        <span *ngFor="let r of e.reverse_translation">
+          {{r}},&nbsp;
+        </span>
+      </div>
+    </li>
+  </ul>
+</div>

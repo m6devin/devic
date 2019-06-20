@@ -16,10 +16,11 @@ export class WordTranslationFormComponent implements OnInit {
   @Input() basicInfo: any = {};
   @Input() word: any = {};
   @Input() translation: any = {};
-  
+
   @Output() translationSaved: EventEmitter<any> = new EventEmitter();
   @Output() closeInlineForm: EventEmitter<any> = new EventEmitter();
 
+  googleTranslateData: any = null;
   loading = false;
   errors: IError = {};
 
@@ -73,5 +74,18 @@ export class WordTranslationFormComponent implements OnInit {
 
   closeForm() {
     this.closeInlineForm.emit(true);
+  }
+
+  translateUsingGoogle(text: string) {
+    this.googleTranslateData = null;
+    this.translateService.callGoogleTranslate(text).subscribe(res => {
+      this.googleTranslateData = res;
+    });
+  }
+
+  entryRowSelect(data: any) {
+    this.translation.part_of_speech_name = data.part_of_speech;
+    this.translation.translation = data.entry.word;
+    this.translation.definition = data.entry.reverse_translation.join('\n');
   }
 }

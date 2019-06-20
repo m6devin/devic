@@ -7,13 +7,18 @@
         <form #frm="ngForm" (ngSubmit)="save()">
           <div class="row">
             <div class="col-xs-12 col-sm-12">
-              <i class="f13">
-                Word:
+              <i class="f13">                
                 {{word.word}}
               </i>
+              <a (click)="translateUsingGoogle(word.word)" class="text-primary mr-3 pointer">
+                <fa-icon [icon]="['fas', 'retweet']"></fa-icon>
+              </a>
             </div>
             <div class="col-xs-12 col-sm-12">
               <i> Source Language: {{word.language_alpha2code | uppercase}} </i>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+              <app-google-translator-render [translationData]="googleTranslateData" (entryRowSelect)="entryRowSelect($event)"></app-google-translator-render>
             </div>
           </div>
           <div class="row">

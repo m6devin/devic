@@ -22,6 +22,7 @@ export class TranslateComponent implements OnInit {
   wordDoesnotExist = false;
   showTranslationForm = false;
   selectedTranslation: any;
+  googleTranslateData: any = null;
 
   constructor(
     private errHandler: ErrorHandlerService,
@@ -115,6 +116,7 @@ export class TranslateComponent implements OnInit {
   wordChanged() {
     this.word = null;
     this.wordDoesnotExist = false;
+    this.googleTranslateData = null;
   }
 
   saveWord() {
@@ -142,5 +144,12 @@ export class TranslateComponent implements OnInit {
   editTranslation($event) {
     this.selectedTranslation = $event;
     this.showTranslationForm = true;
+  }
+
+  translateUsingGoogle(text: string) {
+    this.googleTranslateData = null;
+    this.translateService.callGoogleTranslate(text).subscribe(res => {
+      this.googleTranslateData = res;
+    });
   }
 }

@@ -29,5 +29,7 @@ export class TranslateService {
     return this.http.get<any>('/api/v2/userarea/translate/' + id + '/delete');
   }
 
-
+  callGoogleTranslate(text: string) {
+    return this.http.get('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=fa&hl=en-US&dt=t&dt=bd&dj=1&source=icon&tk=573754.573754&q=' + text)
+  }
 }
