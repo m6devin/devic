@@ -36,8 +36,13 @@
               <button mat-raised-button color="accent" class="full-width" type="submit">Search</button>
             </div>
             <div class="col-xs-12 col-sm-12 ltr" *ngIf="wordToTranslate.word" >
-              <a *ngIf="word" mat-button [routerLink]="['/userarea/word/', word.id, 'edit']" [queryParams]="{from_page: 'translate'}" color="warn">Edit</a>
               <b class="f13 ml-1">{{wordToTranslate.word}}</b>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+              <a *ngIf="wordToTranslate.word" (click)="wordService.speak(wordToTranslate.word)" class="text-primary">
+                <fa-icon [icon]="['fas', 'volume-up']"></fa-icon>
+              </a>
+              <a *ngIf="word" mat-button [routerLink]="['/userarea/word/', word.id, 'edit']" [queryParams]="{from_page: 'translate'}" color="warn">Edit</a>
             </div>
             <div class="col-xs-12 col-sm-12 mt-3" *ngIf="wordDoesnotExist">
               <button mat-raised-button color="primary" class="full-width f12" (click)="saveWord()" type="button"> 

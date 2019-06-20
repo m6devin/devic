@@ -62,7 +62,7 @@ export class TranslateComponent implements OnInit {
   loadFiltersFormQueryParams() {
     this.activatedRoute.queryParams.subscribe(params => {
       this.showTranslationForm = false;
-      
+
       this.wordToTranslate.word = params['word'];
       this.wordToTranslate.from_language = params['from_language'];
       this.setLastSelectedLanguage('from');

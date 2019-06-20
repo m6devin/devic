@@ -37,4 +37,9 @@ export class WordService {
   deleteWord(id: number): Observable<any> {
     return this.http.get<any>('/api/v2/userarea/word/' + id + '/delete');
   }
+
+  speak(text: string) {
+    const msg = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(msg);
+  }
 }
