@@ -18,7 +18,7 @@
               <i> Source Language: {{word.language_alpha2code | uppercase}} </i>
             </div>
             <div class="col-xs-12 col-sm-12">
-              <app-google-translator-render [translationData]="googleTranslateData" (entryRowSelect)="entryRowSelect($event)"></app-google-translator-render>
+              <app-google-translator-render [word]="word.word" [translationData]="googleTranslateData" (entryRowSelect)="entryRowSelect($event)"></app-google-translator-render>
             </div>
           </div>
           <div class="row">

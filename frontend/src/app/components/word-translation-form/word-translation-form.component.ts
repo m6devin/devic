@@ -5,6 +5,7 @@ import { SnackerService } from 'src/app/services/snacker.service';
 import { TranslateService } from 'src/app/services/translate.service';
 import { WordService } from 'src/app/services/word.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-word-translation-form',

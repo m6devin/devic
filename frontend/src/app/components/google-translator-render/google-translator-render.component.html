@@ -8,9 +8,7 @@
         </a>
         {{e.word}}
         <br>
-        <span *ngFor="let r of e.reverse_translation">
-          {{r}},&nbsp;
-        </span>
+        {{normalizedSynonyms(e.reverse_translation).join(', ')}}
       </div>
     </li>
   </ul>
