@@ -6,6 +6,7 @@ import { SnackerService } from 'src/app/services/snacker.service';
 import { TranslateService } from 'src/app/services/translate.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WordService } from 'src/app/services/word.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-translate',
@@ -137,7 +138,14 @@ export class TranslateComponent implements OnInit {
   }
 
   translationSaved(event) {
-    this.word.translations.push(event);
+    const index = _.findIndex(this.word.translations, (item: any) => {
+      return item.id == event.id;
+    });
+    if (index == -1) {
+      this.word.translations.push(event);
+    } else {
+      this.word.translations[index] = event;
+    }
     this.showTranslationForm = false;
   }
 
