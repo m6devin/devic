@@ -62,7 +62,7 @@ export class WordTranslationFormComponent implements OnInit {
   setLastLanguage() {
     localStorage.setItem('last_translation_language', this.translation.language_alpha2code);
   }
-  
+
   loadLastLanguage() {
     this.translation.language_alpha2code = localStorage.getItem('last_translation_language');
   }
@@ -73,6 +73,7 @@ export class WordTranslationFormComponent implements OnInit {
   }
 
   closeForm() {
+    this.resetModel();
     this.closeInlineForm.emit(true);
   }
 
