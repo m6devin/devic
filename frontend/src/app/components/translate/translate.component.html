@@ -50,8 +50,8 @@
               </a>
               <a *ngIf="word" mat-button [routerLink]="['/userarea/word/', word.id, 'edit']" [queryParams]="{from_page: 'translate'}" color="warn">Edit</a>
             </div>
-            <div *ngIf="word" class="col-xs-12 col-sm-12">
-              <app-google-translator-render [word]="word.word" [translationData]="googleTranslateData"></app-google-translator-render>
+            <div *ngIf="wordToTranslate.word" class="col-xs-12 col-sm-12">
+              <app-google-translator-render [word]="wordToTranslate.word" [translationData]="googleTranslateData"></app-google-translator-render>
             </div>
             <div class="col-xs-12 col-sm-12 mt-3" *ngIf="wordDoesnotExist">
               <button mat-raised-button color="primary" class="full-width f12" (click)="saveWord()" type="button"> 
