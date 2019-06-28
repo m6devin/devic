@@ -1,66 +1,73 @@
 <app-loading [isLoading]="loading"></app-loading>
-<div class="container" *ngIf="showSearch">
-  <div class="row">
-    <div class="col-xs-12 col-sm-12">
-      <app-search-form [elements]="searchElements" (doSearch)="doSearch($event)" [filterJson]="filters"></app-search-form>
-    </div>
-  </div>
-</div>
-<div class="container">
-  <div class="example-loading-shade" *ngIf="loading">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </div>
-  <div class="row">
-    <div class="col-xs-12 col-sm-12">
-      <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-          <thead class="">
-            <tr>
-              <th style="width: 10px !important;" class="text-success">
-                <a class="btn btn-primary" [routerLink]="['/userarea/word/translate']">
-                  <fa-icon [icon]="['fas', 'plus']"></fa-icon>
-                </a>
-              </th>
-              <th>Word </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of pagination.data">
-              <td>
-                <button mat-icon-button [matMenuTriggerFor]="menu">
-                  <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                  <a mat-menu-item [routerLink]="['/userarea/word/', item.id, 'edit']" [queryParams]="{from_page: 'word_index'}">
-                    <fa-icon [icon]="['fas', 'edit']"></fa-icon>
-                    Edit
-                  </a>
-                  <a mat-menu-item (click)="deleteWord(item.id)">
-                    <fa-icon [icon]="['fas', 'trash']"></fa-icon>
-                    Delete
-                  </a>
-                </mat-menu>
-              </td>
-              <td>
-                {{item.word}}
-                <span *ngIf="recentlyReviewd(item)" class="text-info"><fa-icon [icon]="['fab', 'rev']"></fa-icon></span>
-                <span class="badge badge-info" *ngIf="item.step_id != null"> {{item.step_id}} </span>
-                <span class="badge badge-warning" *ngIf="item.step_id == null && item.archived  == false"> New </span>
-                <span class="badge badge-info" *ngIf="item.step_id == null && item.archived  == true"> Archived </span>
-                <div class="text-left ltr">
-                  <span class="badge badge-success">
-                    Success: {{item.success_reviews_count}}
-                  </span>
-                  <span class="badge badge-danger">
-                    Fail: {{item.fail_reviews_count}}
-                  </span>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+<ng-container>
+  <div class="container" *ngIf="showSearch">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <app-search-form [elements]="searchElements" (doSearch)="doSearch($event)" [filterJson]="filters"></app-search-form>
       </div>
-      <app-pagination [pagination]="pagination" (gotopage)="getList($event)"></app-pagination>
     </div>
   </div>
+  <div class="container">
+    <div class="example-loading-shade" *ngIf="loading">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="">
+              <tr>
+                <th style="width: 10px !important;" class="text-success">
+                  <a class="btn btn-primary" [routerLink]="['/userarea/translate']">
+                    <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+                  </a>
+                </th>
+                <th>Word </th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let item of pagination.data">
+                <tr>
+                  <td>
+                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                      <fa-icon [icon]="['fas', 'ellipsis-v']"></fa-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                      <a mat-menu-item [routerLink]="['/userarea/word/', item.id, 'edit']" [queryParams]="{from_page: 'word_index'}">
+                        <fa-icon [icon]="['fas', 'edit']"></fa-icon>
+                        Edit
+                      </a>
+                      <a mat-menu-item (click)="deleteWord(item.id)">
+                        <fa-icon [icon]="['fas', 'trash']"></fa-icon>
+                        Delete
+                      </a>
+                    </mat-menu>
+                  </td>
+                  <td (click)="selectedWord = item;">
+                    {{item.word}}
+                    <span *ngIf="recentlyReviewd(item)" class="text-info"><fa-icon [icon]="['fab', 'rev']"></fa-icon></span>
+                    <span class="badge badge-info" *ngIf="item.step_id != null"> {{item.step_id}} </span>
+                    <span class="badge badge-warning" *ngIf="item.step_id == null && item.archived  == false"> New </span>
+                    <span class="badge badge-info" *ngIf="item.step_id == null && item.archived  == true"> Archived </span>
+                    <div class="text-left ltr">
+                      <span class="badge badge-success">
+                        Success: {{item.success_reviews_count}}
+                      </span>
+                      <span class="badge badge-danger">
+                        Fail: {{item.fail_reviews_count}}
+                      </span>
+                    </div>
+                  </td>
+                </tr>              
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+        <app-pagination [pagination]="pagination" (gotopage)="getList($event)"></app-pagination>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<div *ngIf="selectedWord" class="details-panel">
+    <app-word-details-panel [word]="selectedWord" (gotoWord)="gotoWord($event)" (closePanel)="selectedWord = null;"></app-word-details-panel>
 </div>

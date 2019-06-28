@@ -62,6 +62,7 @@ import { WordTranslationsComponent } from './components/word-translations/word-t
 import { WordTranslationFormComponent } from './components/word-translation-form/word-translation-form.component';
 import { WordFormComponent } from './components/word-form/word-form.component';
 import { GoogleTranslatorRenderComponent } from './components/google-translator-render/google-translator-render.component';
+import { WordDetailsPanelComponent } from './components/word/word-details-panel/word-details-panel.component';
 library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock, faBars,
   faTelegram, faTwitter, faGithub, faLinkedin, faStackOverflow, faBell, faUser);
 
@@ -89,6 +90,7 @@ library.add(fas, fab, far, faCoffee, faShoppingCart, faCircle, faLaptop, faLock,
     WordTranslationFormComponent,
     WordFormComponent,
     GoogleTranslatorRenderComponent,
+    WordDetailsPanelComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent,

@@ -1,8 +1,8 @@
 <app-loading [isLoading]="loading"></app-loading>
 <div *ngIf="word">
-  <h4 class="card-heading">
+  <div class="f12">
     Translations
-  </h4>
+  </div>
   <ng-container *ngFor="let t of word.translations">
     <div class="card" *ngIf="t">
       <div class="card-body">

@@ -24,11 +24,12 @@ export class WordComponent implements OnInit {
   page = 1;
   filters: any = {
   };
-  loading = true;
+  loading: boolean;
   errors: IError = {};
   searchElements: FormElement[];
   pagination: Pagination<any[]> = new Pagination<any[]>();
   basicInfo: any = {};
+  selectedWord: any = null;
 
   constructor(private wordService: WordService,
     public dialog: MatDialog,
@@ -74,7 +75,7 @@ export class WordComponent implements OnInit {
   }
 
 
-  getList(page: number) {
+  getList(page: number, onSuccess: any = () => {} ) {
     const params = { filters: JSON.stringify(this.filters), page: page };
     this.router.navigate([], {
       relativeTo: this.activatedRoute,
@@ -82,9 +83,13 @@ export class WordComponent implements OnInit {
       queryParamsHandling: 'merge',
     });
     localStorage.setItem('word_query_params', JSON.stringify(params));
+    this.loading = true;
     this.wordService.myWordsIndex(page, this.filters).subscribe(res => {
       this.loading = false;
       this.pagination = res;
+      if (onSuccess) {
+        onSuccess();
+      }
     }, err => {
       this.handleHttpError(err);
     });
@@ -192,4 +197,62 @@ export class WordComponent implements OnInit {
 
     this.pagination.data.splice(index, 1);
   }
+
+  gotoWord(dir: string) {
+    if (! this.selectedWord) {
+      return;
+    }
+    const index = _.findIndex(this.pagination.data, (w: any) => {
+      return this.selectedWord.id == w.id;
+    });
+
+    if (index == -1) {
+      return;
+    }
+    switch (dir) {
+      case 'next': {
+        this.gotoNextWord(index);
+        break;
+      }
+
+      case 'previous': {
+        this.gotoPreviousWord(index);
+        break;
+      }
+    }
+  }
+
+  private gotoNextWord(currentIndex: number) {
+    const wordsCount = this.pagination.data.length;
+    if (currentIndex < (wordsCount - 1)) {
+      this.selectedWord = this.pagination.data[currentIndex + 1];
+      return;
+    }
+    if (this.page == this.pagination.last_page) {
+      this.snacker.info('No more words exist!');
+      return;
+    }
+    this.page++;
+    this.getList(this.page, () => {
+      this.selectedWord = this.pagination.data[0];
+    });
+  }
+
+  private gotoPreviousWord(currentIndex: number) {
+    if (currentIndex > 0) {
+      this.selectedWord = this.pagination.data[currentIndex - 1];
+      return;
+    }
+    if (this.page == 1 && currentIndex == 0) {
+      this.snacker.info('This is the first word!');
+      return;
+    }
+    this.page--;
+    this.getList(this.page, () => {
+      const wordsCount = this.pagination.data.length;
+      this.selectedWord = this.pagination.data[wordsCount - 1];
+    });
+  }
+
+
 }

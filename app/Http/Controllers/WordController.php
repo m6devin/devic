@@ -15,7 +15,7 @@ class WordController extends Controller
         $this->authorizeAction(ACTION_MY_WORDS_CRUD);
         $user = Auth::user();
 
-        $items = Word::with(['reviews']);
+        $items = Word::with(['reviews', 'translations']);
         $items = $this->buildSearchQuery($r, $items, $this->searchableProperties());
 
         if ($this->filters['today_review'] && !empty($this->filters['today_review']['value'])) {

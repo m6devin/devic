@@ -1,0 +1,31 @@
+<div class="card" *ngIf="word">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <div class="h3 float-left">
+          {{word.word}}
+        </div>
+        <button mat-raised-button color="warn" class="close-button float-right" type="button"
+          (click)="word=null; closePanel.emit(true)">
+          &times;
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <button mat-button class="close-button float-right" type="button" (click)="gotoWord.emit('next')">
+          <fa-icon [icon]="['fas', 'step-forward']"></fa-icon>
+        </button>
+        <button mat-button class="close-button float-right" type="button" (click)="gotoWord.emit('previous')">
+          <fa-icon [icon]="['fas', 'step-backward']"></fa-icon>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12">
+        <app-word-translations [word]="word" (editTranslation)="editTranslation($event)">
+        </app-word-translations>
+      </div>
+    </div>
+  </div>
+</div>
