@@ -11,5 +11,12 @@
         {{normalizedSynonyms(e.reverse_translation).join(', ')}}
       </div>
     </li>
+    <li>Sentences</li>
+    <li *ngFor="let d of translationData.sentences">
+      <a (click)="getEntryRowClicked(null, d)" class="pointer text-primary">
+        <fa-icon [icon]="['fas', 'arrow-circle-down']"></fa-icon>
+      </a>
+      {{d.trans}}
+    </li>
   </ul>
 </div>

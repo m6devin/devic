@@ -17,6 +17,15 @@ export class GoogleTranslatorRenderComponent implements OnInit {
   }
 
   getEntryRowClicked(partOfSpeech: string, entry: any) {
+    if (!entry.reverse_translation) {
+      entry.reverse_translation = [];
+    }
+    if (! entry.word) {
+      entry = {
+        word: entry.trans.split('،').join('\n'),
+        reverse_translation: [],
+      };
+    }
     entry.reverse_translation = this.normalizedSynonyms(entry.reverse_translation);
     this.entryRowSelect.emit({
       part_of_speech: partOfSpeech,
