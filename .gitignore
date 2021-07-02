@@ -1,0 +1,4 @@
+dbdata/
+/oauth-keys/*.key
+.env
+secrets/*.txt
