@@ -14,7 +14,7 @@ class CreateAuthRolesActionsMappingTable extends Migration
     public function up()
     {
         Schema::create('auth_role_action_mappings', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('role_machine_name');
             $table->string('action_machine_name');
             $table->timestamps();

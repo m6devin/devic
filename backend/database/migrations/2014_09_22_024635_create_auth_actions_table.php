@@ -14,7 +14,7 @@ class CreateAuthActionsTable extends Migration
     public function up()
     {
         Schema::create('auth_actions', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('title');
             $table->string('machine_name', 100)->unique();
             $table->enum('action_type', ['menu' , 'action'])->default('action');

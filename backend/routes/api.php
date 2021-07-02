@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,14 +13,18 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::post('/login', 'APIAuthController@login');
 Route::post('/signup', 'APIAuthController@signup');
 
-Route::get('/get_user', 'APIAuthController@getAuthUser');
 Route::get('/translation/basic_info', 'TranslateController@basicInfo');
 Route::group([
     'prefix' => 'translation',
-    'middleware' => 'jwt_auth',
+    'middleware' => 'auth:sanctum',
 ], function () {
     Route::get('/translate', 'TranslateController@translateAPI');
     Route::post('/save_word', 'TranslateController@saveWord');

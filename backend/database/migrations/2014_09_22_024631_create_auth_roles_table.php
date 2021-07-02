@@ -14,7 +14,7 @@ class CreateAuthRolesTable extends Migration
     public function up()
     {
         Schema::create('auth_roles', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name');
             $table->string('machine_name', 100)->unique();
             $table->timestamps();
